@@ -1,0 +1,11 @@
+<!-- @dsCard group="Actions" height=80 -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"></head>
+<body>
+<div class="ix-demo"><div class="ix-lang" role="group" aria-label="Langue"><button type="button" aria-pressed="true">FR</button><button type="button" aria-pressed="false">EN</button></div></div>
+<script>
+var bs=[].slice.call(document.querySelectorAll('.ix-lang button'));bs.forEach(function(b){b.addEventListener('click',function(){bs.forEach(function(x){x.setAttribute('aria-pressed',String(x===b));});});});
+</script>
+</body>
+</html>

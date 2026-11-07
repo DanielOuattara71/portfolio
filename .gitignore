@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+.output/
+.nuxt/
+.vercel/
+.turbo/
+
+# Environment (never commit secrets)
+.env
+.env.*
+!.env.example
+
+# Logs and OS files
+*.log
+.DS_Store
+*:Zone.Identifier
+
+# Editors
+.vscode/*
+!.vscode/extensions.json
+.idea/

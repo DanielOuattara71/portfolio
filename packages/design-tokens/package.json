@@ -1,0 +1,18 @@
+{
+  "name": "@portfolio/design-tokens",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Index Studio design tokens: tokens.json is the source, build.mjs generates CSS variables and motion constants.",
+  "exports": {
+    "./tokens.css": "./dist/tokens.css",
+    "./tokens.json": "./tokens.json",
+    "./motion": {
+      "types": "./dist/motion.d.ts",
+      "default": "./dist/motion.mjs"
+    }
+  },
+  "scripts": {
+    "build": "node build.mjs"
+  }
+}

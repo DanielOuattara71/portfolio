@@ -1,0 +1,102 @@
+/* Index Studio — generated from tokens.json */
+:root, [data-theme="light"] {
+  --surface: #f3f0e8;
+  --surface-sunken: #ebe6da;
+  --surface-raised: #faf8f3;
+  --surface-inverse: #1c1a17;
+  --placeholder: #e2dccf;
+  --ink: #141311;
+  --ink-muted: #6b665c;
+  --ink-inverse: #ecebe6;
+  --ink-inverse-muted: #a9a59b;
+  --on-ink: #f3f0e8;
+  --line: #e0dacd;
+  --line-inverse: #2e2b26;
+  --marker: #ff7a1a;
+  --on-marker: #141311;
+  --success: #1f8a4c;
+  --focus-ring: #2340e8;
+  --focus-ring-inverse: #8fa0ff;
+  --focus-ring-on-marker: #141311;
+  --shadow-button: 0 0 0 4px rgba(20,19,17,0.07), 0 12px 30px -14px rgba(0,0,0,0.6);
+  --shadow-pill: inset 0 1px 0 rgba(255,255,255,0.9), 0 8px 24px -14px rgba(0,0,0,0.25);
+  --shadow-lift: 0 30px 60px -28px rgba(0,0,0,0.45);
+  --shadow-menu: 0 20px 40px -24px rgba(0,0,0,0.4);
+}
+[data-theme="dark"] {
+  --surface: #141311;
+  --surface-sunken: #1c1a17;
+  --surface-raised: #221f1b;
+  --surface-inverse: #2a2622;
+  --placeholder: #2e2a25;
+  --ink: #f3f0e8;
+  --ink-muted: #a8a194;
+  --ink-inverse: #f3f0e8;
+  --ink-inverse-muted: #b5afa3;
+  --on-ink: #141311;
+  --line: #34302a;
+  --line-inverse: #3d3832;
+  --marker: #ff7a1a;
+  --on-marker: #141311;
+  --success: #4cc27a;
+  --focus-ring: #8fa0ff;
+  --focus-ring-inverse: #8fa0ff;
+  --focus-ring-on-marker: #141311;
+}
+:root {
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-24: 96px;
+  --radius-xs: 4px;
+  --radius-sm: 10px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 22px;
+  --radius-2xl: 28px;
+  --radius-full: 999px;
+  --duration-micro: 150ms;
+  --duration-fast: 250ms;
+  --duration-base: 450ms;
+  --duration-slow: 800ms;
+  --duration-xslow: 1100ms;
+  --duration-marquee: 42s;
+  --duration-spin: 22s;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
+  --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-linear: linear;
+  --container: 1560px;
+  --gutter: 16px;
+  --bp-md: 760px;
+  --bp-lg: 900px;
+  --z-content: 2;
+  --z-header: 45;
+  --z-cursor: 70;
+  --z-intro: 80;
+  --font-display: Poppins, "Arial Black", system-ui, sans-serif;
+  --font-body: Poppins, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-data: Poppins, ui-monospace, Menlo, Consolas, monospace;
+  --font-accent: Poppins, Georgia, "Times New Roman", serif;
+}
+.display-hero { font-family: var(--font-display); font-size: 136px; line-height: 0.9; font-weight: 800; letter-spacing: -0.04em; }
+.display-section { font-family: var(--font-display); font-size: 76px; line-height: 0.95; font-weight: 800; letter-spacing: -0.04em; }
+.display-statement { font-family: var(--font-display); font-size: 72px; line-height: 1; font-weight: 700; letter-spacing: -0.04em; }
+.title-service { font-family: var(--font-display); font-size: 40px; line-height: 1.05; font-weight: 600; letter-spacing: -0.035em; }
+.title-lead { font-family: var(--font-display); font-size: 28px; line-height: 1.1; font-weight: 700; letter-spacing: -0.02em; }
+.title-card { font-family: var(--font-display); font-size: 22px; line-height: 1.15; font-weight: 600; letter-spacing: -0.02em; }
+.body-lg { font-family: var(--font-body); font-size: 18px; line-height: 1.6; font-weight: 400; }
+.body { font-family: var(--font-body); font-size: 16px; line-height: 1.6; font-weight: 400; }
+.body-sm { font-family: var(--font-body); font-size: 14px; line-height: 1.55; font-weight: 400; }
+.button { font-family: var(--font-body); font-size: 15px; line-height: 1.3; font-weight: 600; }
+.label { font-family: var(--font-data); font-size: 12px; line-height: 1.4; font-weight: 400; }
+.label-sm { font-family: var(--font-data); font-size: 11px; line-height: 1.4; font-weight: 400; letter-spacing: 0.02em; }
+.micro { font-family: var(--font-data); font-size: 10px; line-height: 1.35; font-weight: 400; }
+.accent-italic { font-family: var(--font-accent); font-size: 1em; line-height: 1; font-weight: 400; font-style: italic; }

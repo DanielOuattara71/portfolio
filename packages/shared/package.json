@@ -1,0 +1,19 @@
+{
+  "name": "@portfolio/shared",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Constants and Zod schemas shared by the public site, the admin and the API.",
+  "exports": {
+    ".": "./src/index.ts",
+    "./constants": "./src/constants.ts",
+    "./contact": "./src/contact.ts",
+    "./project": "./src/project.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "zod": "4.6.7"
+  }
+}

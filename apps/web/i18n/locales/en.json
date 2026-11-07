@@ -1,0 +1,345 @@
+{
+  "nav": {
+    "label": "Main navigation",
+    "home": "Home",
+    "projects": "Projects",
+    "profile": "Profile",
+    "expertise": "Expertise",
+    "insights": "Insights",
+    "contact": "Contact",
+    "menu": "Menu",
+    "close": "Close menu",
+    "mobileLabel": "Mobile menu"
+  },
+  "skip": "Skip to content",
+  "a11y": {
+    "newTab": "new tab"
+  },
+  "lang": {
+    "label": "Language",
+    "switchTo": "Read in {language}"
+  },
+  "theme": {
+    "toDark": "Switch to dark theme",
+    "toLight": "Switch to light theme"
+  },
+  "status": {
+    "available": "Available",
+    "availableLong": "Available · remote"
+  },
+  "cta": {
+    "projects": "See my work",
+    "cv": "Download my CV",
+    "contact": "Get in touch",
+    "start": "Let's talk",
+    "allProjects": "All projects",
+    "readProfile": "Read my profile",
+    "seeExpertise": "See my expertise",
+    "fullBackground": "Full background",
+    "allArticles": "All articles",
+    "continue": "Continue",
+    "nextProject": "Next project",
+    "backProjects": "Back to projects",
+    "backHome": "Back to home"
+  },
+  "copy": {
+    "email": "Copy email",
+    "done": "Copied"
+  },
+  "footer": {
+    "title": "Let's build something",
+    "titleAccent": "reliable",
+    "role": "Software & Data Engineer",
+    "modes": "FR · EN · remote",
+    "legal": "Legal notice",
+    "privacy": "Privacy",
+    "top": "Back to top"
+  },
+  "pages": {
+    "home": {
+      "title": "Software & Data Engineer",
+      "description": "Software & Data Engineer: I design and build web and mobile apps end to end, bring in AI and automation, and specialise in data and the cloud."
+    },
+    "projects": {
+      "title": "Projects",
+      "route": "/Projects",
+      "description": "Case studies: client work, a mobile app, an internship and data engineering. The context, approach and technologies behind each project."
+    },
+    "project": {
+      "title": "Case study"
+    },
+    "profile": {
+      "title": "Profile",
+      "route": "/Profile",
+      "description": "Background, education and way of working. Master's in Information Systems and Software Engineering at ESATIC, cloud and data engineering track."
+    },
+    "expertise": {
+      "title": "Expertise and services",
+      "route": "/Expertise",
+      "description": "Skills and services: web and mobile apps, APIs, data, cloud, AI and automation. Remote, for all kinds of clients."
+    },
+    "contact": {
+      "title": "Contact",
+      "route": "/Contact",
+      "description": "A project, a contract or a role? Write to me in English or French. I work remotely with clients and teams worldwide."
+    },
+    "legal": {
+      "title": "Legal notice",
+      "description": "Legal notice for this site."
+    },
+    "privacy": {
+      "title": "Privacy",
+      "description": "Privacy policy for this site."
+    }
+  },
+  "intro": {
+    "hello": "Bonjour",
+    "hello2": "Hello",
+    "loading": "loading records",
+    "skip": "Skip"
+  },
+  "cursor": {
+    "view": "view",
+    "drag": "drag",
+    "open": "open",
+    "read": "read",
+    "go": "go"
+  },
+  "hero": {
+    "stackLabel": "Portrait and profile. Use left and right arrows to change card.",
+    "carousel": "carousel",
+    "cards": [
+      "portrait",
+      "data view",
+      "profile card"
+    ],
+    "photoAlt": "Portrait (photo coming)",
+    "ditherAlt": "Portrait as a 1-bit dither",
+    "photoMissing": "coming",
+    "prev": "Previous card",
+    "next": "Next card",
+    "ribbonLabel": "Technologies I've used in my projects",
+    "updated": "updated"
+  },
+  "fields": {
+    "stack": "stack",
+    "role": "role",
+    "period": "period",
+    "context": "context",
+    "links": "links",
+    "deliverables": "deliverables",
+    "projects": "projects"
+  },
+  "domains": {
+    "all": "all",
+    "web": "web",
+    "mobile": "mobile",
+    "data": "data",
+    "cloud": "cloud",
+    "ai": "ai"
+  },
+  "levels": {
+    "practised": "used in projects",
+    "studied": "studied and practised",
+    "exploring": "exploring"
+  },
+  "levelsLong": {
+    "practised": "Used in projects",
+    "studied": "Studied and practised",
+    "exploring": "Exploring"
+  },
+  "filters": {
+    "label": "Filter by field",
+    "shortcut": "Press / to search",
+    "placeholder": "e.g. flutter, node, pandas…"
+  },
+  "projects": {
+    "solo": "built solo",
+    "count": "[{n} record] | [{n} records]",
+    "result": "{n} / {total} records",
+    "empty": "No project matches. Try another filter or technology."
+  },
+  "home": {
+    "projects": {
+      "title": "/Projects",
+      "lead": "From {accent} to data engineering. Filter by field or type a technology.",
+      "leadAccent": "client work"
+    },
+    "profile": {
+      "title": "/Profile"
+    },
+    "services": {
+      "title": "/Services",
+      "lead": "Described by {accent}, for any kind of client, working remotely.",
+      "leadAccent": "the problem they solve"
+    },
+    "band": {
+      "title": "Have a project? Get in touch",
+      "accent": "project",
+      "text": "Pick what fits. The contact form will open with these already filled in.",
+      "label": "Project types",
+      "none": "Nothing selected",
+      "selected": "{n} selected · {list} | {n} selected · {list}",
+      "types": {
+        "web": "Web app",
+        "mobile": "Mobile app",
+        "api": "API & back end",
+        "ai": "AI & automation",
+        "data": "Data",
+        "other": "Something else"
+      }
+    },
+    "background": {
+      "title": "/Background",
+      "lead": "Experience and education."
+    },
+    "approach": {
+      "title": "/Approach",
+      "lead": "How I work, from the first conversation to going live.",
+      "count": "[{n} steps]"
+    },
+    "insights": {
+      "title": "/Insights",
+      "lead": "Technical notes and lessons from my projects."
+    }
+  },
+  "profilePage": {
+    "vision": "/Vision",
+    "background": "/Background",
+    "backgroundLead": "Experience, education and certifications.",
+    "experience": "Experience",
+    "education": "Education",
+    "caseStudy": "Case study: {name}",
+    "portraitAlt": "Portrait (photo coming)"
+  },
+  "expertisePage": {
+    "lead": "What I can do, and how far I've taken it. Every skill used in projects links to the work that shows it.",
+    "domainsCount": "[{n} fields]",
+    "skills": "/Skills",
+    "skillsCount": "[3 levels]",
+    "skillsLead": "The number shows how many projects use the skill.",
+    "projectsUsing": "{n} project | {n} projects",
+    "services": "/Services",
+    "servicesLead": "Described by the problem they solve."
+  },
+  "contactPage": {
+    "lead": "A role, a project or a question? Drop me a line.",
+    "youAre": "You are…",
+    "profiles": {
+      "recruiter": "Recruiter",
+      "client": "Client",
+      "other": "Other"
+    },
+    "profileHelp": {
+      "recruiter": "A job, internship or apprenticeship to discuss.",
+      "client": "A project to launch or improve.",
+      "other": "A question, a collaboration, a chat."
+    },
+    "fields": {
+      "name": "Name",
+      "email": "Email",
+      "company": "Company",
+      "companyOptional": "Company (optional)",
+      "role": "Role or contract type",
+      "types": "Project type",
+      "timeline": "Ideal timeline (optional)",
+      "message": "Your message",
+      "consent": "I agree to my details being used to reply to me.",
+      "privacy": "Privacy policy",
+      "website": "Leave this field empty"
+    },
+    "send": "Send message",
+    "sending": "Sending…",
+    "errors": {
+      "required": "This field is required.",
+      "name": "Enter your name (at least 2 characters).",
+      "email": "Check your email address, it looks incomplete.",
+      "message": "Add a few more words so I understand your request (20 characters minimum).",
+      "consent": "Tick the box so I can reply to you.",
+      "rate": "Several messages were sent in a short time. Please try again in a few minutes.",
+      "server": "The message didn't go through. Please try again in a moment.",
+      "summaryTitle": "There is a problem",
+      "summaryHint": "Please fix the following:"
+    },
+    "success": {
+      "title": "Message sent.",
+      "text": "Thanks, I'll get back to you soon."
+    },
+    "aside": {
+      "email": "email",
+      "links": "links · cv",
+      "availability": "availability"
+    }
+  },
+  "placeholder": {
+    "building": "Page under construction. Content arrives in the next steps."
+  },
+  "notFound": {
+    "title": "Record",
+    "titleOutline": "not found.",
+    "text": "This page doesn't exist, or no longer does.",
+    "query": "query > {path} · 0 results"
+  },
+  "projectsPage": {
+    "lead": "All my work: client projects, an internship, data engineering work and this site. Each card opens a detailed case study."
+  },
+  "insights": {
+    "empty": "First articles coming soon.",
+    "count": "[{n} article published] | [{n} articles published]",
+    "readingTime": "{n} min read",
+    "published": "Published {date}",
+    "updated": "Updated {date}",
+    "toc": "Contents",
+    "share": "Share",
+    "copyLink": "Copy link",
+    "copied": "Link copied",
+    "related": "Keep reading",
+    "demo": "demo data",
+    "demoNote": "This article is a demo example (placeholder content).",
+    "onlyFr": "This article is only available in French.",
+    "onlyEn": "This article is only available in English.",
+    "allCategories": "all",
+    "categories": {
+      "data-engineering": "Data Engineering",
+      "web-mobile": "Web & Mobile",
+      "ai-automation": "AI & automation",
+      "cloud": "Cloud",
+      "project-log": "Project log"
+    },
+    "noResults": "No article matches. Try another filter or search."
+  },
+  "case": {
+    "toc": "Contents",
+    "context": "Context",
+    "problem": "The problem",
+    "goals": "Goals",
+    "solution": "Approach and solution",
+    "architecture": "Architecture",
+    "tech": "Technologies",
+    "challenges": "Challenges",
+    "results": "Outcome",
+    "gallery": "Gallery",
+    "next": "Next project",
+    "readProgress": "Reading progress",
+    "heroAlt": "Project hero image",
+    "galleryAlt": "Project screenshot",
+    "archPlaceholder": "Architecture diagram coming"
+  },
+  "ctx": {
+    "client": "client project",
+    "internship": "internship",
+    "academic": "coursework",
+    "personal": "personal project",
+    "this_site": "this site · in progress"
+  },
+  "link": {
+    "demo": "Visit the site",
+    "code": "Source code",
+    "store": "Get the app",
+    "doc": "Documentation"
+  },
+  "ph": {
+    "media": "Screenshot coming",
+    "link": "Link to provide (required before publishing)"
+  }
+}

@@ -1,0 +1,14 @@
+<!-- @dsCard group="Données" height=90 -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"></head>
+<body>
+<div class="ix-demo"><div class="ix-chips" id="chips" role="group" aria-label="Filtrer par domaine"><span class="ix-chips__ind" id="ind" aria-hidden="true"></span><button class="ix-chip" type="button" aria-pressed="true">tous <sup>5</sup></button><button class="ix-chip" type="button" aria-pressed="false">web <sup>3</sup></button><button class="ix-chip" type="button" aria-pressed="false">mobile <sup>2</sup></button><button class="ix-chip" type="button" aria-pressed="false">data <sup>1</sup></button><button class="ix-chip" type="button" aria-pressed="false">cloud <sup>2</sup></button><button class="ix-chip" type="button" aria-pressed="false">ia <sup>0</sup></button></div></div>
+<script>
+var g=document.getElementById('chips'),ind=document.getElementById('ind'),bs=[].slice.call(g.querySelectorAll('.ix-chip'));
+function sync(){bs.forEach(function(b){if(b.getAttribute('aria-pressed')==='true'){ind.style.width=b.offsetWidth+'px';ind.style.height=b.offsetHeight+'px';ind.style.transform='translate('+b.offsetLeft+'px,'+b.offsetTop+'px)';}});}
+bs.forEach(function(b){b.addEventListener('click',function(){bs.forEach(function(x){x.setAttribute('aria-pressed',String(x===b));});sync();});});
+if(document.fonts){document.fonts.ready.then(sync);}sync();window.addEventListener('resize',sync);
+</script>
+</body>
+</html>

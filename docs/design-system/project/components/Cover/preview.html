@@ -1,0 +1,46 @@
+<!-- @dsCard height=288 -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8">
+<style>
+  html, body { margin: 0; background: var(--surface); }
+  .cv { position: relative; width: 960px; height: 288px; overflow: hidden; background: var(--surface); }
+  .cv svg { position: absolute; inset: 0; width: 960px; height: 288px; }
+  .mk { fill: var(--marker); }
+  .inv { fill: var(--surface-inverse); }
+  .ph { fill: var(--placeholder); }
+  .dot { fill: var(--on-marker); }
+  .ring { fill: var(--marker); }
+  .r2xl { rx: var(--radius-2xl); }
+  .rlg { rx: var(--radius-lg); }
+  .txt { position: absolute; left: 48px; bottom: 34px; width: 440px; }
+  .nm { margin: 0; font-family: var(--font-display); font-weight: 800; font-size: 108px; line-height: 0.92; letter-spacing: -0.04em; color: var(--ink); }
+  .tg { margin: 14px 0 0; font-family: var(--font-body); font-size: 14px; line-height: 1.4; color: var(--ink-muted); }
+</style>
+</head>
+<body>
+<div class="cv">
+  <svg viewBox="0 0 960 288" aria-hidden="true">
+    <!-- blocks: marker 232x212 (radius-2xl) bleeding off the top; surface-inverse 232x244 (radius-2xl) bleeding right and bottom; placeholder 232x120 (radius-lg) bleeding bottom; marker disc r40 = the round CTA.
+         arrangement: staggered slabs right of x=480, the disc sitting on the dark slab like the footer's Démarrer button.
+         pattern: dot grid, because the system shows content as data and the portrait's "vue données" is a 1-bit dither; dots in on-marker cut into the marker slab.
+         steps and radii: dot pitch space-6 (24px), slab gap space-4 (16px), radius-2xl 28px, radius-lg 18px, 56 dots. -->
+    <rect class="mk r2xl" x="512" y="-28" width="232" height="212"/>
+    <rect class="ph rlg" x="512" y="200" width="232" height="120"/>
+    <rect class="inv r2xl" x="760" y="72" width="232" height="244"/>
+    <circle class="ring" cx="830" cy="150" r="40"/>
+    <g id="dots"></g>
+  </svg>
+  <div class="txt">
+    <p class="nm">Index<br>Studio</p>
+    <p class="tg">Le contenu comme un jeu de données, sur papier crème.</p>
+  </div>
+</div>
+<script>
+  var g = document.getElementById('dots'), ns = 'http://www.w3.org/2000/svg';
+  for (var y = 20; y <= 164; y += 24) for (var x = 536; x <= 704; x += 24) {
+    var c = document.createElementNS(ns, 'circle'); c.setAttribute('class', 'dot'); c.setAttribute('cx', x); c.setAttribute('cy', y); c.setAttribute('r', 2.2); g.appendChild(c);
+  }
+</script>
+</body>
+</html>

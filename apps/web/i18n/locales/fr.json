@@ -1,0 +1,345 @@
+{
+  "nav": {
+    "label": "Navigation principale",
+    "home": "Accueil",
+    "projects": "Projets",
+    "profile": "Profil",
+    "expertise": "Expertise",
+    "insights": "Insights",
+    "contact": "Contact",
+    "menu": "Menu",
+    "close": "Fermer le menu",
+    "mobileLabel": "Menu mobile"
+  },
+  "skip": "Aller au contenu",
+  "a11y": {
+    "newTab": "nouvel onglet"
+  },
+  "lang": {
+    "label": "Langue",
+    "switchTo": "Lire en {language}"
+  },
+  "theme": {
+    "toDark": "Activer le thème sombre",
+    "toLight": "Activer le thème clair"
+  },
+  "status": {
+    "available": "Disponible",
+    "availableLong": "Disponible · télétravail"
+  },
+  "cta": {
+    "projects": "Voir les projets",
+    "cv": "Télécharger le CV",
+    "contact": "Me contacter",
+    "start": "Démarrer",
+    "allProjects": "Tous les projets",
+    "readProfile": "Lire le profil",
+    "seeExpertise": "Voir l'expertise",
+    "fullBackground": "Parcours complet",
+    "allArticles": "Tous les articles",
+    "continue": "Continuer",
+    "nextProject": "Projet suivant",
+    "backProjects": "Retour aux projets",
+    "backHome": "Retour à l'accueil"
+  },
+  "copy": {
+    "email": "Copier l'email",
+    "done": "Copié"
+  },
+  "footer": {
+    "title": "Construisons quelque chose de",
+    "titleAccent": "fiable",
+    "role": "Software & Data Engineer",
+    "modes": "FR · EN · télétravail",
+    "legal": "Mentions légales",
+    "privacy": "Confidentialité",
+    "top": "Haut de page"
+  },
+  "pages": {
+    "home": {
+      "title": "Software & Data Engineer",
+      "description": "Software & Data Engineer : je conçois des applications web et mobiles de bout en bout, avec l'IA et l'automatisation, et je me spécialise dans la donnée et le cloud."
+    },
+    "projects": {
+      "title": "Projets",
+      "route": "/Projets",
+      "description": "Études de cas : projet client, application mobile, stage et data engineering. Le contexte, l'approche et les technologies de chaque projet."
+    },
+    "project": {
+      "title": "Étude de cas"
+    },
+    "profile": {
+      "title": "Profil",
+      "route": "/Profil",
+      "description": "Parcours, formation et méthode de travail. Master 2 SIGL à l'ESATIC, orienté cloud computing et data engineering."
+    },
+    "expertise": {
+      "title": "Expertise et services",
+      "route": "/Expertise",
+      "description": "Compétences et services : applications web et mobiles, API, données, cloud, IA et automatisation. En télétravail, pour tout type de client."
+    },
+    "contact": {
+      "title": "Contact",
+      "route": "/Contact",
+      "description": "Un projet, une mission ou un poste ? Écrivez-moi, en français ou en anglais. Je travaille en télétravail avec des clients et des équipes du monde entier."
+    },
+    "legal": {
+      "title": "Mentions légales",
+      "description": "Mentions légales du site."
+    },
+    "privacy": {
+      "title": "Confidentialité",
+      "description": "Politique de confidentialité du site."
+    }
+  },
+  "intro": {
+    "hello": "Bonjour",
+    "hello2": "Hello",
+    "loading": "chargement des enregistrements",
+    "skip": "Passer"
+  },
+  "cursor": {
+    "view": "voir",
+    "drag": "glisser",
+    "open": "ouvrir",
+    "read": "lire",
+    "go": "go"
+  },
+  "hero": {
+    "stackLabel": "Portrait et profil. Flèches gauche et droite pour changer de carte.",
+    "carousel": "carrousel",
+    "cards": [
+      "portrait",
+      "vue données",
+      "fiche profil"
+    ],
+    "photoAlt": "Portrait (photo à fournir)",
+    "ditherAlt": "Portrait en trame 1 bit",
+    "photoMissing": "à fournir",
+    "prev": "Carte précédente",
+    "next": "Carte suivante",
+    "ribbonLabel": "Technologies utilisées dans mes projets",
+    "updated": "updated"
+  },
+  "fields": {
+    "stack": "stack",
+    "role": "rôle",
+    "period": "période",
+    "context": "contexte",
+    "links": "liens",
+    "deliverables": "livrables",
+    "projects": "projets"
+  },
+  "domains": {
+    "all": "tous",
+    "web": "web",
+    "mobile": "mobile",
+    "data": "data",
+    "cloud": "cloud",
+    "ai": "ia"
+  },
+  "levels": {
+    "practised": "pratiqué en projet",
+    "studied": "formation et pratique",
+    "exploring": "en exploration"
+  },
+  "levelsLong": {
+    "practised": "Pratiqué en projet",
+    "studied": "Formation et pratique encadrée",
+    "exploring": "En exploration"
+  },
+  "filters": {
+    "label": "Filtrer par domaine",
+    "shortcut": "Appuie sur / pour chercher",
+    "placeholder": "ex. flutter, node, pandas…"
+  },
+  "projects": {
+    "solo": "réalisé seul",
+    "count": "[{n} enregistrement] | [{n} enregistrements]",
+    "result": "{n} / {total} enregistrements",
+    "empty": "Aucun projet ne correspond. Essaie un autre filtre ou une autre technologie."
+  },
+  "home": {
+    "projects": {
+      "title": "/Projets",
+      "lead": "Du {accent} au travail de données. Filtre par domaine ou tape une technologie.",
+      "leadAccent": "projet client"
+    },
+    "profile": {
+      "title": "/Profil"
+    },
+    "services": {
+      "title": "/Services",
+      "lead": "Formulés par {accent}, pour tout type de client, en télétravail.",
+      "leadAccent": "problème résolu"
+    },
+    "band": {
+      "title": "Vous avez un projet ? Contactez-nous",
+      "accent": "projet",
+      "text": "Choisissez ce qui correspond. Le formulaire de contact s'ouvrira avec ces éléments déjà remplis.",
+      "label": "Types de projet",
+      "none": "Aucune sélection",
+      "selected": "{n} sélection · {list} | {n} sélections · {list}",
+      "types": {
+        "web": "Application web",
+        "mobile": "Application mobile",
+        "api": "API & back-end",
+        "ai": "IA & automatisation",
+        "data": "Données",
+        "other": "Autre"
+      }
+    },
+    "background": {
+      "title": "/Parcours",
+      "lead": "Expérience et formation."
+    },
+    "approach": {
+      "title": "/Méthode",
+      "lead": "Comment je travaille, du premier échange à la mise en ligne.",
+      "count": "[{n} étapes]"
+    },
+    "insights": {
+      "title": "/Insights",
+      "lead": "Notes techniques et retours d'expérience."
+    }
+  },
+  "profilePage": {
+    "vision": "/Vision",
+    "background": "/Parcours",
+    "backgroundLead": "Expérience, formation et certifications.",
+    "experience": "Expérience",
+    "education": "Formation",
+    "caseStudy": "Étude de cas : {name}",
+    "portraitAlt": "Portrait (photo à fournir)"
+  },
+  "expertisePage": {
+    "lead": "Ce que je sais faire, et à quel niveau. Chaque compétence pratiquée renvoie aux projets qui le prouvent.",
+    "domainsCount": "[{n} domaines]",
+    "skills": "/Compétences",
+    "skillsCount": "[3 niveaux]",
+    "skillsLead": "Le chiffre indique le nombre de projets qui utilisent la compétence.",
+    "projectsUsing": "{n} projet | {n} projets",
+    "services": "/Services",
+    "servicesLead": "Formulés par problème résolu."
+  },
+  "contactPage": {
+    "lead": "Un poste, une mission ou une question ? Écrivez-moi.",
+    "youAre": "Vous êtes…",
+    "profiles": {
+      "recruiter": "Recruteur",
+      "client": "Client",
+      "other": "Autre"
+    },
+    "profileHelp": {
+      "recruiter": "Un poste, un stage ou une alternance à proposer.",
+      "client": "Un projet à lancer ou à faire évoluer.",
+      "other": "Une question, une collaboration, un échange."
+    },
+    "fields": {
+      "name": "Nom",
+      "email": "Email",
+      "company": "Entreprise",
+      "companyOptional": "Entreprise (facultatif)",
+      "role": "Poste ou type de contrat",
+      "types": "Type de projet",
+      "timeline": "Délai souhaité (facultatif)",
+      "message": "Votre message",
+      "consent": "J'accepte que mes informations soient utilisées pour me répondre.",
+      "privacy": "Politique de confidentialité",
+      "website": "Laissez ce champ vide"
+    },
+    "send": "Envoyer le message",
+    "sending": "Envoi…",
+    "errors": {
+      "required": "Ce champ est obligatoire.",
+      "name": "Indiquez votre nom (2 caractères minimum).",
+      "email": "Vérifiez l'adresse email, elle semble incomplète.",
+      "message": "Ajoutez quelques mots pour que je comprenne votre demande (20 caractères minimum).",
+      "consent": "Cochez la case pour que je puisse vous répondre.",
+      "rate": "Plusieurs messages ont été envoyés en peu de temps. Réessayez dans quelques minutes.",
+      "server": "Le message n'est pas parti. Réessayez dans un instant.",
+      "summaryTitle": "Il y a un problème",
+      "summaryHint": "Corrigez les champs suivants :"
+    },
+    "success": {
+      "title": "Message envoyé.",
+      "text": "Merci, je reviens vers vous rapidement."
+    },
+    "aside": {
+      "email": "email",
+      "links": "réseaux · cv",
+      "availability": "disponibilité"
+    }
+  },
+  "placeholder": {
+    "building": "Page en construction. Le contenu arrive aux prochaines étapes."
+  },
+  "notFound": {
+    "title": "Record",
+    "titleOutline": "introuvable.",
+    "text": "Cette page n'existe pas, ou plus.",
+    "query": "query > {path} · 0 résultat"
+  },
+  "projectsPage": {
+    "lead": "Toutes mes réalisations : projets clients, stage, travaux de données et ce site. Chaque fiche ouvre une étude de cas détaillée."
+  },
+  "insights": {
+    "empty": "Premiers articles en préparation.",
+    "count": "[{n} article publié] | [{n} articles publiés]",
+    "readingTime": "{n} min de lecture",
+    "published": "Publié le {date}",
+    "updated": "Mis à jour le {date}",
+    "toc": "Sommaire",
+    "share": "Partager",
+    "copyLink": "Copier le lien",
+    "copied": "Lien copié",
+    "related": "À lire aussi",
+    "demo": "donnée de démonstration",
+    "demoNote": "Cet article est un exemple de démonstration (contenu provisoire).",
+    "onlyFr": "Cet article n'existe qu'en français.",
+    "onlyEn": "Cet article n'existe qu'en anglais.",
+    "allCategories": "toutes",
+    "categories": {
+      "data-engineering": "Data Engineering",
+      "web-mobile": "Web & Mobile",
+      "ai-automation": "IA & automatisation",
+      "cloud": "Cloud",
+      "project-log": "Carnet de projet"
+    },
+    "noResults": "Aucun article ne correspond. Essaie un autre filtre ou une autre recherche."
+  },
+  "case": {
+    "toc": "Sommaire",
+    "context": "Contexte",
+    "problem": "Problématique",
+    "goals": "Objectifs",
+    "solution": "Approche et solution",
+    "architecture": "Architecture",
+    "tech": "Technologies",
+    "challenges": "Difficultés",
+    "results": "Résultats",
+    "gallery": "Galerie",
+    "next": "Projet suivant",
+    "readProgress": "Progression de lecture",
+    "heroAlt": "Image principale du projet",
+    "galleryAlt": "Capture du projet",
+    "archPlaceholder": "Schéma d’architecture à fournir"
+  },
+  "ctx": {
+    "client": "projet client",
+    "internship": "stage",
+    "academic": "travaux pratiques",
+    "personal": "projet personnel",
+    "this_site": "ce site · en cours"
+  },
+  "link": {
+    "demo": "Voir le site",
+    "code": "Code source",
+    "store": "Télécharger l’app",
+    "doc": "Documentation"
+  },
+  "ph": {
+    "media": "Capture à fournir",
+    "link": "Lien à fournir (obligatoire avant publication)"
+  }
+}

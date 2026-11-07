@@ -1,0 +1,16 @@
+<!-- @dsCard group="Contenu" height=420 -->
+<!doctype html>
+<html>
+<head><meta charset="utf-8"></head>
+<body>
+<div style="padding:20px"><ul class="ix-accordion" id="acc">
+<li class="is-open"><button class="ix-accordion__head" type="button" aria-expanded="true" aria-controls="s0"><span class="ix-accordion__t">IA &amp; automatisation</span><span class="ix-accordion__ic" aria-hidden="true">+</span></button>
+<div class="ix-accordion__content" id="s0"><div><div class="ix-accordion__box ix-inverse"><div><p>Intégrer l'IA et automatiser des tâches répétitives, quand c'est réellement utile.</p><ul><li>Intégration d'API de modèles de langage</li><li>Recherche dans vos documents (RAG)</li><li>Workflows d'automatisation</li></ul></div><div class="ix-accordion__shot">visuel à fournir</div></div></div></div></li>
+<li><button class="ix-accordion__head" type="button" aria-expanded="false" aria-controls="s1"><span class="ix-accordion__t">Données</span><span class="ix-accordion__ic" aria-hidden="true">+</span></button>
+<div class="ix-accordion__content" id="s1"><div><div class="ix-accordion__box ix-inverse"><div><p>Rendre vos données propres, fiables et exploitables.</p><ul><li>Nettoyage et transformation</li><li>Contrôle de la qualité</li></ul></div><div class="ix-accordion__shot">visuel à fournir</div></div></div></div></li>
+</ul></div>
+<script>
+var acc=document.getElementById('acc');[].forEach.call(acc.querySelectorAll('.ix-accordion__head'),function(h){h.addEventListener('click',function(){var li=h.parentNode,o=!li.classList.contains('is-open');[].forEach.call(acc.children,function(x){x.classList.remove('is-open');x.querySelector('.ix-accordion__head').setAttribute('aria-expanded','false');});if(o){li.classList.add('is-open');h.setAttribute('aria-expanded','true');}});});
+</script>
+</body>
+</html>

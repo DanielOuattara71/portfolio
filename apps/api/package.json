@@ -1,0 +1,27 @@
+{
+  "name": "@portfolio/api",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch --env-file-if-exists=../../.env src/dev.ts",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate"
+  },
+  "dependencies": {
+    "@hono/node-server": "2.1.6",
+    "@hono/zod-openapi": "1.6.3",
+    "@portfolio/shared": "workspace:*",
+    "drizzle-orm": "0.45.4",
+    "hono": "4.13.16",
+    "postgres": "4.1.0",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "24.19.2",
+    "drizzle-kit": "0.31.11",
+    "tsx": "4.23.15",
+    "typescript": "6.0.3"
+  }
+}

@@ -1,0 +1,553 @@
+<title>Directions du portfolio</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Unbounded:wght@300..800&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&family=Martian+Mono:wdth,wght@75..112.5,300..800&family=Hanken+Grotesk:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: a neutral review document; each concept is a full-width "planche" rendered in its own fixed world. */
+:root{
+  --bg:#f3f3f1; --fg:#17181a; --muted:#5d6066; --line:#d9dad6; --panel:#ffffff; --focus:#2340e8;
+  --ui:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121315;--fg:#ecece9;--muted:#9a9ea6;--line:#2a2c30;--panel:#1a1b1e;--focus:#8a9bff;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#121315;--fg:#ecece9;--muted:#9a9ea6;--line:#2a2c30;--panel:#1a1b1e;--focus:#8a9bff;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--ui);font-size:16px;line-height:1.55}
+.wrap{max-width:1240px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--focus);outline-offset:3px}
+h1,h2,h3{text-wrap:balance;margin:0}
+.doc-head{padding-block:48px 28px;display:grid;gap:14px;border-bottom:1px solid var(--line)}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.doc-head h1{font-size:clamp(30px,5vw,48px);font-weight:700;letter-spacing:-.02em;line-height:1.05}
+.doc-head p{max-width:68ch;margin:0;color:var(--muted)}
+.toc{display:flex;flex-wrap:wrap;gap:8px;padding-block:18px}
+.toc a{font-family:var(--mono);font-size:13px;text-decoration:none;border:1px solid var(--line);padding:6px 12px;border-radius:999px;background:var(--panel)}
+.toc a:hover{border-color:var(--fg)}
+.note{font-size:13px;color:var(--muted);max-width:72ch}
+
+.concept-head{padding-block:56px 18px;display:grid;gap:10px}
+.concept-head .num{font-family:var(--mono);font-size:13px;color:var(--muted)}
+.concept-head h2{font-size:clamp(26px,4vw,38px);letter-spacing:-.01em}
+.concept-head p{margin:0;max-width:70ch;color:var(--muted)}
+
+/* Planche shell: every color inside comes from the planche's own fixed tokens */
+.planche{border-radius:6px;overflow:hidden;border:1px solid var(--line)}
+.p-grid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:0}
+.p-hero{position:relative;min-height:440px;padding:28px;display:flex;flex-direction:column;justify-content:space-between;gap:24px;min-width:0}
+.p-side{padding:24px;display:grid;gap:22px;align-content:start;min-width:0}
+.p-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0}
+.p-cell{padding:24px;min-width:0;display:grid;gap:12px;align-content:start}
+.lab{font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+.sw{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.sw div{border-radius:3px;padding:44px 8px 8px;font-size:11px;line-height:1.3;font-variant-numeric:tabular-nums}
+.ph{font-style:normal;opacity:.75}
+@media (max-width:860px){.p-grid{grid-template-columns:1fr}.p-row{grid-template-columns:1fr}}
+
+/* ============ 1 · PLAN ============ */
+.plan{--pa:#e6e7e2;--pi:#15171a;--pg:#5c6059;--pl:#c3c6bd;--pc:#2340e8;--pcs:#d9defa;
+  --pd:"Archivo","Arial Narrow",sans-serif;--pb:"IBM Plex Sans",system-ui,sans-serif;--pm:"IBM Plex Mono",ui-monospace,monospace;
+  background:var(--pa);color:var(--pi);font-family:var(--pb)}
+.plan .lab{font-family:var(--pm);color:var(--pg)}
+.plan .p-hero{background-image:linear-gradient(var(--pl) 1px,transparent 1px),linear-gradient(90deg,var(--pl) 1px,transparent 1px);background-size:32px 32px;background-position:-1px -1px;border-right:1px solid var(--pi)}
+.plan .p-hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--pa) 0 0) ;opacity:.55;pointer-events:none}
+.plan .p-hero>*{position:relative;z-index:1}
+.plan .cart{display:flex;justify-content:space-between;gap:12px;font-family:var(--pm);font-size:11px;border-top:1.5px solid var(--pi);padding-top:8px;text-transform:uppercase;letter-spacing:.06em}
+.plan .name{font-family:var(--pd);font-variation-settings:"wdth" 62;font-weight:800;font-size:clamp(56px,9vw,124px);line-height:.86;letter-spacing:-.01em;text-transform:uppercase;margin:0}
+.plan .dim{display:flex;align-items:center;gap:8px;font-family:var(--pm);font-size:10px;color:var(--pc);margin-top:8px}
+.plan .dim::before,.plan .dim::after{content:"";height:1px;background:var(--pc);flex:1}
+.plan .vp{max-width:46ch;font-size:15px;margin:0}
+.plan .vp em{font-style:normal;background:var(--pcs);color:var(--pc);padding:0 4px}
+.plan .hero-bottom{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:20px}
+.plan .portrait{width:150px;aspect-ratio:3/4;max-width:100%;position:relative;background:repeating-linear-gradient(135deg,var(--pi) 0 1px,transparent 1px 6px);border:1px solid var(--pi)}
+.plan .portrait span{position:absolute;top:calc(100% + 8px);left:0;right:0;font-family:var(--pm);font-size:9px;line-height:1.3;color:var(--pg)}
+.plan .hero-bottom{padding-bottom:20px}
+.plan .portrait i{position:absolute;width:12px;height:12px;border-color:var(--pc);border-style:solid}
+.plan .portrait i:nth-child(1){top:-6px;left:-6px;border-width:1px 0 0 1px}.plan .portrait i:nth-child(2){top:-6px;right:-6px;border-width:1px 1px 0 0}
+.plan .portrait i:nth-child(3){bottom:-6px;left:-6px;border-width:0 0 1px 1px}.plan .portrait i:nth-child(4){bottom:-6px;right:-6px;border-width:0 1px 1px 0}
+.plan .btns{display:flex;flex-wrap:wrap;gap:10px}
+.plan .btn{font-family:var(--pm);font-size:12px;text-transform:uppercase;letter-spacing:.06em;padding:12px 16px;border:1.5px solid var(--pi);background:transparent;color:var(--pi);border-radius:2px;cursor:pointer;transition:background .25s cubic-bezier(.16,1,.3,1),color .25s}
+.plan .btn.fill,.plan .btn:hover{background:var(--pc);border-color:var(--pc);color:#fff}
+.plan .spec-d{font-family:var(--pd);font-variation-settings:"wdth" 62;font-weight:800;font-size:44px;line-height:1;text-transform:uppercase}
+.plan .spec-d2{font-family:var(--pd);font-variation-settings:"wdth" 125;font-weight:300;font-size:24px;line-height:1.1}
+.plan .p-row{border-top:1px solid var(--pi)}
+.plan .p-cell+.p-cell{border-left:1px solid var(--pi)}
+@media (max-width:860px){.plan .p-hero{border-right:0;border-bottom:1px solid var(--pi)}.plan .p-cell+.p-cell{border-left:0;border-top:1px solid var(--pi)}}
+.plan .fiche{border:1px solid var(--pi);background:var(--pa)}
+.plan .fiche-h{display:flex;justify-content:space-between;font-family:var(--pm);font-size:10px;padding:6px 10px;border-bottom:1px solid var(--pi);text-transform:uppercase}
+.plan .fiche-b{padding:12px 10px;display:grid;gap:8px}
+.plan .fiche-b h4{margin:0;font-family:var(--pd);font-variation-settings:"wdth" 75;font-size:24px;text-transform:uppercase}
+.plan .tags{display:flex;flex-wrap:wrap;gap:6px}
+.plan .tag{font-family:var(--pm);font-size:10px;border:1px solid var(--pl);padding:2px 6px}
+.plan svg text{font-family:var(--pm);font-size:10px;fill:var(--pi)}
+.plan .edge{stroke:var(--pc);stroke-width:1.2;fill:none;stroke-dasharray:var(--len);stroke-dashoffset:0}
+.plan.armed .edge{stroke-dashoffset:var(--len)}
+.plan.armed.inview .edge{animation:draw 1.4s cubic-bezier(.16,1,.3,1) forwards;animation-delay:calc(var(--i)*120ms)}
+@keyframes draw{to{stroke-dashoffset:0}}
+.plan .node rect{fill:var(--pa);stroke:var(--pi);stroke-width:1.2}
+.plan .node.empty rect{stroke-dasharray:3 3;stroke:var(--pg)}
+.plan .proj circle{fill:var(--pc)}
+
+/* ============ 2 · FLUX ============ */
+.flux{--fa:#0b1119;--fs:#121a25;--ft:#e7eaef;--fm:#8a95a6;--fl:#243042;--fc:#5ec4ff;--fw:#ffb547;--fh:#ff6b3d;
+  --fd:"Unbounded","Arial Black",sans-serif;--fb:"Geist",system-ui,sans-serif;--fmo:"Geist Mono",ui-monospace,monospace;
+  background:var(--fa);color:var(--ft);font-family:var(--fb);border-color:var(--fl)}
+.flux .lab{font-family:var(--fmo);color:var(--fm)}
+.flux .p-hero{overflow:hidden;border-right:1px solid var(--fl)}
+.flux canvas.field{position:absolute;inset:0;width:100%;height:100%;display:block}
+.flux .p-hero>*:not(canvas){position:relative;z-index:1}
+.flux .topbar{display:flex;justify-content:space-between;gap:12px;font-family:var(--fmo);font-size:11px;color:var(--fm)}
+.flux .pill-nav{display:flex;gap:4px;border:1px solid var(--fl);background:rgba(11,17,25,.6);border-radius:999px;padding:4px}
+.flux .pill-nav span{padding:4px 10px;border-radius:999px}
+.flux .pill-nav span:first-child{background:var(--ft);color:var(--fa)}
+.flux .name{font-family:var(--fd);font-weight:300;font-size:clamp(40px,6.4vw,84px);line-height:.95;letter-spacing:-.03em;margin:0}
+.flux .name b{font-weight:700}
+.flux .vp{max-width:44ch;font-size:15px;color:#c3cad5;margin:0}
+.flux .stages{display:flex;flex-wrap:wrap;gap:6px;font-family:var(--fmo);font-size:11px}
+.flux .stages span{border:1px solid var(--fl);padding:4px 10px;border-radius:999px;background:rgba(11,17,25,.55)}
+.flux .stages span:nth-child(1){color:var(--fc)}.flux .stages span:nth-child(2){color:var(--fw)}.flux .stages span:nth-child(3){color:var(--fh)}
+.flux .btns{display:flex;flex-wrap:wrap;gap:10px}
+.flux .btn{font-family:var(--fb);font-size:14px;font-weight:500;padding:12px 20px;border-radius:999px;cursor:pointer;color:var(--ft);background:var(--fs);border:1px solid var(--fl);transition:border-color .3s,transform .3s cubic-bezier(.16,1,.3,1)}
+.flux .btn.fill{background:var(--ft);color:var(--fa);border-color:var(--ft)}
+.flux .btn:hover{border-color:var(--fw);transform:translateY(-2px)}
+.flux .spec-d{font-family:var(--fd);font-weight:700;font-size:38px;letter-spacing:-.03em;line-height:1}
+.flux .spec-d2{font-family:var(--fd);font-weight:300;font-size:22px;letter-spacing:-.02em}
+.flux .p-row{border-top:1px solid var(--fl)}
+.flux .p-cell+.p-cell{border-left:1px solid var(--fl)}
+@media (max-width:860px){.flux .p-hero{border-right:0;border-bottom:1px solid var(--fl)}.flux .p-cell+.p-cell{border-left:0;border-top:1px solid var(--fl)}}
+.flux .card{background:var(--fs);border:1px solid var(--fl);border-radius:10px;padding:14px;display:grid;gap:8px;position:relative;overflow:hidden}
+.flux .card::before{content:"";position:absolute;inset:auto 0 0 0;height:2px;background:linear-gradient(90deg,var(--fc),var(--fw),var(--fh));transform:scaleX(.25);transform-origin:left;transition:transform .6s cubic-bezier(.16,1,.3,1)}
+.flux .card:hover::before{transform:scaleX(1)}
+.flux .card h4{margin:0;font-family:var(--fd);font-weight:500;font-size:20px;letter-spacing:-.02em}
+.flux .tag{font-family:var(--fmo);font-size:10px;color:var(--fm);border:1px solid var(--fl);border-radius:999px;padding:2px 8px}
+.flux .tags{display:flex;flex-wrap:wrap;gap:6px}
+.flux .portrait{width:130px;aspect-ratio:3/4;max-width:100%;border-radius:8px;background:radial-gradient(60% 45% at 50% 38%,#3a4658 0 40%,transparent 41%),radial-gradient(90% 60% at 50% 110%,#3a4658 0 55%,transparent 56%),var(--fs);border:1px solid var(--fl);position:relative;overflow:hidden}
+.flux .portrait::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(11,17,25,.55) 3px 4px)}
+.flux .domains{display:grid;gap:6px;font-family:var(--fmo);font-size:12px}
+.flux .domains div{display:flex;align-items:center;gap:10px}
+.flux .domains i{flex:1;height:2px;border-radius:2px;background:linear-gradient(90deg,var(--fl),var(--c))}
+
+/* ============ 3 · INDEX ============ */
+.index{--ia:#ececea;--ii:#111111;--ig:#666661;--il:#c9c9c2;--im:#f2dc3b;--iok:#1f8a4c;
+  --id:"Martian Mono",ui-monospace,monospace;--ib:"Hanken Grotesk",system-ui,sans-serif;
+  background:var(--ia);color:var(--ii);font-family:var(--ib)}
+.index .lab{font-family:var(--id);font-size:10px;color:var(--ig)}
+.index .p-hero{border-right:1px solid var(--ii)}
+.index .rec{display:flex;justify-content:space-between;gap:12px;font-family:var(--id);font-size:11px;border-bottom:1px solid var(--ii);padding-bottom:8px}
+.index .name{font-family:var(--id);font-variation-settings:"wdth" 112.5;font-weight:700;font-size:clamp(34px,5.4vw,70px);line-height:.98;letter-spacing:-.04em;margin:0;text-transform:uppercase}
+.index .name mark{background:var(--im);color:var(--ii);padding:0 .08em}
+.index .fields{display:grid;grid-template-columns:auto 1fr;gap:4px 18px;font-family:var(--id);font-size:12px;max-width:520px}
+.index .fields dt{color:var(--ig)}
+.index .fields dd{margin:0}
+.index .ok::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--iok);margin-right:6px;vertical-align:1px}
+.index .hero-bottom{display:flex;flex-wrap:wrap;gap:20px;align-items:flex-end;justify-content:space-between}
+.index canvas.dither{width:132px;height:176px;max-width:100%;image-rendering:pixelated;border:1px solid var(--ii);display:block}
+.index .btns{display:flex;flex-wrap:wrap;gap:8px}
+.index .btn{font-family:var(--id);font-size:12px;padding:11px 14px;background:var(--ii);color:var(--ia);border:1px solid var(--ii);border-radius:0;cursor:pointer}
+.index .btn.ghost{background:transparent;color:var(--ii)}
+.index .btn:hover{background:var(--im);color:var(--ii)}
+.index .spec-d{font-family:var(--id);font-variation-settings:"wdth" 112.5;font-weight:700;font-size:30px;letter-spacing:-.04em;line-height:1}
+.index .spec-d2{font-family:var(--id);font-variation-settings:"wdth" 75;font-weight:400;font-size:18px}
+.index .p-row{border-top:1px solid var(--ii)}
+.index .p-cell+.p-cell{border-left:1px solid var(--ii)}
+@media (max-width:860px){.index .p-hero{border-right:0;border-bottom:1px solid var(--ii)}.index .p-cell+.p-cell{border-left:0;border-top:1px solid var(--ii)}}
+.index .query{display:flex;align-items:center;gap:8px;border:1px solid var(--ii);padding:8px 10px;background:#fff;font-family:var(--id);font-size:12px}
+.index .query label{color:var(--ig)}
+.index .query input{flex:1;min-width:0;border:0;background:transparent;font:inherit;color:var(--ii);outline:none}
+.index .chips{display:flex;flex-wrap:wrap;gap:6px}
+.index .chip{font-family:var(--id);font-size:11px;padding:3px 8px;border:1px solid var(--il);background:transparent;color:var(--ii);cursor:pointer}
+.index .chip[aria-pressed="true"]{background:var(--ii);color:var(--ia);border-color:var(--ii)}
+.index .tbl-wrap{overflow-x:auto}
+.index table{width:100%;border-collapse:collapse;font-family:var(--id);font-size:11px;min-width:460px}
+.index th{text-align:left;font-weight:500;color:var(--ig);border-bottom:1px solid var(--ii);padding:6px 6px}
+.index td{padding:7px 6px;border-bottom:1px solid var(--il);vertical-align:top}
+.index td:first-child{white-space:nowrap}
+.index tbody tr{transition:background .15s}
+.index tbody tr:hover{background:var(--im)}
+.index .tbd{color:var(--ig)}
+.index .count{font-family:var(--id);font-size:11px;color:var(--ig)}
+
+/* Comparison */
+.cmp{padding-block:56px 24px;display:grid;gap:16px}
+.cmp h2{font-size:clamp(24px,3.5vw,32px)}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:6px;background:var(--panel)}
+.tbl table{width:100%;border-collapse:collapse;min-width:720px;font-size:14px}
+.tbl th,.tbl td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+.tbl thead th{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.tbl tbody th{font-weight:600;white-space:nowrap}
+.reco{border:1px solid var(--fg);border-radius:6px;padding:20px;display:grid;gap:8px;background:var(--panel)}
+.reco h3{font-size:20px}
+.reco p{margin:0;max-width:75ch}
+footer.doc-foot{padding-block:28px 56px;color:var(--muted);font-size:13px}
+@media (prefers-reduced-motion:reduce){.plan.inview .edge{animation:none;stroke-dashoffset:0}*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="doc-head">
+    <span class="eyebrow">Étape 4 · Prompt 04 · Direction artistique</span>
+    <h1>Trois directions pour le portfolio</h1>
+    <p>Chaque planche montre un univers complet : Hero, palette, typographie, composants et motif. Les directions sont volontairement très différentes pour faciliter le choix. Les textes sont des exemples tirés du positionnement validé à l'étape 3, et le nom est un espace réservé.</p>
+    <p class="note">Aucune photo, capture ou donnée n'est inventée. Les champs « à compléter » seront remplis depuis l'admin. Les animations visibles ici sont des esquisses de principe, pas le motion design final (étape 5).</p>
+  </header>
+  <nav class="toc" aria-label="Directions">
+    <a href="#plan">01 · Plan</a><a href="#flux">02 · Flux</a><a href="#index">03 · Index</a><a href="#comparaison">Comparaison</a>
+  </nav>
+
+  <!-- =================== PLAN =================== -->
+  <section id="plan">
+    <div class="concept-head">
+      <span class="num">Direction 01</span>
+      <h2>Plan, le portfolio comme dossier d'architecture</h2>
+      <p>Le site se lit comme le dossier technique d'un système bien conçu : cartouches, cotes, références croisées. Le motif est le <strong>nœud relié par une ligne</strong> des schémas d'architecture. Au scroll, des lignes se tracent et relient les sections, les domaines et les projets. Ton profil d'ingénieur logiciel est montré par la rigueur de la mise en page.</p>
+    </div>
+    <div class="planche plan" id="plan-planche">
+      <div class="p-grid">
+        <div class="p-hero">
+          <div class="cart"><span>Fig. 01 · Profil</span><span>FR / EN</span><span>Rév. 2026</span></div>
+          <div>
+            <p class="name">Nom<br>Prénom</p>
+            <div class="dim">Software &amp; Data Engineer</div>
+          </div>
+          <div class="hero-bottom">
+            <div style="display:grid;gap:16px">
+              <p class="vp">Je conçois des applications web et mobiles <em>de bout en bout</em>, j'y intègre l'IA et l'automatisation quand elles sont utiles, et je me spécialise dans <em>la donnée et le cloud</em>.</p>
+              <div class="btns"><button class="btn fill" type="button">Recruteurs · CV →</button><button class="btn" type="button">Clients · Projet →</button></div>
+            </div>
+            <div class="portrait" role="img" aria-label="Emplacement du portrait"><i></i><i></i><i></i><i></i><span>PORTRAIT · DUOTONE ENCRE / PAPIER</span></div>
+          </div>
+        </div>
+        <div class="p-side">
+          <div><div class="lab">Palette</div></div>
+          <div class="sw">
+            <div style="background:#e6e7e2;border:1px solid #c3c6bd">Papier<br>#E6E7E2</div>
+            <div style="background:#15171a;color:#e6e7e2">Encre<br>#15171A</div>
+            <div style="background:#2340e8;color:#fff">Cobalt<br>#2340E8</div>
+            <div style="background:#5c6059;color:#e6e7e2">Graphite<br>#5C6059</div>
+            <div style="background:#c3c6bd">Trait<br>#C3C6BD</div>
+            <div style="background:#d9defa;color:#2340e8">Cobalt clair<br>#D9DEFA</div>
+          </div>
+          <div style="display:grid;gap:6px">
+            <div class="lab">Typographie</div>
+            <div class="spec-d">Archivo condensé</div>
+            <div class="spec-d2">Archivo étendu, léger</div>
+            <div style="font-size:14px">IBM Plex Sans pour le texte courant, dessinée pour l'ingénierie.</div>
+            <div style="font-family:var(--pm);font-size:12px;color:var(--pg)">IBM Plex Mono · annotations, cotes, métadonnées</div>
+          </div>
+        </div>
+      </div>
+      <div class="p-row">
+        <div class="p-cell">
+          <div class="lab">Motif · domaines reliés par les projets</div>
+          <svg viewBox="0 0 320 200" role="img" aria-label="Schéma : cinq domaines reliés par les projets réels" style="width:100%;height:auto">
+            <g class="edges"></g>
+            <g class="nodes"></g>
+          </svg>
+          <p style="margin:0;font-size:12px;color:var(--pg)">Chaque ligne est un vrai projet. Le nœud IA est en pointillé : aucun projet IA n'est encore listé, il sera relié depuis l'admin.</p>
+        </div>
+        <div class="p-cell">
+          <div class="lab">Composant · fiche projet</div>
+          <article class="fiche">
+            <div class="fiche-h"><span>PRJ-02 · Mobile</span><span class="ph">Période à compléter</span></div>
+            <div class="fiche-b">
+              <h4>Retrouve Moi</h4>
+              <div style="font-size:13px">Application mobile de recherche d'objets perdus et retrouvés.</div>
+              <div class="tags"><span class="tag">Flutter</span><span class="tag">Node.js</span><span class="tag">MongoDB</span><span class="tag">Firebase</span><span class="tag">Cloudflare R2</span></div>
+            </div>
+          </article>
+        </div>
+        <div class="p-cell">
+          <div class="lab">Mouvement</div>
+          <ul style="margin:0;padding-left:18px;font-size:14px;display:grid;gap:6px">
+            <li>Lignes qui se tracent au scroll, une seule fois.</li>
+            <li>Titres révélés par un masque, mouvement court et mécanique.</li>
+            <li>Curseur en réticule fin avec étiquette (ordinateur).</li>
+            <li>Intro : la grille se dessine, puis le nom se pose (&lt; 1,5 s).</li>
+            <li>Aucun rebond ni ressort : précision avant tout.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================== FLUX =================== -->
+  <section id="flux">
+    <div class="concept-head">
+      <span class="num">Direction 02</span>
+      <h2>Flux, de la donnée brute au signal</h2>
+      <p>Un univers sombre et cinématique, avec <strong>un seul élément vivant</strong> : un champ de particules qui représente des flux de données. Il raconte ton métier au fil du scroll. Les particules sont désordonnées dans le Hero (donnée brute), s'organisent en lignes dans les projets (transformation), puis convergent vers un point au contact (le signal). Les couleurs vont du froid au chaud, comme une carte thermique.</p>
+    </div>
+    <div class="planche flux">
+      <div class="p-grid">
+        <div class="p-hero" id="flux-hero">
+          <canvas class="field" aria-hidden="true"></canvas>
+          <div class="topbar"><span>NOM PRÉNOM</span><div class="pill-nav"><span>FR</span><span>EN</span></div></div>
+          <div style="display:grid;gap:18px">
+            <div class="stages"><span>Brut</span><span>Transformé</span><span>Signal</span></div>
+            <p class="name"><b>Nom Prénom</b><br>Software &amp; Data Engineer</p>
+            <p class="vp">Je conçois des applications web et mobiles de bout en bout, j'y intègre l'IA et l'automatisation quand elles sont utiles, et je me spécialise dans la donnée et le cloud.</p>
+            <div class="btns"><button class="btn fill" type="button">Voir mes projets</button><button class="btn" type="button">Télécharger le CV</button></div>
+          </div>
+        </div>
+        <div class="p-side">
+          <div class="lab">Palette</div>
+          <div class="sw">
+            <div style="background:#0b1119;border:1px solid #243042">Encre nuit<br>#0B1119</div>
+            <div style="background:#121a25;border:1px solid #243042">Surface<br>#121A25</div>
+            <div style="background:#e7eaef;color:#0b1119">Givre<br>#E7EAEF</div>
+            <div style="background:#5ec4ff;color:#0b1119">Froid<br>#5EC4FF</div>
+            <div style="background:#ffb547;color:#0b1119">Tiède<br>#FFB547</div>
+            <div style="background:#ff6b3d;color:#0b1119">Chaud<br>#FF6B3D</div>
+          </div>
+          <p style="margin:0;font-size:12px;color:var(--fm)">La gamme thermique sert <strong>uniquement</strong> à la donnée (particules, jauges, survols). L'interface reste en givre sur encre.</p>
+          <div style="display:grid;gap:6px">
+            <div class="lab">Typographie</div>
+            <div class="spec-d">Unbounded</div>
+            <div class="spec-d2">Large, géométrique, futuriste</div>
+            <div style="font-size:14px">Geist pour le texte : nette et neutre, très lisible sur fond sombre.</div>
+            <div style="font-family:var(--fmo);font-size:12px;color:var(--fm)">Geist Mono · métadonnées, compteurs</div>
+          </div>
+        </div>
+      </div>
+      <div class="p-row">
+        <div class="p-cell">
+          <div class="lab">Motif · un flux par domaine</div>
+          <div class="domains">
+            <div style="--c:#5ec4ff">Software Eng.<i></i></div>
+            <div style="--c:#8fd0ff">Web &amp; Mobile<i></i></div>
+            <div style="--c:#ffb547">Data Eng.<i></i></div>
+            <div style="--c:#ff8f45">Cloud &amp; DevOps<i></i></div>
+            <div style="--c:#ff6b3d">IA &amp; Automatisation<i></i></div>
+          </div>
+          <p style="margin:0;font-size:12px;color:var(--fm)">Au survol d'un domaine, son flux s'allume dans le champ et les projets liés ressortent.</p>
+        </div>
+        <div class="p-cell">
+          <div class="lab">Composant · carte projet</div>
+          <article class="card">
+            <span class="lab" style="font-size:10px">Projet client · réalisé seul</span>
+            <h4>Prince Edja</h4>
+            <div style="font-size:13px;color:#c3cad5">Plateforme web qui présente un univers artistique, ses projets et ses contenus éditoriaux.</div>
+            <div class="tags"><span class="tag">Stack à compléter</span><span class="tag">Admin</span></div>
+          </article>
+          <div class="portrait" role="img" aria-label="Emplacement du portrait"></div>
+          <span class="lab" style="font-size:10px">Portrait : noir et blanc contrasté, les bords se dissolvent en particules</span>
+        </div>
+        <div class="p-cell">
+          <div class="lab">Mouvement</div>
+          <ul style="margin:0;padding-left:18px;font-size:14px;display:grid;gap:6px">
+            <li>Champ de particules réactif à la vitesse du curseur et du scroll.</li>
+            <li>Transitions longues et fluides (≈ 0,9 à 1,2 s), liées au scroll.</li>
+            <li>Intro : les particules forment le nom puis se dispersent (&lt; 1,8 s).</li>
+            <li>Mobile : champ simplifié, moins de particules, pas de suivi du doigt.</li>
+            <li>Animations réduites : image fixe du champ.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================== INDEX =================== -->
+  <section id="index">
+    <div class="concept-head">
+      <span class="num">Direction 03</span>
+      <h2>Index, le portfolio comme jeu de données</h2>
+      <p>Tout le contenu est présenté comme des <strong>enregistrements</strong> : chaque projet, compétence ou article a un identifiant, des champs, un statut et une date de mise à jour, tous issus de ta base de données. L'interaction signature est une <strong>barre de requête</strong> qui filtre et réorganise le site. C'est la direction la plus proche de ton travail data et de l'admin que nous allons construire.</p>
+    </div>
+    <div class="planche index">
+      <div class="p-grid">
+        <div class="p-hero">
+          <div class="rec"><span>record 001 / profile</span><span>lang: fr · en</span></div>
+          <p class="name">Nom<br><mark>Prénom</mark></p>
+          <div class="hero-bottom">
+            <div style="display:grid;gap:16px">
+              <dl class="fields">
+                <dt>role</dt><dd>Software &amp; Data Engineer</dd>
+                <dt>focus</dt><dd>apps web &amp; mobile · IA · data · cloud</dd>
+                <dt>status</dt><dd class="ok">disponible · télétravail</dd>
+                <dt>updated</dt><dd class="tbd">date réelle de la base</dd>
+              </dl>
+              <div class="btns"><button class="btn" type="button">cv.pdf ↓</button><button class="btn ghost" type="button">contact →</button></div>
+            </div>
+            <div style="display:grid;gap:6px"><canvas class="dither" width="66" height="88" aria-label="Emplacement du portrait, rendu tramé" role="img"></canvas><span class="lab">portrait · trame 1 bit</span></div>
+          </div>
+        </div>
+        <div class="p-side">
+          <div class="lab">Palette</div>
+          <div class="sw">
+            <div style="background:#ececea;border:1px solid #c9c9c2">Papier<br>#ECECEA</div>
+            <div style="background:#111;color:#ececea">Encre<br>#111111</div>
+            <div style="background:#f2dc3b">Surligneur<br>#F2DC3B</div>
+            <div style="background:#666661;color:#ececea">Gris<br>#666661</div>
+            <div style="background:#c9c9c2">Trait<br>#C9C9C2</div>
+            <div style="background:#1f8a4c;color:#fff">Statut OK<br>#1F8A4C</div>
+          </div>
+          <p style="margin:0;font-size:12px;color:var(--ig)">Le jaune est un fond de sélection, jamais une couleur de texte.</p>
+          <div style="display:grid;gap:6px">
+            <div class="lab">Typographie</div>
+            <div class="spec-d">Martian Mono</div>
+            <div class="spec-d2">Martian Mono condensée</div>
+            <div style="font-size:14px">Hanken Grotesk pour le texte long : chaleureuse, compense la rigueur du mono.</div>
+          </div>
+        </div>
+      </div>
+      <div class="p-row" style="grid-template-columns:minmax(0,2fr) minmax(0,1fr)">
+        <div class="p-cell">
+          <div class="lab">Interaction signature · barre de requête (essaie-la)</div>
+          <div class="query"><label for="q">query &gt;</label><input id="q" type="text" placeholder="ex. mobile, data, cloud…" autocomplete="off"></div>
+          <div class="chips" id="chips"></div>
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr><th>id</th><th>projet</th><th>domaines</th><th>stack</th><th>période</th></tr></thead>
+              <tbody id="rows"></tbody>
+            </table>
+          </div>
+          <span class="count" id="count" aria-live="polite"></span>
+        </div>
+        <div class="p-cell">
+          <div class="lab">Mouvement</div>
+          <ul style="margin:0;padding-left:18px;font-size:14px;display:grid;gap:6px">
+            <li>Court et fonctionnel (0,2 à 0,4 s).</li>
+            <li>Les lignes se réordonnent en glissant quand on filtre.</li>
+            <li>Les compteurs viennent de la base, sans animation spectaculaire.</li>
+            <li>Bascule de vue : tableau, galerie, graphe.</li>
+            <li>Intro : une ligne de requête s'exécute et charge le profil (&lt; 1 s).</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================== COMPARAISON =================== -->
+  <section class="cmp" id="comparaison">
+    <span class="eyebrow">Comparaison</span>
+    <h2>Laquelle choisir ?</h2>
+    <div class="tbl">
+      <table>
+        <thead><tr><th></th><th>01 · Plan</th><th>02 · Flux</th><th>03 · Index</th></tr></thead>
+        <tbody>
+          <tr><th>Idée forte</th><td>Le système bien conçu</td><td>La donnée qui devient signal</td><td>Le contenu comme base de données</td></tr>
+          <tr><th>Ambiance</th><td>Claire, éditoriale, technique</td><td>Sombre, cinématique, vivante</td><td>Claire, brute, fonctionnelle</td></tr>
+          <tr><th>Côté futuriste / expérimental</th><td>Moyen</td><td>Très fort</td><td>Fort (dans l'interaction)</td></tr>
+          <tr><th>Lisibilité recruteur</th><td>Excellente</td><td>Bonne, à soigner (fond sombre)</td><td>Excellente pour scanner</td></tr>
+          <tr><th>Lien avec ton profil</th><td>Architecture logicielle</td><td>Data engineering</td><td>Data + CMS que tu construis</td></tr>
+          <tr><th>Risque principal</th><td>Paraître trop sage</td><td>Poids WebGL, performances mobiles</td><td>Paraître froid, « tableur »</td></tr>
+          <tr><th>Coût de développement</th><td>Moyen</td><td>Élevé</td><td>Moyen</td></tr>
+          <tr><th>Thème clair / sombre</th><td>Les deux, facilement</td><td>Sombre d'abord</td><td>Les deux, facilement</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="reco">
+      <span class="eyebrow">Recommandation</span>
+      <h3>Direction 02 · Flux, avec les fiches de données de l'Index</h3>
+      <p>Flux répond le mieux à ta demande « technologique, futuriste, expérimental » et à ton objectif « visuellement mémorable ». Son récit, de la donnée brute au signal, n'appartient qu'à un profil data : ce n'est pas un effet décoratif. Pour rester crédible auprès des recruteurs, les études de cas emprunteraient à l'Index ses fiches de métadonnées exactes (rôle, stack, période, statut), lisibles et vérifiables.</p>
+      <p class="note" style="color:var(--muted)">Conditions : budget de performance strict, version mobile allégée et image fixe pour les animations réduites. Si tu préfères un site plus léger et plus rapide à construire, Plan est l'alternative la plus sûre.</p>
+    </div>
+  </section>
+  <footer class="doc-foot">Étape 4 · à valider avant le design system (Prompt 05). Polices toutes gratuites (Google Fonts).</footer>
+</div>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---- PLAN: domain graph from real project links ---- */
+  var domains = [
+    {id:'sw', label:'SOFTWARE', x:160, y:28},
+    {id:'wm', label:'WEB/MOBILE', x:50, y:100},
+    {id:'cl', label:'CLOUD', x:270, y:100},
+    {id:'da', label:'DATA', x:95, y:172},
+    {id:'ai', label:'IA', x:225, y:172, empty:true}
+  ];
+  var links = [ // [from, to, project]
+    ['sw','wm','Retrouve Moi'],['wm','cl','Retrouve Moi'],
+    ['sw','wm','Livraison'],['sw','wm','Prince Edja'],
+    ['sw','cl','Portfolio'],['da','sw','TP Data']
+  ];
+  var pos = {}; domains.forEach(function(d){pos[d.id]=d;});
+  var NS='http://www.w3.org/2000/svg';
+  var svg=document.querySelector('#plan-planche svg'), ge=svg.querySelector('.edges'), gn=svg.querySelector('.nodes');
+  var seen={};
+  links.forEach(function(l,i){
+    var a=pos[l[0]], b=pos[l[1]], key=l[0]+l[1]; seen[key]=(seen[key]||0)+1;
+    var off=(seen[key]-1)*10-5, mx=(a.x+b.x)/2+off, my=(a.y+b.y)/2-off;
+    var p=document.createElementNS(NS,'path');
+    p.setAttribute('d','M'+a.x+','+a.y+' Q'+mx+','+my+' '+b.x+','+b.y);
+    p.setAttribute('class','edge'); ge.appendChild(p);
+    var len=Math.ceil(p.getTotalLength()); p.style.setProperty('--len',len); p.style.setProperty('--i',i);
+    var c=document.createElementNS(NS,'g'); c.setAttribute('class','proj');
+    var cc=document.createElementNS(NS,'circle'); cc.setAttribute('cx',mx);cc.setAttribute('cy',my);cc.setAttribute('r',2.5);c.appendChild(cc);
+    var t=document.createElementNS(NS,'title'); t.textContent=l[2]; c.appendChild(t); ge.appendChild(c);
+  });
+  domains.forEach(function(d){
+    var g=document.createElementNS(NS,'g'); g.setAttribute('class','node'+(d.empty?' empty':''));
+    var w=d.label.length*6.6+14;
+    var r=document.createElementNS(NS,'rect'); r.setAttribute('x',d.x-w/2);r.setAttribute('y',d.y-10);r.setAttribute('width',w);r.setAttribute('height',20);
+    var t=document.createElementNS(NS,'text'); t.setAttribute('x',d.x);t.setAttribute('y',d.y+3.5);t.setAttribute('text-anchor','middle');t.textContent=d.label;
+    g.appendChild(r);g.appendChild(t);gn.appendChild(g);
+  });
+  var planEl=document.getElementById('plan-planche');
+  if(!reduce && ('IntersectionObserver' in window)){
+    planEl.classList.add('armed');
+    new IntersectionObserver(function(es,o){es.forEach(function(e){if(e.isIntersecting){planEl.classList.add('inview');o.disconnect();}});},{threshold:.4}).observe(svg);
+  }
+
+  /* ---- FLUX: thermal flow field ---- */
+  var hero=document.getElementById('flux-hero'), cv=hero.querySelector('canvas'), ctx=cv.getContext('2d');
+  var W=0,H=0,dpr=Math.min(window.devicePixelRatio||1,2), parts=[], mouse={x:-1e4,y:-1e4,vx:0,vy:0}, t=0, running=false, visible=true;
+  function size(){var r=hero.getBoundingClientRect();W=r.width;H=r.height;cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);}
+  function seed(){parts=[];var n=Math.round(Math.min(900,W*H/520));for(var i=0;i<n;i++)parts.push({x:Math.random()*W,y:Math.random()*H,v:0});}
+  function field(x,y){return Math.sin(x*.006+t*.0004)*1.6+Math.cos(y*.008-t*.0003)*1.3+Math.sin((x+y)*.003)*.8;}
+  function col(s){ // thermal: cold -> warm -> hot
+    var stops=[[94,196,255],[255,181,71],[255,107,61]], k=Math.min(1,s/3.2)*2, i=Math.min(1,Math.floor(k)), f=k-i, a=stops[i], b=stops[i+1];
+    return 'rgba('+Math.round(a[0]+(b[0]-a[0])*f)+','+Math.round(a[1]+(b[1]-a[1])*f)+','+Math.round(a[2]+(b[2]-a[2])*f)+',';
+  }
+  function step(draw){
+    ctx.fillStyle='rgba(11,17,25,0.08)'; ctx.fillRect(0,0,W,H);
+    for(var i=0;i<parts.length;i++){var p=parts[i],ang=field(p.x,p.y),vx=Math.cos(ang)*1.1,vy=Math.sin(ang)*1.1;
+      var dx=p.x-mouse.x,dy=p.y-mouse.y,d2=dx*dx+dy*dy;
+      if(d2<16000){var f=(1-d2/16000);vx+=mouse.vx*f*.35+dx*f*.02;vy+=mouse.vy*f*.35+dy*f*.02;}
+      var ox=p.x,oy=p.y;p.x+=vx;p.y+=vy;p.v=p.v*.9+Math.hypot(vx,vy)*.1;
+      if(p.x<0||p.x>W||p.y<0||p.y>H){p.x=Math.random()*W;p.y=Math.random()*H;continue;}
+      ctx.strokeStyle=col(p.v)+'0.95)';ctx.lineWidth=1.3;ctx.beginPath();ctx.moveTo(ox,oy);ctx.lineTo(p.x,p.y);ctx.stroke();}
+    mouse.vx*=.9;mouse.vy*=.9;t+=16;
+  }
+  function loop(){if(!running)return;step();requestAnimationFrame(loop);}
+  function start(){if(running||reduce||!visible)return;running=true;requestAnimationFrame(loop);}
+  size();seed();ctx.fillStyle='#0b1119';ctx.fillRect(0,0,W,H);
+  for(var k=0;k<140;k++)step();
+  hero.addEventListener('pointermove',function(e){var r=hero.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;if(mouse.x>-1e3){mouse.vx=(x-mouse.x);mouse.vy=(y-mouse.y);}mouse.x=x;mouse.y=y;});
+  hero.addEventListener('pointerleave',function(){mouse.x=-1e4;mouse.y=-1e4;});
+  if('IntersectionObserver' in window){new IntersectionObserver(function(es){es.forEach(function(e){visible=e.isIntersecting;if(visible)start();else running=false;});}).observe(hero);} else start();
+  document.addEventListener('visibilitychange',function(){if(document.hidden)running=false;else start();});
+  var rt;window.addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(function(){size();seed();ctx.fillStyle='#0b1119';ctx.fillRect(0,0,W,H);if(reduce)for(var k=0;k<140;k++)step();},200);});
+
+  /* ---- INDEX: dithered portrait placeholder (abstract silhouette) ---- */
+  var dc=document.querySelector('canvas.dither'), dx=dc.getContext('2d'), w=dc.width, h=dc.height, img=dx.createImageData(w,h);
+  var bayer=[[0,8,2,10],[12,4,14,6],[3,11,1,9],[15,7,13,5]];
+  for(var y=0;y<h;y++)for(var x=0;x<w;x++){
+    var hx=(x-w*.5)/(w*.2),hy=(y-h*.36)/(h*.2),head=hx*hx+hy*hy;
+    var sx=(x-w*.5)/(w*.46),sy=(y-h*1.02)/(h*.42),sh=sx*sx+sy*sy;
+    var v=.92; if(head<1)v=.25+head*.35-(x/w)*.15; if(sh<1)v=Math.min(v,.3+sh*.3-(x/w)*.1);
+    v+= (y/h)*.05; var th=(bayer[y%4][x%4]+.5)/16, on=v>th?236:17, o=(y*w+x)*4;
+    img.data[o]=img.data[o+1]=on;img.data[o+2]=on===236?234:17;img.data[o+3]=255;}
+  dx.putImageData(img,0,0);
+
+  /* ---- INDEX: query bar over real project records ---- */
+  var data=[
+    {id:'PRJ-01',name:'Prince Edja',dom:['web','software'],stack:'à compléter',per:null,note:'client · seul'},
+    {id:'PRJ-02',name:'Retrouve Moi',dom:['mobile','software','cloud'],stack:'Flutter, Node.js, MongoDB, Firebase, Cloudflare R2',per:null},
+    {id:'PRJ-03',name:'Gestion de livraison',dom:['web','mobile','software'],stack:'Vue.js, Node.js, API REST',per:null,note:'stage · Smart Innovation 7'},
+    {id:'PRJ-04',name:'Data Engineering',dom:['data'],stack:'Python, Pandas',per:null,note:'travaux pratiques'},
+    {id:'PRJ-05',name:'Portfolio & CMS',dom:['web','software','cloud'],stack:'à définir (étape 7)',per:null,note:'ce site'}
+  ];
+  var tags=['web','mobile','software','data','cloud','ia'], active=null, q=document.getElementById('q'), rows=document.getElementById('rows'), chips=document.getElementById('chips'), count=document.getElementById('count');
+  tags.forEach(function(tg){var b=document.createElement('button');b.type='button';b.className='chip';b.textContent=tg;b.setAttribute('aria-pressed','false');
+    b.addEventListener('click',function(){active=active===tg?null:tg;Array.prototype.forEach.call(chips.children,function(c){c.setAttribute('aria-pressed',String(c.textContent===active));});render();});chips.appendChild(b);});
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+  function render(){var s=q.value.trim().toLowerCase();
+    var list=data.filter(function(d){var hay=(d.name+' '+d.dom.join(' ')+' '+d.stack+' '+(d.note||'')).toLowerCase();return(!s||hay.indexOf(s)>-1)&&(!active||d.dom.indexOf(active)>-1);});
+    rows.innerHTML=list.map(function(d){return '<tr><td>'+d.id+'</td><td>'+esc(d.name)+(d.note?'<br><span class="tbd">'+esc(d.note)+'</span>':'')+'</td><td>'+d.dom.join(' · ')+'</td><td>'+esc(d.stack)+'</td><td class="tbd">'+(d.per||'à compléter')+'</td></tr>';}).join('')||'<tr><td colspan="5" class="tbd">Aucun projet ne correspond. Le domaine « ia » sera alimenté depuis l\'admin.</td></tr>';
+    count.textContent=list.length+' / '+data.length+' enregistrements';}
+  q.addEventListener('input',render); render();
+})();
+</script>
