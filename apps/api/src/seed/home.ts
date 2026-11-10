@@ -1,3 +1,5 @@
+// INITIAL CONTENT, used only by scripts/import-seed.ts (pnpm --filter @portfolio/api db:seed).
+// Since admin module 3 the public site reads the database; edit content in the admin, not here.
 import type { Locale } from '@portfolio/shared/constants'
 
 /**

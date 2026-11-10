@@ -1,3 +1,5 @@
+// INITIAL CONTENT, used only by scripts/import-seed.ts (pnpm --filter @portfolio/api db:seed).
+// Since admin module 3 the public site reads the database; edit content in the admin, not here.
 /**
  * Technologies shown in the ribbon: only those confirmed in real projects (docs/07-contenus.md).
  * Logos: Simple Icons (CC0), 24×24 paths. Will be managed from the admin (Skills module).

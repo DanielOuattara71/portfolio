@@ -23,6 +23,9 @@ export const contactMessages = pgTable(
     message: text('message').notNull(),
     locale: varchar('locale', { length: 5 }).notNull(),
     status: contactStatus('status').notNull().default('new'),
+    readAt: timestamp('read_at', { withTimezone: true }),
+    answeredAt: timestamp('answered_at', { withTimezone: true }),
+    archivedAt: timestamp('archived_at', { withTimezone: true }),
   },
-  (t) => [index('contact_messages_created_at_idx').on(t.createdAt)],
+  (t) => [index('contact_messages_created_at_idx').on(t.createdAt), index('contact_messages_status_idx').on(t.status)],
 )
