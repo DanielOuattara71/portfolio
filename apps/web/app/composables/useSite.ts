@@ -1,16 +1,49 @@
+import type { PublishedContent } from '@portfolio/shared/content'
+
 /**
- * Site-wide settings. Temporary values: they will come from the admin
- * (Settings module: display name, email, social links, CV, availability).
+ * Site-wide settings, from the published Settings of the admin
+ * (display name, email, social links, CV, availability, photo).
  * `null` means "not provided yet": the related UI is hidden, never faked.
+ * Settings do not change during a visit, so a plain snapshot is enough.
  */
 export function useSite() {
+  // Read the state directly: on the "unavailable" error page, no content was loaded.
+  const published = useState<PublishedContent | null>('published-content').value
+  const s = published?.settings
+  const media = published?.media ?? {}
+  const { locale, t } = useI18n()
+  const lc = locale.value === 'fr' ? 'fr' : 'en'
+
+  const cvId = s?.cv[lc] ?? null
+  const cvUrl = cvId ? (media[cvId]?.file ?? null) : null
+
+  const photoMedia = s?.photoId ? media[s.photoId] : undefined
+  let photo: { src: string; srcset: string; alt: string | null } | null = null
+  if (photoMedia && photoMedia.kind === 'image' && photoMedia.variants.length) {
+    const sorted = [...photoMedia.variants].sort((a, b) => a.width - b.width)
+    const picked = sorted.find((v) => v.width >= 960) ?? sorted.at(-1)!
+    photo = {
+      src: picked.url,
+      srcset: sorted.map((v) => `${v.url} ${v.width}w`).join(', '),
+      alt: photoMedia.alt[lc] ?? null,
+    }
+  }
+
+  const publishedAvailability = s ? (s.availability[lc]?.trim() ? s.availability[lc]!.trim() : null) : null
+  const availability = s?.available ? (publishedAvailability ?? t('status.availableLong')) : t('status.unavailableLong')
+
   return {
-    name: null as string | null,
-    initials: null as string | null,
-    available: true,
-    email: null as string | null,
-    cvUrl: null as string | null,
-    links: [] as { label: string; href: string }[],
+    name: s?.name ?? null,
+    initials: s?.initials ?? null,
+    available: s?.available ?? false,
+    email: s?.email ?? null,
+    cvUrl,
+    links: s?.links ?? [],
+    contactOpen: s?.contactOpen ?? true,
+    photo,
+    availability,
+    timezone: s?.timezone ?? null,
+    city: s?.city ?? null,
   }
 }
 

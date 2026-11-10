@@ -8,6 +8,8 @@ const props = defineProps<{
   badge: string
   profile: { label: string; value: string | null }[]
   photoUrl?: string | null
+  photoSrcset?: string | null
+  photoAlt?: string | null
 }>()
 
 const { t } = useI18n()
@@ -38,18 +40,52 @@ function prev() {
   front.value = (front.value + cards.length - 1) % cards.length
 }
 
-// Drag / swipe: only clearly horizontal gestures; vertical page scroll is never blocked.
+// Drag / swipe (motion M-03): the front card follows the pointer with proportional rotation.
+// Only clearly horizontal gestures count; vertical page scroll is never blocked (touch-action).
+const cardsEl = ref<HTMLElement | null>(null)
 let startX: number | null = null
+let dragging = false
+
+function frontCard(): HTMLElement | null {
+  return cardsEl.value?.querySelector('[data-pos="0"]') ?? null
+}
+
 function onDown(e: PointerEvent) {
   startX = e.clientX
+  dragging = true
+  const el = frontCard()
+  if (el && !prefersReducedMotion()) el.style.transition = 'none'
 }
+
+function onMove(e: PointerEvent) {
+  if (!dragging || startX === null || prefersReducedMotion()) return
+  const el = frontCard()
+  if (!el) return
+  const dx = e.clientX - startX
+  // Follow the pointer, rotate proportionally (capped), skip vertical noise.
+  const x = Math.max(-160, Math.min(160, dx))
+  el.style.transform = `translateX(${x}px) rotate(${x * 0.08}deg)`
+}
+
 function onUp(e: PointerEvent) {
   if (startX === null) return
   const dx = e.clientX - startX
+  const el = frontCard()
+  if (el) el.style.transition = ''
   startX = null
+  dragging = false
   if (Math.abs(dx) > 40) {
+    // Fling: the card leaves in the drag direction, then the stack re-ranks (existing flow).
+    if (el) el.style.transform = ''
     if (dx < 0) next()
     else prev()
+  } else if (el && !prefersReducedMotion()) {
+    // Snap back to place.
+    el.style.transition = 'transform var(--duration-base) var(--ease-out)'
+    el.style.transform = ''
+    requestAnimationFrame(() => {
+      el.style.transition = ''
+    })
   } else {
     next()
   }
@@ -70,6 +106,7 @@ function onKey(e: KeyboardEvent) {
   <div class="stack">
 
     <div
+      ref="cardsEl"
       class="cards"
       tabindex="0"
       role="group"
@@ -77,11 +114,13 @@ function onKey(e: KeyboardEvent) {
       :aria-label="t('hero.stackLabel')"
       data-cursor="drag"
       @pointerdown="onDown"
+      @pointermove="onMove"
       @pointerup="onUp"
+      @pointercancel="onUp"
       @keydown="onKey"
     >
       <figure class="pc" :data-pos="pos(0)" :class="{ leaving: leaving === 0 }" :aria-hidden="front !== 0">
-        <img v-if="photoUrl" :src="photoUrl" :alt="t('hero.photoAlt')" class="media" />
+        <img v-if="photoUrl" :src="photoUrl" :srcset="photoSrcset ?? undefined" :alt="photoAlt ?? t('hero.photoAlt')" class="media" />
         <div v-else class="photo" role="img" :aria-label="t('hero.photoAlt')" />
         <figcaption><span>portrait.jpg</span><span v-if="!photoUrl && showPh" class="muted">{{ t('hero.photoMissing') }}</span></figcaption>
       </figure>
@@ -92,7 +131,7 @@ function onKey(e: KeyboardEvent) {
       </figure>
 
       <figure class="pc profile is-inverse" :data-pos="pos(2)" :class="{ leaving: leaving === 2 }" :aria-hidden="front !== 2">
-        <span class="big" aria-hidden="true">SWE<br />+ DATA</span>
+        <span class="big" aria-hidden="true">ON<br />DYX</span>
         <dl class="fields">
           <template v-for="f in visibleProfile" :key="f.label">
             <dt>{{ f.label }}</dt>

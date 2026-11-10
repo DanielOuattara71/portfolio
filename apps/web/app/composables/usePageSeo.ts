@@ -7,6 +7,8 @@ export function usePageSeo(opts: {
   title: () => string | null
   description: () => string
   robots?: string
+  /** Share image URL (project seo.imageId). Falls back to /og-image.png. */
+  image?: () => string | null | undefined
   /** Extra schema.org nodes for this page (merged into one @graph). */
   jsonLd?: () => Record<string, unknown>[]
 }) {
@@ -16,20 +18,20 @@ export function usePageSeo(opts: {
     const title = opts.title()
     return title ? `${title} · ${display.value.text}` : display.value.text
   })
-  const image = `${config.public.siteUrl.replace(/\/$/, '')}/og-image.png`
+  const image = computed(() => opts.image?.() || `${config.public.siteUrl.replace(/\/$/, '')}/og-image.png`)
 
   useSeoMeta({
     title: () => opts.title(),
     description: opts.description,
     ogTitle: () => fullTitle.value,
     ogDescription: opts.description,
-    ogImage: image,
+    ogImage: () => image.value,
     ogImageWidth: 1200,
     ogImageHeight: 630,
     ogImageAlt: () => display.value.text,
     twitterTitle: () => fullTitle.value,
     twitterDescription: opts.description,
-    twitterImage: image,
+    twitterImage: () => image.value,
     ...(opts.robots ? { robots: opts.robots } : {}),
   })
 

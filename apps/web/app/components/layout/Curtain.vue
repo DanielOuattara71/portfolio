@@ -4,7 +4,10 @@
 
 <template>
   <div id="curtain" class="curtain" aria-hidden="true">
-    <span id="curtain-route" class="route" />
+    <div class="route-wrap">
+      <span id="curtain-route" class="route" />
+      <span class="ondyx" aria-hidden="true">ONDYX</span>
+    </div>
   </div>
 </template>
 
@@ -22,7 +25,20 @@
   visibility: hidden;
 }
 
+.route-wrap {
+  display: grid;
+  justify-items: center;
+  gap: 18px;
+}
+
 .route {
   font: 400 14px/1 var(--font-data);
+}
+
+.ondyx {
+  font: 800 clamp(46px, 11vw, 148px)/1 var(--font-display);
+  letter-spacing: 0.35em;
+  padding-left: 0.35em;
+  color: var(--marker);
 }
 </style>

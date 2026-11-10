@@ -25,7 +25,9 @@
   },
   "status": {
     "available": "Available",
-    "availableLong": "Available · remote"
+    "availableLong": "Available · remote",
+    "unavailable": "Unavailable",
+    "unavailableLong": "Unavailable for new projects"
   },
   "cta": {
     "projects": "See my work",
@@ -49,7 +51,7 @@
   "footer": {
     "title": "Let's build something",
     "titleAccent": "reliable",
-    "role": "Software & Data Engineer",
+    "role": "ONDYX",
     "modes": "FR · EN · remote",
     "legal": "Legal notice",
     "privacy": "Privacy",
@@ -57,8 +59,8 @@
   },
   "pages": {
     "home": {
-      "title": "Software & Data Engineer",
-      "description": "Software & Data Engineer: I design and build web and mobile apps end to end, bring in AI and automation, and specialise in data and the cloud."
+      "title": "ONDYX",
+      "description": "ONDYX: I design and build web and mobile apps end to end, bring in AI and automation, and specialise in data and the cloud."
     },
     "projects": {
       "title": "Projects",
@@ -269,6 +271,10 @@
       "email": "email",
       "links": "links · cv",
       "availability": "availability"
+    },
+    "closed": {
+      "title": "The form is closed.",
+      "text": "I'm not taking messages at the moment. Useful information stays below."
     }
   },
   "placeholder": {
@@ -341,5 +347,11 @@
   "ph": {
     "media": "Screenshot coming",
     "link": "Link to provide (required before publishing)"
+  },
+  "unavailable": {
+    "title": "Service",
+    "titleOutline": "unavailable.",
+    "text": "The site is temporarily unavailable. Please try again in a few minutes.",
+    "query": "status > 503 · please retry"
   }
 }

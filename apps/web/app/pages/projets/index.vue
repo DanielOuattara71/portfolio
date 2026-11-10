@@ -4,8 +4,10 @@ const { t } = useI18n()
 const projects = useProjects()
 const grid = ref<HTMLElement | null>(null)
 const { domain, query, visible, count, options } = useProjectFilter(projects, grid)
+const blocks = useTextBlocks()
+const pageLead = computed(() => blocks.value.introProjects?.pageLead ?? null)
 
-usePageSeo({ title: () => t('pages.projects.title'), description: () => t('pages.projects.description') })
+usePageSeo({ title: () => blocks.value.seoProjects?.title ?? t('pages.projects.title'), description: () => blocks.value.seoProjects?.description ?? t('pages.projects.description') })
 </script>
 
 <template>
@@ -18,7 +20,8 @@ usePageSeo({ title: () => t('pages.projects.title'), description: () => t('pages
         :count="t('projects.count', { n: projects.length }, projects.length)"
         ghost="Records"
       >
-        {{ t('projectsPage.lead') }}
+        <template v-if="pageLead"><template v-for="(seg, i) in pageLead" :key="i"><span v-if="seg.accent" class="acc">{{ seg.text }}</span><template v-else>{{ seg.text }}</template></template></template>
+        <template v-else>{{ t('projectsPage.lead') }}</template>
       </UiSectionTitle>
 
       <UiQueryBar id="projects-query" v-model="query" class="q" :placeholder="t('filters.placeholder')" />

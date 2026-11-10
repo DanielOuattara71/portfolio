@@ -48,8 +48,8 @@ function onLeave() {
 onMounted(() => {
   check()
   if (disc.value) {
-    xTo = gsap.quickTo(disc.value, 'x', { duration: 0.35, ease: 'power3.out' })
-    yTo = gsap.quickTo(disc.value, 'y', { duration: 0.35, ease: 'power3.out' })
+    xTo = gsap.quickTo(disc.value, 'x', { duration: 0.35, ease: EASE.out })
+    yTo = gsap.quickTo(disc.value, 'y', { duration: 0.35, ease: EASE.out })
   }
   window.addEventListener('pointermove', onMove, { passive: true })
   document.documentElement.addEventListener('pointerleave', onLeave)

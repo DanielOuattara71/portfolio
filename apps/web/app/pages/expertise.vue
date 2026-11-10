@@ -7,17 +7,23 @@ const localePath = useLocalePath()
 const domains = useDomains()
 const skills = useSkills()
 const services = useServices()
+const blocks = useTextBlocks()
+const expLead = computed(() => blocks.value.introExpertise?.lead ?? null)
+const skillsLead = computed(() => blocks.value.introExpertise?.skillsLead ?? null)
+const svcTitle = computed(() => blocks.value.introServices?.servicesTitle ?? t('expertisePage.services'))
+const svcLead = computed(() => blocks.value.introServices?.servicesLead ?? null)
 
 const columns = computed(() => SKILL_LEVELS.map((level) => ({ level, items: skills.value.filter((s) => s.level === level) })))
 
-usePageSeo({ title: () => t('pages.expertise.title'), description: () => t('pages.expertise.description') })
+usePageSeo({ title: () => blocks.value.seoExpertise?.title ?? t('pages.expertise.title'), description: () => blocks.value.seoExpertise?.description ?? t('pages.expertise.description') })
 </script>
 
 <template>
   <div>
     <section class="wrap head">
       <UiSectionTitle tag="h1" :title="t('pages.expertise.route')" :count="t('expertisePage.domainsCount', { n: domains.length })" ghost="Expertise">
-        {{ t('expertisePage.lead') }}
+        <template v-if="expLead"><template v-for="(seg, i) in expLead" :key="i"><span v-if="seg.accent" class="acc">{{ seg.text }}</span><template v-else>{{ seg.text }}</template></template></template>
+        <template v-else>{{ t('expertisePage.lead') }}</template>
       </UiSectionTitle>
       <ul v-reveal="'stagger'" class="domains">
         <li v-for="(d, i) in domains" :key="d.key" class="dom">
@@ -33,7 +39,8 @@ usePageSeo({ title: () => t('pages.expertise.title'), description: () => t('page
       <div class="wrap">
         <div class="panel panel--light">
           <UiSectionTitle id="exp-skills" :title="t('expertisePage.skills')" :count="t('expertisePage.skillsCount')" ghost="Skills">
-            {{ t('expertisePage.skillsLead') }}
+            <template v-if="skillsLead"><template v-for="(seg, i) in skillsLead" :key="i"><span v-if="seg.accent" class="acc">{{ seg.text }}</span><template v-else>{{ seg.text }}</template></template></template>
+            <template v-else>{{ t('expertisePage.skillsLead') }}</template>
           </UiSectionTitle>
           <div v-reveal="'stagger'" class="matrix">
             <div v-for="col in columns" :key="col.level" class="mcol">
@@ -58,8 +65,9 @@ usePageSeo({ title: () => t('pages.expertise.title'), description: () => t('page
 
     <section class="sec" aria-labelledby="exp-services">
       <div class="wrap">
-        <UiSectionTitle id="exp-services" :title="t('expertisePage.services')" :count="`[${services.length}]`">
-          {{ t('expertisePage.servicesLead') }}
+        <UiSectionTitle id="exp-services" :title="svcTitle" :count="`[${services.length}]`">
+          <template v-if="svcLead"><template v-for="(seg, i) in svcLead" :key="i"><span v-if="seg.accent" class="acc">{{ seg.text }}</span><template v-else>{{ seg.text }}</template></template></template>
+          <template v-else>{{ t('expertisePage.servicesLead') }}</template>
         </UiSectionTitle>
         <div v-reveal="'stagger'" class="svc">
           <article v-for="s in services" :key="s.title" class="card is-inverse">

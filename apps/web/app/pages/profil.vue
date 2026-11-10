@@ -6,8 +6,21 @@ const site = useSite()
 const profile = useProfile()
 const bg = useBackground()
 const facts = computed(() => profile.value.facts.filter((f) => f.value))
+const blocks = useTextBlocks()
+const bgTitle = computed(() => blocks.value.introProfile?.pageTitle ?? t('profilePage.background'))
+const bgLead = computed(() => blocks.value.introProfile?.pageLead ?? null)
+const { locale } = useI18n()
+const published = usePublished()
+const certifications = computed(() =>
+  published.value.certifications.map(({ doc }) => ({
+    name: doc.name[locale.value === 'fr' ? 'fr' : 'en'],
+    issuer: doc.issuer,
+    issuedOn: doc.issuedOn,
+    credentialUrl: doc.credentialUrl,
+  })),
+)
 
-usePageSeo({ title: () => t('pages.profile.title'), description: () => t('pages.profile.description') })
+usePageSeo({ title: () => blocks.value.seoProfile?.title ?? t('pages.profile.title'), description: () => blocks.value.seoProfile?.description ?? t('pages.profile.description') })
 </script>
 
 <template>
@@ -22,7 +35,13 @@ usePageSeo({ title: () => t('pages.profile.title'), description: () => t('pages.
             <UiButton :label="t('cta.contact')" :to="localePath('contact')" :variant="site.cvUrl ? 'secondary' : 'primary'" />
           </div>
         </div>
-        <UiPortrait v-reveal class="photo" :alt="t('profilePage.portraitAlt')" />
+        <UiPortrait
+          v-reveal
+          class="photo"
+          :src="site.photo?.src ?? null"
+          :srcset="site.photo?.srcset ?? null"
+          :alt="site.photo?.alt ?? t('profilePage.portraitAlt')"
+        />
       </div>
       <dl v-if="facts.length" v-reveal="'stagger'" class="facts">
         <div v-for="f in facts" :key="f.label" class="fact">
@@ -46,8 +65,9 @@ usePageSeo({ title: () => t('pages.profile.title'), description: () => t('pages.
     <section id="parcours" class="sec" aria-labelledby="profile-background">
       <div class="wrap">
         <div class="panel is-inverse">
-          <UiSectionTitle id="profile-background" :title="t('profilePage.background')" ghost="Background">
-            {{ t('profilePage.backgroundLead') }}
+          <UiSectionTitle id="profile-background" :title="bgTitle" ghost="Background">
+            <template v-if="bgLead"><template v-for="(seg, i) in bgLead" :key="i"><span v-if="seg.accent" class="acc">{{ seg.text }}</span><template v-else>{{ seg.text }}</template></template></template>
+            <template v-else>{{ t('profilePage.backgroundLead') }}</template>
           </UiSectionTitle>
           <template v-for="group in (['experience', 'education'] as const)" :key="group">
             <h3 v-if="bg[group].length" class="group">{{ t(`profilePage.${group}`) }}</h3>
@@ -67,6 +87,19 @@ usePageSeo({ title: () => t('pages.profile.title'), description: () => t('pages.
                   >
                     {{ t('profilePage.caseStudy', { name: item.project.name }) }} →
                   </NuxtLink>
+                </div>
+              </li>
+            </ul>
+          </template>
+          <template v-if="certifications.length">
+            <h3 class="group">Certifications</h3>
+            <ul v-reveal="'stagger'" class="timeline">
+              <li v-for="cert in certifications" :key="cert.name">
+                <p class="when">{{ cert.issuedOn ? cert.issuedOn.slice(0, 4) : '' }}</p>
+                <div class="what">
+                  <h4>{{ cert.name }}</h4>
+                  <p class="role">{{ cert.issuer }}</p>
+                  <a v-if="cert.credentialUrl" class="more" :href="cert.credentialUrl" target="_blank" rel="noopener">Vérification ↗</a>
                 </div>
               </li>
             </ul>

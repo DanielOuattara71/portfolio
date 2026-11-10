@@ -1,21 +1,21 @@
-import { projectsSeed } from '../../app/content/projects'
-
 /**
  * Sitemap with language alternates: every URL lists its FR and EN versions (hreflang) and x-default (EN).
- * Legal pages are noindex, so they are left out.
+ * Project pages come from the published content; legal pages are noindex, so they are left out.
  */
-export default defineEventHandler((event) => {
+export default defineEventHandler(async (event) => {
+  const { projects } = await getPublishedContent()
   const config = useRuntimeConfig(event)
   const site = String(config.public.siteUrl || 'http://localhost:3000').replace(/\/$/, '')
 
   // FR path → EN path. Mirrors the translated routes in nuxt.config (i18n.pages).
+  // Projects marked "do not index" (seo.index false) stay out of the sitemap.
   const pairs: { fr: string; en: string }[] = [
     { fr: '', en: '' },
     { fr: '/projets', en: '/projects' },
     { fr: '/profil', en: '/profile' },
     { fr: '/expertise', en: '/expertise' },
     { fr: '/contact', en: '/contact' },
-    ...projectsSeed.map((p) => ({ fr: `/projets/${p.slug.fr}`, en: `/projects/${p.slug.en}` })),
+    ...projects.filter((p) => p.doc.seo?.index !== false).map((p) => ({ fr: `/projets/${p.doc.slug.fr}`, en: `/projects/${p.doc.slug.en}` })),
   ]
 
   const entry = (loc: string, pair: { fr: string; en: string }) => {

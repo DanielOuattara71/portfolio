@@ -1,11 +1,11 @@
 <script setup lang="ts">
 /** Portrait photo (4:5). Neutral silhouette until the real photo is uploaded in the admin. */
-defineProps<{ src?: string | null; alt: string }>()
+defineProps<{ src?: string | null; srcset?: string | null; alt: string }>()
 </script>
 
 <template>
   <div class="portrait">
-    <img v-if="src" :src="src" :alt="alt" loading="lazy" />
+    <img v-if="src" :src="src" :srcset="srcset ?? undefined" :alt="alt" loading="lazy" />
     <div v-else class="ph" role="img" :aria-label="alt" />
   </div>
 </template>

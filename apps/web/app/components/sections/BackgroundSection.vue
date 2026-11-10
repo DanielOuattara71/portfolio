@@ -3,14 +3,19 @@
 const { t } = useI18n()
 const bg = useBackground()
 const rows = computed(() => [...bg.value.experience, ...bg.value.education])
+const blocks = useTextBlocks()
+const bgTitle = computed(() => blocks.value.introBackground?.title ?? t('home.background.title'))
+const bgLead = computed(() => blocks.value.introBackground?.lead ?? null)
+const bgLeadText = computed(() => (bgLead.value ?? []).map((s) => s.text).join(''))
 </script>
 
 <template>
   <section class="sec" aria-labelledby="home-background">
     <div class="wrap">
       <div class="panel is-inverse">
-        <UiSectionTitle id="home-background" :title="t('home.background.title')" ghost="Background">
-          {{ t('home.background.lead') }}
+        <UiSectionTitle id="home-background" :title="bgTitle" ghost="Background">
+          <template v-if="bgLead"><template v-for="(seg, i) in bgLead" :key="i"><span v-if="seg.accent" class="acc">{{ seg.text }}</span><template v-else>{{ seg.text }}</template></template></template>
+          <template v-else>{{ t('home.background.lead') }}</template>
         </UiSectionTitle>
         <ul v-reveal="'stagger'" class="rows">
           <li v-for="r in rows" :key="r.org">

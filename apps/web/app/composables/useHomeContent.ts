@@ -1,13 +1,33 @@
-import type { Locale } from '@portfolio/shared/constants'
-import { homeSeed } from '~/content/home'
-import { techSeed } from '~/content/tech'
-
-/** Home content for the current language. Seed data until the API serves it (same shape). */
+/** Home hero and technology ribbon, from the published content (admin: Texts > Hero, Skills > ribbon). */
 export function useHomeContent() {
-  const { locale } = useI18n()
-  return computed(() => homeSeed[locale.value as Locale] ?? homeSeed.en)
+  const content = usePublished()
+  const lc = useLocaleCode()
+  return computed(() => content.value.blocks.hero![lc.value])
+}
+
+export interface TechItem {
+  name: string
+  bg?: string
+  fg?: string
+  path?: string
+  short?: string
 }
 
 export function useTechStack() {
-  return techSeed
+  const content = usePublished()
+  return computed<TechItem[]>(() =>
+    content.value.skills
+      .filter((s) => s.doc.ribbon)
+      .sort((a, b) => a.doc.ribbon!.position - b.doc.ribbon!.position)
+      .map(({ doc }) => {
+        const r = doc.ribbon!
+        return {
+          name: r.label ?? doc.name.en,
+          ...(r.bg ? { bg: r.bg } : {}),
+          ...(r.fg ? { fg: r.fg } : {}),
+          ...(r.path ? { path: r.path } : {}),
+          ...(r.short ? { short: r.short } : {}),
+        }
+      }),
+  )
 }

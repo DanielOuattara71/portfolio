@@ -12,6 +12,11 @@ const site = useSite()
 const year = new Date().getFullYear()
 const display = useDisplayName()
 const parts = computed(() => display.value.words)
+const blocks = useTextBlocks()
+const footTitle = computed(() => blocks.value.footer?.title ?? t('footer.title'))
+const footAccent = computed(() => blocks.value.footer?.accent ?? t('footer.titleAccent'))
+const footRole = computed(() => blocks.value.footer?.role ?? t('footer.role'))
+const footModes = computed(() => blocks.value.footer?.modes ?? t('footer.modes'))
 const onContact = computed(() => String(route.name ?? '').startsWith('contact'))
 
 const root = ref<HTMLElement | null>(null)
@@ -64,7 +69,7 @@ watch(() => route.fullPath, () => nextTick(() => ScrollTrigger.refresh()))
     <div class="wrap">
       <div class="panel is-inverse">
         <div class="lead">
-          <h2>{{ t('footer.title') }} <span class="acc">{{ t('footer.titleAccent') }}</span>.</h2>
+          <h2>{{ footTitle }} <span class="acc">{{ footAccent }}</span>.</h2>
           <NuxtLink v-if="!onContact" v-magnetic class="round" :to="localePath('contact')" data-cursor="go">
             <span>{{ t('cta.start') }}<span class="arrow" aria-hidden="true">↗</span></span>
           </NuxtLink>
@@ -84,7 +89,7 @@ watch(() => route.fullPath, () => nextTick(() => ScrollTrigger.refresh()))
         </div>
 
         <div class="legal">
-          <span>© {{ year }} · {{ t('footer.role') }} · {{ t('footer.modes') }}</span>
+          <span>© {{ year }} · {{ footRole }} · {{ footModes }}</span>
           <span class="links">
             <NuxtLink :to="localePath('mentions-legales')">{{ t('footer.legal') }}</NuxtLink>
             <NuxtLink :to="localePath('confidentialite')">{{ t('footer.privacy') }}</NuxtLink>

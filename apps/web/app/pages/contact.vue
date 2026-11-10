@@ -16,6 +16,8 @@ const localePath = useLocalePath()
 const site = useSite()
 const lc = useLocaleCode()
 const config = useRuntimeConfig()
+const blocks = useTextBlocks()
+const contactLead = computed(() => blocks.value.introContact?.lead ?? null)
 
 const queryProfile = String(route.query.profile ?? '')
 const profile = ref<Profile>((CONTACT_PROFILES as readonly string[]).includes(queryProfile) ? (queryProfile as Profile) : 'client')
@@ -97,7 +99,8 @@ async function submit() {
   } catch (e: unknown) {
     status.value = 'error'
     const statusCode = (e as { statusCode?: number }).statusCode
-    serverError.value = statusCode === 429 ? t('contactPage.errors.rate') : t('contactPage.errors.server')
+    const data = (e as { data?: { error?: string } }).data
+    serverError.value = data?.error === 'closed' ? t('contactPage.closed.text') : statusCode === 429 ? t('contactPage.errors.rate') : t('contactPage.errors.server')
   }
 }
 
@@ -122,18 +125,23 @@ watch(
   },
 )
 
-usePageSeo({ title: () => t('pages.contact.title'), description: () => t('pages.contact.description') })
+usePageSeo({ title: () => blocks.value.seoContact?.title ?? t('pages.contact.title'), description: () => blocks.value.seoContact?.description ?? t('pages.contact.description') })
 </script>
 
 <template>
   <section class="wrap page">
     <UiSectionTitle tag="h1" :title="t('pages.contact.route')" ghost="Contact">
-      {{ t('contactPage.lead') }}
+      <template v-if="contactLead"><template v-for="(seg, i) in contactLead" :key="i"><span v-if="seg.accent" class="acc">{{ seg.text }}</span><template v-else>{{ seg.text }}</template></template></template>
+      <template v-else>{{ t('contactPage.lead') }}</template>
     </UiSectionTitle>
 
     <div class="layout">
       <div>
-        <div v-if="status === 'sent'" ref="success" class="ok" tabindex="-1" role="status">
+        <div v-if="!site.contactOpen" ref="success" class="ok" tabindex="-1" role="status">
+          <h2>{{ t('contactPage.closed.title') }}</h2>
+          <p>{{ t('contactPage.closed.text') }}</p>
+        </div>
+        <div v-else-if="status === 'sent'" ref="success" class="ok" tabindex="-1" role="status">
           <h2>{{ t('contactPage.success.title') }}</h2>
           <p>{{ t('contactPage.success.text') }}</p>
         </div>
@@ -258,7 +266,7 @@ usePageSeo({ title: () => t('pages.contact.title'), description: () => t('pages.
         </div>
         <div class="box is-inverse">
           <span class="lab">{{ t('contactPage.aside.availability') }}</span>
-          <span>{{ t('status.availableLong') }}</span>
+          <span>{{ site.availability }}</span>
         </div>
       </aside>
     </div>

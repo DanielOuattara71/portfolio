@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { TextSegment } from '~/content/home'
+import type { TextSegment } from '@portfolio/shared/content'
 
 /** Paragraphs made of text segments; accent segments use the italic serif (accent-italic). */
 defineProps<{ paragraphs: TextSegment[][] }>()

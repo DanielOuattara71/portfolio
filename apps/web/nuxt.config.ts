@@ -3,14 +3,18 @@ export default defineNuxtConfig({
   compatibilityDate: '2026-11-01',
   devtools: { enabled: false },
 
-  modules: ['@nuxtjs/i18n', '@nuxt/fonts'],
+  modules: ['@nuxtjs/i18n', '@nuxt/fonts', '@sentry/nuxt'],
 
   css: ['@portfolio/design-tokens/tokens.css', '~/assets/styles/base.css'],
 
   runtimeConfig: {
+    // Shared secret with the API for on-demand refresh after a publication (NUXT_REVALIDATE_TOKEN).
+    revalidateToken: '',
     public: {
       siteUrl: 'http://localhost:3000',
       apiBase: 'http://localhost:8787',
+      // Public Sentry DSN (NUXT_PUBLIC_SENTRY_DSN). Empty in dev: Sentry stays silent.
+      sentryDsn: '',
       // Shows "to provide" placeholders and unconfirmed draft copy (review mode). Off in production;
       // set NUXT_PUBLIC_SHOW_PLACEHOLDERS=true locally to review what still needs content.
       showPlaceholders: false,
@@ -64,6 +68,19 @@ export default defineNuxtConfig({
       contact: { fr: '/contact', en: '/contact' },
       'mentions-legales': { fr: '/mentions-legales', en: '/legal-notice' },
       confidentialite: { fr: '/confidentialite', en: '/privacy' },
+    },
+  },
+
+  // Production security headers (step 20). The CSP starts in report-only Vercel-side when required;
+  // the static headers below never carry a secret and stay identical in dev/prod.
+  routeRules: {
+    '/**': {
+      headers: {
+        'X-Frame-Options': 'DENY',
+        'X-Content-Type-Options': 'nosniff',
+        'Referrer-Policy': 'strict-origin-when-cross-origin',
+        'Permissions-Policy': 'camera=(), microphone=(), geolocation=()',
+      },
     },
   },
 

@@ -3,14 +3,18 @@
 withDefaults(defineProps<{ headingId?: string }>(), { headingId: 'approach' })
 const { t } = useI18n()
 const steps = useApproach()
+const blocks = useTextBlocks()
+const apTitle = computed(() => blocks.value.introApproach?.title ?? t('home.approach.title'))
+const apLead = computed(() => blocks.value.introApproach?.lead ?? null)
 </script>
 
 <template>
   <section class="sec" :aria-labelledby="headingId">
     <div class="wrap">
       <div class="panel panel--light">
-        <UiSectionTitle :id="headingId" :title="t('home.approach.title')">
-          {{ t('home.approach.lead') }}
+        <UiSectionTitle :id="headingId" :title="apTitle">
+          <template v-if="apLead"><template v-for="(seg, i) in apLead" :key="i"><span v-if="seg.accent" class="acc">{{ seg.text }}</span><template v-else>{{ seg.text }}</template></template></template>
+          <template v-else>{{ t('home.approach.lead') }}</template>
         </UiSectionTitle>
         <ol v-reveal="'stagger'" class="timeline">
           <li v-for="(s, i) in steps" :key="s.title" class="step">

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { setHeader } from 'h3'
 /**
  * Case study page (docs/07-contenus.md §4, 10-maquettes.md §3, prompt 15).
  * Reusable data from useProjectBySlug; empty sections hidden; no fake screenshots.
@@ -9,9 +10,33 @@ const { t, locale } = useI18n()
 const route = useRoute()
 const localePath = useLocalePath()
 const slug = computed(() => String(route.params.slug))
+
+// Private preview: ?apercu={token} renders the working copy on its real page (banner, noindex, no cache).
+const previewToken = typeof route.query.apercu === 'string' && route.query.apercu ? route.query.apercu : null
+const previewPending = ref<string[]>([])
+if (previewToken) {
+  try {
+    const base = useRuntimeConfig().public.apiBase.replace(/\/$/, '')
+    const preview = await $fetch(`${base}/public/preview/${encodeURIComponent(previewToken)}`)
+    useState('published-content').value = preview
+    previewPending.value = (preview as unknown as { preview?: { pendingFields?: string[] } }).preview?.pendingFields ?? []
+    const ev = useRequestEvent()
+    if (ev) {
+      setHeader(ev, 'Cache-Control', 'private, no-store')
+      setHeader(ev, 'X-Robots-Tag', 'noindex, nofollow')
+    }
+  } catch {
+    throw createError({ statusCode: 404, statusMessage: 'Preview not found', fatal: false })
+  }
+}
+const isPreview = computed(() => !!previewToken)
+
 const project = useProjectBySlug(slug)
 
 if (!project.value) {
+  const lc = locale.value === 'fr' ? 'fr' : 'en'
+  const redir = usePublished().value.redirects?.find((x) => x.type === 'project' && x.locale === lc && x.from === slug.value && x.to)
+  if (redir?.to) await navigateTo(localePath({ name: 'projets-slug', params: { slug: redir.to } }), { redirectCode: 301, replace: true })
   throw createError({ statusCode: 404, statusMessage: 'Record not found', fatal: false })
 }
 
@@ -88,9 +113,30 @@ onBeforeUnmount(() => {
 
 const config = useRuntimeConfig()
 const siteUrl = config.public.siteUrl.replace(/\/$/, '')
+const pubMedia = usePublished()
+function seoImage(): string | null {
+  const p = project.value
+  if (!p?.seo?.imageId) return null
+  const m = pubMedia.value.media[p.seo.imageId]
+  if (!m || m.kind !== 'image' || !m.variants.length) return null
+  const sorted = [...m.variants].sort((a, b) => a.width - b.width)
+  return (sorted.find((v) => v.width >= 1200) ?? sorted.at(-1)!)?.url ?? null
+}
 usePageSeo({
-  title: () => `${project.value?.name ?? ''} · ${t('pages.project.title')}`,
-  description: () => project.value?.summary ?? '',
+  title: () => {
+    const p = project.value
+    if (!p) return ''
+    const lc = locale.value === 'fr' ? 'fr' : 'en'
+    return p.seo?.title?.[lc] ?? `${p.name} · ${t('pages.project.title')}`
+  },
+  description: () => {
+    const p = project.value
+    if (!p) return ''
+    const lc = locale.value === 'fr' ? 'fr' : 'en'
+    return p.seo?.description?.[lc] ?? p.summary ?? ''
+  },
+  robots: isPreview.value || project.value?.seo?.index === false ? 'noindex,nofollow' : undefined,
+  image: () => seoImage(),
   jsonLd: () => {
     const p = project.value
     if (!p) return []
@@ -122,6 +168,11 @@ usePageSeo({
 
 <template>
   <div v-if="project" class="page">
+    <div v-if="isPreview" class="wrap preview-banner" role="status">
+      <b>Aperçu — non publié</b>
+      <span v-if="previewPending.length" class="small">{{ previewPending.length }} champ(s) « à valider » restant(s) : {{ previewPending.join(', ') }}</span>
+      <span v-else class="small">Copie de travail, non visible des visiteurs.</span>
+    </div>
     <header class="wrap hero">
       <NuxtLink class="back" :to="localePath('projets')">← {{ t('cta.backProjects') }}</NuxtLink>
       <div class="badges">
@@ -150,7 +201,7 @@ usePageSeo({
 
     <div v-if="project.cover || showPh" class="wrap hero-media">
       <div class="media-frame">
-        <img v-if="project.cover" :src="project.cover" :alt="t('case.heroAlt')" class="media-img" fetchpriority="high" />
+        <img v-if="project.cover" :src="project.cover" :srcset="project.coverSrcset ?? undefined" :alt="project.coverAlt ?? t('case.heroAlt')" class="media-img" fetchpriority="high" decoding="async" />
         <div v-else class="placeholder">
           <span>{{ t('ph.media') }}</span>
         </div>
@@ -239,15 +290,21 @@ usePageSeo({
         <section v-if="c.gallery.length || showPh" id="gallery" data-toc class="block">
           <h2>{{ t('case.gallery') }}</h2>
           <div v-if="c.gallery.length" class="gallery">
-            <button
-              v-for="(src, i) in c.gallery"
-              :key="src"
-              type="button"
-              class="shot"
-              @click="openLightbox(src)"
+            <figure
+              v-for="(g, i) in c.gallery"
+              :key="g.src"
+              class="shot-fig"
             >
-              <img :src="src" :alt="`${t('case.galleryAlt')} ${i + 1}`" loading="lazy" />
-            </button>
+              <button
+                type="button"
+                class="shot"
+                :aria-label="g.alt || `${t('case.galleryAlt')} ${i + 1}`"
+                @click="openLightbox(g.src)"
+              >
+                <img :src="g.src" :srcset="g.srcset" :alt="g.alt || `${t('case.galleryAlt')} ${i + 1}`" loading="lazy" decoding="async" />
+              </button>
+              <figcaption v-if="g.caption" class="shot-cap">{{ g.caption }}</figcaption>
+            </figure>
           </div>
           <div v-else class="gallery gallery--ph">
             <div v-for="n in 3" :key="n" class="placeholder placeholder--shot">
@@ -289,6 +346,30 @@ usePageSeo({
   position: relative;
   z-index: 2;
   padding-block: 32px 64px;
+}
+
+.preview-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  background: var(--surface-sunken);
+  border: 1px dashed var(--line);
+  color: var(--ink);
+}
+
+.shot-fig {
+  margin: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.shot-cap {
+  font: 400 12px/1.4 var(--font-data);
+  color: var(--ink-muted);
 }
 
 .back {
@@ -592,10 +673,33 @@ tbody th {
   border-radius: var(--radius-lg);
   background: var(--surface-raised);
   overflow: hidden;
+  /* Motion M-11: image grows from centre; opacity only, no layout cost */
+  animation: lightbox-in var(--duration-slow) var(--ease-out);
 }
 
 .lightbox::backdrop {
   background: color-mix(in srgb, var(--ink) 55%, transparent);
+  animation: lightbox-backdrop-in var(--duration-base) var(--ease-out);
+}
+
+@keyframes lightbox-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes lightbox-backdrop-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .lightbox img {

@@ -4,6 +4,9 @@ withDefaults(defineProps<{ showLink?: boolean }>(), { showLink: true })
 const { t } = useI18n()
 const services = useServices()
 const open = ref(0)
+const blocks = useTextBlocks()
+const homeTitle = computed(() => blocks.value.introServices?.homeTitle ?? t('home.services.title'))
+const homeLead = computed(() => blocks.value.introServices?.homeLead ?? null)
 
 function toggle(i: number) {
   open.value = open.value === i ? -1 : i
@@ -14,8 +17,11 @@ function toggle(i: number) {
   <section class="sec" aria-labelledby="home-services">
     <div class="wrap">
       <div class="panel panel--light">
-        <UiSectionTitle id="home-services" :title="t('home.services.title')" ghost="Services">
-          <i18n-t keypath="home.services.lead" scope="global">
+        <UiSectionTitle id="home-services" :title="homeTitle" ghost="Services">
+          <template v-if="homeLead">
+            <template v-for="(seg, i) in homeLead" :key="i"><span v-if="seg.accent" class="acc">{{ seg.text }}</span><template v-else>{{ seg.text }}</template></template>
+          </template>
+          <i18n-t v-else keypath="home.services.lead" scope="global">
             <template #accent><span class="acc">{{ t('home.services.leadAccent') }}</span></template>
           </i18n-t>
         </UiSectionTitle>

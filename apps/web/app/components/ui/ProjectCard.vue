@@ -16,7 +16,7 @@ const fields = computed(() => [
 <template>
   <NuxtLink class="card" :to="localePath({ name: 'projets-slug', params: { slug: project.slug } })" data-cursor="view">
     <div class="media">
-      <img v-if="project.cover" :src="project.cover" alt="" class="zoom" loading="lazy" decoding="async" />
+      <img v-if="project.cover" :src="project.cover" :srcset="project.coverSrcset ?? undefined" :alt="project.coverAlt ?? project.name" class="zoom" loading="lazy" decoding="async" />
       <div v-else class="zoom ph" aria-hidden="true" />
       <div class="badges">
         <UiBadge variant="id">{{ project.id }}</UiBadge>

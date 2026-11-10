@@ -21,7 +21,7 @@ const magnetic: Directive<MagneticEl, number | undefined> = {
         x: (e.clientX - r.left - r.width / 2) * strength,
         y: (e.clientY - r.top - r.height / 2) * strength,
         duration: 0.4,
-        ease: 'power3.out',
+        ease: EASE.out,
       })
     }
     const leave = () => gsap.to(el, { x: 0, y: 0, duration: 0.8, ease: EASE.out })

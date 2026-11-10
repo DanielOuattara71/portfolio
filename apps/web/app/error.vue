@@ -6,7 +6,9 @@ const { t, locale } = useI18n()
 const localePath = useLocalePath()
 const route = useRoute()
 
-useSeoMeta({ title: () => t('notFound.title') + ' ' + t('notFound.titleOutline'), robots: 'noindex' })
+// 503: content API unreachable on a cold start. Anything else uses the "not found" wording.
+const ns = computed(() => (props.error.statusCode === 503 ? 'unavailable' : 'notFound'))
+useSeoMeta({ title: () => t(`${ns.value}.title`) + ' ' + t(`${ns.value}.titleOutline`), robots: 'noindex' })
 // error.vue replaces app.vue, so the page language is set here too.
 useHead({ htmlAttrs: { lang: () => (locale.value === 'fr' ? 'fr-FR' : 'en-US') } })
 </script>
@@ -14,13 +16,13 @@ useHead({ htmlAttrs: { lang: () => (locale.value === 'fr' ? 'fr-FR' : 'en-US') }
 <template>
   <NuxtLayout>
     <section class="wrap nf">
-      <p class="mono muted">{{ t('notFound.query', { path: route.path }) }}</p>
+      <p class="mono muted">{{ t(`${ns}.query`, { path: route.path }) }}</p>
       <h1>
-        {{ t('notFound.title') }}<br />
-        <span class="outline-text">{{ t('notFound.titleOutline') }}</span>
+        {{ t(`${ns}.title`) }}<br />
+        <span class="outline-text">{{ t(`${ns}.titleOutline`) }}</span>
       </h1>
-      <p class="text">{{ props.error.statusCode === 404 ? t('notFound.text') : props.error.message }}</p>
-      <div class="actions">
+      <p class="text">{{ props.error.statusCode === 404 || props.error.statusCode === 503 ? t(`${ns}.text`) : props.error.message }}</p>
+      <div v-if="props.error.statusCode !== 503" class="actions">
         <UiButton :label="t('cta.backHome')" :to="localePath('index')" />
         <UiButton :label="t('cta.projects')" :to="localePath('projets')" variant="secondary" />
       </div>

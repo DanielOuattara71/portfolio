@@ -2,7 +2,6 @@
 const { t } = useI18n()
 const localePath = useLocalePath()
 const route = useRoute()
-const display = useDisplayName()
 
 const isHome = computed(() => String(route.name ?? '').startsWith('index'))
 
@@ -173,8 +172,8 @@ onBeforeUnmount(() => {
     <div class="wrap">
       <div class="row">
         <NuxtLink class="logo" :to="localePath('index')">
-          <span class="mk" aria-hidden="true">{{ display.mark }}</span>
-          <span class="logo-text">{{ display.text }}<span class="sr-only"> · {{ t('nav.home') }}</span></span>
+          <span class="mk" aria-hidden="true">ON</span>
+          <span class="logo-text">ONDYX<span class="sr-only"> · {{ t('nav.home') }}</span></span>
         </NuxtLink>
 
         <nav ref="pillNav" class="pill" :aria-label="t('nav.label')">
@@ -275,6 +274,11 @@ onBeforeUnmount(() => {
 .logo-text {
   min-width: 0;
   overflow: hidden;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  background: var(--surface-inverse);
+  color: var(--ink-inverse);
+  letter-spacing: 0.3em;
   text-overflow: ellipsis;
 }
 
@@ -287,10 +291,9 @@ onBeforeUnmount(() => {
   color: var(--on-marker);
   display: grid;
   place-items: center;
-  font: 700 11px/1 var(--font-data);
-  box-shadow: inset 0 0 0 1.5px var(--on-marker);
+  font: 800 13px/1 var(--font-display);
+  letter-spacing: 0.02em;
 }
-
 .pill {
   position: relative;
   display: flex;

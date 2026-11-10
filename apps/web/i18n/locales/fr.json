@@ -25,7 +25,9 @@
   },
   "status": {
     "available": "Disponible",
-    "availableLong": "Disponible · télétravail"
+    "availableLong": "Disponible · télétravail",
+    "unavailable": "Indisponible",
+    "unavailableLong": "Indisponible pour de nouveaux projets"
   },
   "cta": {
     "projects": "Voir les projets",
@@ -49,7 +51,7 @@
   "footer": {
     "title": "Construisons quelque chose de",
     "titleAccent": "fiable",
-    "role": "Software & Data Engineer",
+    "role": "ONDYX",
     "modes": "FR · EN · télétravail",
     "legal": "Mentions légales",
     "privacy": "Confidentialité",
@@ -57,8 +59,8 @@
   },
   "pages": {
     "home": {
-      "title": "Software & Data Engineer",
-      "description": "Software & Data Engineer : je conçois des applications web et mobiles de bout en bout, avec l'IA et l'automatisation, et je me spécialise dans la donnée et le cloud."
+      "title": "ONDYX",
+      "description": "ONDYX : je conçois des applications web et mobiles de bout en bout, avec l'IA et l'automatisation, et je me spécialise dans la donnée et le cloud."
     },
     "projects": {
       "title": "Projets",
@@ -269,6 +271,10 @@
       "email": "email",
       "links": "réseaux · cv",
       "availability": "disponibilité"
+    },
+    "closed": {
+      "title": "Le formulaire est fermé.",
+      "text": "Je ne reçois pas de messages pour le moment. Les informations utiles restent visibles ci-dessous."
     }
   },
   "placeholder": {
@@ -341,5 +347,11 @@
   "ph": {
     "media": "Capture à fournir",
     "link": "Lien à fournir (obligatoire avant publication)"
+  },
+  "unavailable": {
+    "title": "Service",
+    "titleOutline": "indisponible.",
+    "text": "Le site est momentanément indisponible. Réessaie dans quelques minutes.",
+    "query": "status > 503 · réessai conseillé"
   }
 }

@@ -7,6 +7,9 @@ const { t } = useI18n()
 const localePath = useLocalePath()
 const TYPES = ['web', 'mobile', 'api', 'ai', 'data', 'other'] as const
 const picked = ref<string[]>([])
+const blocks = useTextBlocks()
+const band = computed(() => blocks.value.band)
+const typeLabel = (k: string) => band.value?.types[(k as keyof typeof band.value.types)] ?? t(`home.band.types.${k}`)
 
 function toggle(key: string) {
   picked.value = picked.value.includes(key) ? picked.value.filter((k) => k !== key) : [...picked.value, key]
@@ -14,9 +17,22 @@ function toggle(key: string) {
 
 const summary = computed(() =>
   picked.value.length
-    ? t('home.band.selected', { n: picked.value.length, list: picked.value.map((k) => t(`home.band.types.${k}`)).join(', ') }, picked.value.length)
+    ? t('home.band.selected', { n: picked.value.length, list: picked.value.map((k) => typeLabel(k)).join(', ') }, picked.value.length)
     : t('home.band.none'),
 )
+
+const bandTitleParts = computed(() => {
+  const b = band.value
+  if (!b) return null
+  const i = b.title.indexOf(b.accent)
+  if (i < 0) return [{ text: b.title, accent: false }]
+  const parts: { text: string; accent: boolean }[] = []
+  if (i > 0) parts.push({ text: b.title.slice(0, i), accent: false })
+  parts.push({ text: b.accent, accent: true })
+  const rest = b.title.slice(i + b.accent.length)
+  if (rest) parts.push({ text: rest, accent: false })
+  return parts
+})
 
 const target = computed(() =>
   localePath({ name: 'contact', query: picked.value.length ? { profile: 'client', types: picked.value.join(',') } : { profile: 'client' } }),
@@ -29,11 +45,14 @@ const target = computed(() =>
       <div class="band is-on-marker">
         <div>
           <h2 id="band-title" v-reveal="'lines'">
-            <i18n-t keypath="home.band.title" scope="global">
+            <template v-if="bandTitleParts">
+              <template v-for="(part, i) in bandTitleParts" :key="i"><span v-if="part.accent" class="acc">{{ part.text }}</span><template v-else>{{ part.text }}</template></template>
+            </template>
+            <i18n-t v-else keypath="home.band.title" scope="global">
               <template #accent><span class="acc">{{ t('home.band.accent') }}</span></template>
             </i18n-t>
           </h2>
-          <p class="text">{{ t('home.band.text') }}</p>
+          <p class="text">{{ band?.text ?? t('home.band.text') }}</p>
         </div>
         <div v-reveal="'stagger'" class="tiles" role="group" :aria-label="t('home.band.label')">
           <button
@@ -45,7 +64,7 @@ const target = computed(() =>
             @click="toggle(key)"
           >
             <span class="k" aria-hidden="true">type_0{{ i + 1 }}</span>
-            <span class="l">{{ t(`home.band.types.${key}`) }}</span>
+            <span class="l">{{ typeLabel(key) }}</span>
           </button>
         </div>
         <div class="go">

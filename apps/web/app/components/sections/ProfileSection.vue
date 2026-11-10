@@ -3,13 +3,15 @@
 const { t } = useI18n()
 const profile = useProfile()
 const domains = useDomains()
+const blocks = useTextBlocks()
+const homeTitle = computed(() => blocks.value.introProfile?.homeTitle ?? t('home.profile.title'))
 </script>
 
 <template>
   <section class="sec" aria-labelledby="home-profile">
     <div class="wrap">
       <div class="panel panel--light">
-        <UiSectionTitle id="home-profile" :title="t('home.profile.title')" />
+        <UiSectionTitle id="home-profile" :title="homeTitle" />
         <div class="cols">
           <div>
             <UiRichText v-reveal class="txt" :paragraphs="profile.short" />

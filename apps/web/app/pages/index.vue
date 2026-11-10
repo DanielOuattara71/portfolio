@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const { t } = useI18n()
-usePageSeo({ title: () => null, description: () => t('pages.home.description') })
+const blocks = useTextBlocks(); usePageSeo({ title: () => null, description: () => blocks.value.seoHome?.description ?? t('pages.home.description') })
 </script>
 
 <template>

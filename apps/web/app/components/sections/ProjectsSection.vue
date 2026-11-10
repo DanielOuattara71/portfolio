@@ -5,14 +5,20 @@ const projects = useProjects()
 const featured = computed(() => projects.value.filter((p) => p.featured))
 const grid = ref<HTMLElement | null>(null)
 const { domain, query, visible, count, options } = useProjectFilter(featured, grid)
+const blocks = useTextBlocks()
+const homeTitle = computed(() => blocks.value.introProjects?.homeTitle ?? t('home.projects.title'))
+const homeLead = computed(() => blocks.value.introProjects?.homeLead ?? null)
 </script>
 
 <template>
   <section class="sec" aria-labelledby="home-projects">
     <div class="wrap">
       <div class="panel panel--light">
-        <UiSectionTitle id="home-projects" :title="t('home.projects.title')" ghost="Records">
-          <i18n-t keypath="home.projects.lead" scope="global">
+        <UiSectionTitle id="home-projects" :title="homeTitle" ghost="Records">
+          <template v-if="homeLead">
+            <template v-for="(seg, i) in homeLead" :key="i"><span v-if="seg.accent" class="acc">{{ seg.text }}</span><template v-else>{{ seg.text }}</template></template>
+          </template>
+          <i18n-t v-else keypath="home.projects.lead" scope="global">
             <template #accent><span class="acc">{{ t('home.projects.leadAccent') }}</span></template>
           </i18n-t>
         </UiSectionTitle>
@@ -32,6 +38,10 @@ const { domain, query, visible, count, options } = useProjectFilter(featured, gr
 </template>
 
 <style scoped>
+.sec {
+  margin-top: var(--space-32);
+}
+
 .q {
   margin-bottom: 14px;
 }

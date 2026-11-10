@@ -100,7 +100,15 @@ onBeforeUnmount(() => ctx?.revert())
           <span v-for="(word, i) in words" :key="i" class="word"><span :class="{ 'outline-text': i === 0 }">{{ word }}</span></span>
         </p>
 
-        <SectionsPortraitStack class="stack" data-reveal :badge="content.badge" :profile="content.profile" />
+        <SectionsPortraitStack
+          class="stack"
+          data-reveal
+          :badge="content.badge"
+          :profile="content.profile"
+          :photo-url="site.photo?.src ?? null"
+          :photo-srcset="site.photo?.srcset ?? null"
+          :photo-alt="site.photo?.alt ?? null"
+        />
 
         <div class="foot">
           <div class="intro">
