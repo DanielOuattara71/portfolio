@@ -1,5 +1,7 @@
 # Admin · Étape 09 — Journal de développement
 
+> **Mise à jour stockage (2026-11-08/09)** : toute mention de **Cloudflare R2** dans les journaux de jours précédents est à lire comme **Cloudinary** (remplacement R2 → Cloudinary en 2026-11-08 : deux dossiers `portfolio/private|public/*`, type `raw` pour PDF, préfixe `backups/` pour les sauvegardes ; pilote testé contre le cloud `amtflrwz`, 6/6). Les commandes et variables citées (`R2_*`) ne s'appliquent plus : lire `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`.
+
 > Suivi du **Prompt 09** de [admin_portfolio.md](../../admin_portfolio.md) : un module à la fois. Pour chacun : fichiers, ce qui fonctionne réellement, tests réalisés, limites.
 > Ordre : [08-architecture-donnees.md §8](08-architecture-donnees.md).
 
@@ -216,7 +218,7 @@ sequenceDiagram
   API-->>N: Média prêt (ou refus motivé)
 ```
 
-- **Stockage** : une seule interface, deux pilotes. **Local** en développement (`apps/api/.storage/`, ignoré par git) et **Cloudflare R2** en production (deux dépôts : privé et public).
+- **Stockage** : une seule interface, deux pilotes. **Local** en développement (`apps/api/.storage/`, ignoré par git) et **Cloudinary** en production (deux dossiers `portfolio/private|public/*`, confidentialité par UUID).
 - Les fichiers restent **privés**. Une copie publique n’est faite que lorsqu’un contenu publié utilise le fichier (`setMediaPublic`), et elle est retirée ensuite. Le workflow de publication (modules 5 et 6) appellera cette fonction.
 - Un fichier n’est **jamais écrasé** : un remplacement crée de nouveaux fichiers sous le même identifiant de média, et les anciens sont listés pour une purge ultérieure.
 

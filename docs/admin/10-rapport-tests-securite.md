@@ -97,7 +97,7 @@ Les emails d'alerte (et « nouvelle connexion ») ne partent pas faute d'email p
 2. **Perte du téléphone de double authentification** : les 10 codes de secours chiffrés en base sont la première recours ; sinon, procédure de récupération avec accès à la base (voir [12-documentation-utilisateur.md](12-documentation-utilisateur.md)).
 3. **Fichiers piégés** : fichiers malveillants subtiles (polyglottes, PDF piégés) — la ré-encodage `sharp` neutralise les images ; un PDF piégé reste à vérifier visuellement à l'import.
 4. **Absence de secrets dans les journaux Vercel** : vérifier qu'aucune variable d'environnement ne fuite dans les logs des fonctions.
-5. **R2 réel** : envoi signé, CORS du dépôt privé (PUT depuis l'origine de l'admin), copie publique, dépôt des sauvegardes — non testé (pilotes écrits, stockage local seul en dev).
+5. **Cloudinary réel** : envoi signé multipart, copie publique, dépôt des sauvegardes sous `backups/` — testé le 2026-11-08 contre le cloud `amtflrwz` (6/6) ; régénérer le secret (exposé en conversation) avant Vercel
    *(Mis à jour depuis le remplacement R2 → Cloudinary, voir le journal de développement.)*
 6. **Resend** : domaine d'envoi + réception réelle des emails (alertes, mot de passe, nouvelle connexion).
 7. **Neon** : base `main` + rôle `app` **sans `UPDATE`/`DELETE` sur `audit_log`** (usine à gaz locale : le rôle propriétaire peut contourner les déclencheurs).

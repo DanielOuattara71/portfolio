@@ -57,8 +57,8 @@ Tu termines le portfolio personnel d'un Software & Data Engineer (Master 2 SIGL 
 | Justificatifs | Privés par défaut |
 | Messages de contact archivés | Supprimés après 12 mois |
 | Paramètres (nom, email, CV) | Passent par brouillon → aperçu → publication, comme les contenus |
-| Hébergement | Vercel (3 projets : site, admin, API), Postgres Neon, Cloudflare R2, Resend, Upstash (Redis + QStash), Sentry. **Déploiement via Vercel CLI** (pas de GitHub pour l'instant) |
-| Stockage des médias | Local en développement ; R2 en production (pilote écrit, **pas encore testé**) |
+| Hébergement | Vercel (3 projets : site, admin, API), Postgres Neon, Cloudinary, Resend, Upstash (Redis + QStash), Sentry. **Déploiement via Vercel CLI** (pas de GitHub pour l'instant) |
+| Stockage des médias | Local en développement ; Cloudinary en production (pilote testé en local et contre votre cloud) |
 
 ---
 
@@ -351,7 +351,7 @@ Spécifications : `docs/admin/05` et `06`.
 - **Incidents** : ouverts, pris en charge, résolus ; notes horodatées ; note de résolution obligatoire.
 - **Sauvegarde** :
   - export JSON de toutes les tables dans une transaction en lecture seule ;
-  - empreinte SHA-256, chiffrement AES-256-GCM (`BACKUP_ENCRYPTION_KEY`), envoi dans un dépôt R2 **privé** séparé (dossier local en développement) ;
+  - empreinte SHA-256, chiffrement AES-256-GCM (`BACKUP_ENCRYPTION_KEY`), envoi vers Cloudinary préfixe `backups` (type `raw`, signature Admin API) ; dossier local en développement ;
   - **relecture et vérification** ;
   - historique ; conservation de 30 sauvegardes quotidiennes et 12 mensuelles.
 - **Restauration** 🔐 : vérification d'abord, puis sauvegarde de l'état actuel, puis restauration en une transaction, puis sessions révoquées et site rafraîchi. Restauration partielle d'un seul contenu, rendu en brouillon.
@@ -379,7 +379,7 @@ Suivre `admin_portfolio.md`, Prompt 10.
   - migrations, puis `db:seed`, puis création de l'administrateur ;
   - 3 projets Vercel via la CLI ; réécriture `/api/*` de l'admin vers l'API ;
   - variables d'environnement (`.env.example` en donne la liste ; ajouter `SITE_REVALIDATE_URL`, `REVALIDATE_TOKEN`, `NUXT_REVALIDATE_TOKEN`, `BACKUP_ENCRYPTION_KEY`, `QSTASH_*`, `UPSTASH_*`, `SENTRY_DSN`) ;
-  - R2 : deux dépôts, CORS du dépôt privé (PUT depuis l'origine de l'admin), domaine public, **et test réel du pilote R2** ;
+  - Cloudinary : dossiers `portfolio/private|public/*` + `backups/`, livraison PDF/raw activée, **et test réel du pilote Cloudinary** (fait contre votre cloud) ;
   - Resend : domaine d'envoi ;
   - CSP en mode rapport, puis appliquée ;
   - Lighthouse en production ;
