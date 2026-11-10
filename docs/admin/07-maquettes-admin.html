@@ -1,0 +1,718 @@
+<title>Admin Index Studio</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
+<style>
+/* Layout: CMS shell. Fixed sidebar (grouped modules) + top bar + one working area per screen; drawer under 900px.
+   Tokens follow the portfolio design system (paper / ink / orange marker, Poppins only), toned down for daily work. */
+:root {
+  --paper: #f3f0e8; --surface: #faf8f3; --sunken: #ebe6da; --ink: #141311; --muted: #6b665c; --line: #e0dacd;
+  --marker: #ff7a1a; --on-marker: #141311; --on-ink: #f3f0e8;
+  --ok: #2c7a4b; --ok-bg: #e2efe6; --warn: #8a5a00; --warn-bg: #f6ead2; --crit: #b3261e; --crit-bg: #f6dedb; --info: #2f5d8a; --info-bg: #dfe8f1;
+  --font: Poppins, "Segoe UI", system-ui, sans-serif;
+  --r-sm: 8px; --r-md: 12px; --r-lg: 18px; --r-full: 999px;
+  --shadow: 0 1px 0 rgba(20,19,17,.04), 0 8px 24px -12px rgba(20,19,17,.18);
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #141311; --surface: #1c1a17; --sunken: #24211d; --ink: #ecebe6; --muted: #a39d92; --line: #34302a;
+  --on-ink: #141311; --ok: #7cc49a; --ok-bg: #1d3226; --warn: #e5b45a; --warn-bg: #3a2d14; --crit: #f08a80; --crit-bg: #3d1c19; --info: #8db6df; --info-bg: #1b2a3a;
+  --shadow: 0 8px 24px -12px rgba(0,0,0,.6); color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --paper: #141311; --surface: #1c1a17; --sunken: #24211d; --ink: #ecebe6; --muted: #a39d92; --line: #34302a;
+  --on-ink: #141311; --ok: #7cc49a; --ok-bg: #1d3226; --warn: #e5b45a; --warn-bg: #3a2d14; --crit: #f08a80; --crit-bg: #3d1c19; --info: #8db6df; --info-bg: #1b2a3a;
+  --shadow: 0 8px 24px -12px rgba(0,0,0,.6); color-scheme: dark; }
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 400 14px/1.55 var(--font); font-variant-numeric: tabular-nums; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 50; background: var(--paper); }
+a { color: inherit; }
+button, input, select, textarea { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--marker); outline-offset: 2px; }
+h1, h2, h3 { margin: 0; line-height: 1.2; text-wrap: balance; }
+h1 { font-size: 22px; font-weight: 600; letter-spacing: -.01em; }
+h2 { font-size: 15px; font-weight: 600; }
+h3 { font-size: 13px; font-weight: 600; }
+p { margin: 0; }
+.muted { color: var(--muted); }
+.small { font-size: 12px; }
+.lab { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+
+/* Mock banner */
+.mock { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; justify-content: space-between; padding-block: 8px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); background: var(--ink); color: var(--on-ink); font-size: 12px; }
+.mock b { color: var(--marker); font-weight: 600; }
+.mock .tools { display: flex; gap: 8px; }
+.mock button { background: transparent; border: 1px solid color-mix(in srgb, var(--on-ink) 35%, transparent); border-radius: var(--r-full); padding: 3px 10px; cursor: pointer; color: var(--on-ink); }
+
+/* Shell */
+.app { display: grid; grid-template-columns: 248px minmax(0, 1fr); min-height: calc(100% - 36px); }
+.sb { position: sticky; top: env(safe-area-inset-top, 0px); align-self: start; height: 100vh; overflow-y: auto; display: flex; flex-direction: column; gap: 18px; padding: 18px 14px; padding-left: max(14px, env(safe-area-inset-left, 0px)); border-right: 1px solid var(--line); background: var(--surface); }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 600; }
+.mk { width: 30px; height: 30px; border-radius: var(--r-sm); background: var(--marker); color: var(--on-marker); display: grid; place-items: center; font-weight: 700; box-shadow: inset 0 0 0 1.5px var(--on-marker); flex: none; }
+.brand small { display: block; font-weight: 400; font-size: 11px; color: var(--muted); }
+.nav { display: grid; gap: 14px; }
+.nav .grp { display: grid; gap: 2px; }
+.nav .lab { padding: 0 10px 4px; }
+.nav a { display: flex; align-items: center; gap: 10px; padding: 7px 10px; border-radius: var(--r-sm); text-decoration: none; color: var(--ink); }
+.nav a:hover { background: var(--sunken); }
+.nav a[aria-current="page"] { background: var(--ink); color: var(--on-ink); }
+.nav a[aria-current="page"] .dot { background: var(--marker); }
+.nav .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--line); flex: none; }
+.nav .cnt { margin-left: auto; font-size: 11px; padding: 0 7px; border-radius: var(--r-full); background: var(--marker); color: var(--on-marker); font-weight: 600; }
+.sb .me { margin-top: auto; display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: var(--r-md); background: var(--sunken); font-size: 12px; }
+.avatar { width: 30px; height: 30px; border-radius: 50%; background: var(--line); display: grid; place-items: center; font-weight: 600; font-size: 12px; flex: none; }
+
+.main { min-width: 0; display: flex; flex-direction: column; }
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; display: flex; align-items: center; gap: 12px; padding-block: 12px; padding-left: max(24px, env(safe-area-inset-left, 0px)); padding-right: max(24px, env(safe-area-inset-right, 0px)); background: color-mix(in srgb, var(--paper) 92%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+.crumb { font-size: 12px; color: var(--muted); min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.crumb b { color: var(--ink); font-weight: 500; }
+.top .sp { flex: 1; }
+.search { display: flex; align-items: center; gap: 8px; padding: 7px 12px; border: 1px solid var(--line); border-radius: var(--r-full); background: var(--surface); color: var(--muted); font-size: 12px; min-width: 0; }
+.search kbd { font: inherit; font-size: 11px; padding: 0 6px; border: 1px solid var(--line); border-radius: 5px; }
+.btn.menu-btn { display: none; }
+#view { padding-block: 24px 64px; padding-left: max(24px, env(safe-area-inset-left, 0px)); padding-right: max(24px, env(safe-area-inset-right, 0px)); display: grid; gap: 20px; align-content: start; max-width: 1280px; width: 100%; }
+
+/* Building blocks */
+.head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; }
+.head .t { display: grid; gap: 4px; min-width: 0; }
+.row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 18px; display: grid; gap: 14px; align-content: start; min-width: 0; }
+.panel > .ph { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.grid { display: grid; gap: 16px; }
+.g2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.g3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.g4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.split { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 16px; align-items: start; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: var(--r-full); border: 1px solid var(--ink); background: var(--ink); color: var(--on-ink); font-weight: 500; font-size: 13px; cursor: pointer; text-decoration: none; white-space: nowrap; }
+.btn.sec { background: transparent; color: var(--ink); border-color: var(--line); }
+.btn.sec:hover { border-color: var(--ink); }
+.btn.ghost { background: transparent; border-color: transparent; color: var(--muted); padding-inline: 8px; }
+.btn.danger { background: var(--crit); border-color: var(--crit); color: #fff; }
+.btn[aria-disabled="true"] { opacity: .45; cursor: not-allowed; }
+.chip { display: inline-flex; align-items: center; gap: 6px; padding: 2px 9px; border-radius: var(--r-full); font-size: 11.5px; font-weight: 500; white-space: nowrap; background: var(--sunken); color: var(--muted); }
+.chip::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.chip.ok { background: var(--ok-bg); color: var(--ok); }
+.chip.warn { background: var(--warn-bg); color: var(--warn); }
+.chip.crit { background: var(--crit-bg); color: var(--crit); }
+.chip.info { background: var(--info-bg); color: var(--info); }
+.chip.plain::before { display: none; }
+.tag { display: inline-flex; padding: 2px 8px; border: 1px solid var(--line); border-radius: var(--r-full); font-size: 12px; background: var(--surface); }
+.ex { font-size: 10.5px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--info); background: var(--info-bg); padding: 1px 6px; border-radius: 5px; }
+.tw { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--surface); }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { text-align: left; font-size: 11px; font-weight: 500; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); padding: 10px 14px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+td { padding: 11px 14px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+tr:last-child td { border-bottom: 0; }
+tbody tr:hover { background: color-mix(in srgb, var(--sunken) 55%, transparent); }
+.id { font-size: 11.5px; padding: 1px 7px; border-radius: 5px; background: var(--marker); color: var(--on-marker); font-weight: 600; }
+.lang { display: inline-flex; gap: 4px; }
+.lang span { font-size: 11px; font-weight: 600; padding: 1px 6px; border-radius: 5px; background: var(--ok-bg); color: var(--ok); }
+.lang span.no { background: var(--crit-bg); color: var(--crit); }
+.lang span.part { background: var(--warn-bg); color: var(--warn); }
+.handle { color: var(--muted); cursor: grab; letter-spacing: -2px; }
+.tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--line); overflow-x: auto; }
+.tabs button { background: none; border: 0; padding: 9px 12px; border-bottom: 2px solid transparent; color: var(--muted); cursor: pointer; white-space: nowrap; }
+.tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--marker); font-weight: 500; }
+.seg { display: inline-flex; padding: 3px; border: 1px solid var(--line); border-radius: var(--r-full); background: var(--surface); }
+.seg button { border: 0; background: none; padding: 4px 12px; border-radius: var(--r-full); cursor: pointer; font-size: 12px; }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--on-ink); }
+
+/* Forms */
+.field { display: grid; gap: 6px; min-width: 0; }
+.field > label, .field > .fl { font-size: 12.5px; font-weight: 500; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.req { color: var(--crit); }
+.inp, textarea.inp, select.inp { width: 100%; padding: 9px 12px; border: 1px solid var(--line); border-radius: var(--r-sm); background: var(--paper); min-width: 0; }
+textarea.inp { resize: vertical; min-height: 76px; }
+.inp:focus { outline: 2px solid var(--marker); outline-offset: -1px; border-color: transparent; }
+.inp.err { border-color: var(--crit); }
+.hint { font-size: 11.5px; color: var(--muted); }
+.hint.err { color: var(--crit); }
+.hint.warn { color: var(--warn); }
+.pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.pair .lh { font-size: 11px; font-weight: 600; color: var(--muted); }
+.flag { font-size: 10.5px; font-weight: 600; padding: 1px 6px; border-radius: 5px; background: var(--warn-bg); color: var(--warn); }
+.switch { width: 34px; height: 20px; border-radius: 99px; background: var(--line); position: relative; border: 0; cursor: pointer; flex: none; }
+.switch::after { content: ""; position: absolute; top: 3px; left: 3px; width: 14px; height: 14px; border-radius: 50%; background: var(--surface); transition: transform .15s; }
+.switch[aria-checked="true"] { background: var(--ink); }
+.switch[aria-checked="true"]::after { transform: translateX(14px); }
+.check { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.check li { display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: 8px; font-size: 12.5px; align-items: start; }
+.check .i { width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; font-weight: 700; }
+.check .i.y { background: var(--ok-bg); color: var(--ok); }
+.check .i.n { background: var(--crit-bg); color: var(--crit); }
+.check .i.w { background: var(--warn-bg); color: var(--warn); }
+.savebar { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); }
+.savebar .pulse { width: 7px; height: 7px; border-radius: 50%; background: var(--ok); }
+
+/* Editor */
+.editor { border: 1px solid var(--line); border-radius: var(--r-md); background: var(--paper); overflow: hidden; }
+.tb { display: flex; flex-wrap: wrap; gap: 2px; padding: 6px; border-bottom: 1px solid var(--line); background: var(--surface); }
+.tb button { border: 0; background: none; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-size: 12.5px; }
+.tb button:hover { background: var(--sunken); }
+.tb .sep { width: 1px; background: var(--line); margin: 4px 4px; }
+.doc { padding: 14px 16px; min-height: 120px; display: grid; gap: 10px; font-size: 14px; }
+.acc { font-style: italic; background: color-mix(in srgb, var(--marker) 22%, transparent); border-radius: 4px; padding: 0 2px; }
+.preview { border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; background: var(--paper); }
+.preview .bar { display: flex; justify-content: space-between; gap: 8px; padding: 8px 12px; border-bottom: 1px solid var(--line); font-size: 11.5px; color: var(--muted); background: var(--surface); }
+.hero-pv { padding: 18px; display: grid; gap: 10px; }
+.hero-pv .big { font-size: 34px; line-height: .9; font-weight: 700; letter-spacing: -.04em; text-transform: uppercase; }
+.hero-pv .big .o { color: transparent; -webkit-text-stroke: 1px var(--ink); }
+.hero-pv .lead { font-weight: 700; font-size: 18px; }
+.pills { display: flex; flex-wrap: wrap; gap: 6px; }
+.pill { padding: 4px 10px; border: 1px solid var(--line); border-radius: var(--r-full); background: var(--surface); font-size: 12px; font-weight: 500; }
+
+/* Stats, status */
+.stat { display: grid; gap: 4px; }
+.stat .n { font-size: 28px; font-weight: 600; letter-spacing: -.02em; line-height: 1.1; }
+.svc { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 10px; align-items: center; padding: 12px; border: 1px solid var(--line); border-radius: var(--r-md); background: var(--paper); }
+.svc svg { grid-column: 1 / -1; width: 100%; height: 32px; }
+.list { display: grid; margin: 0; padding: 0; list-style: none; }
+.list li { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 9px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
+.list li:last-child { border-bottom: 0; }
+.sev { width: 8px; height: 8px; border-radius: 50%; }
+.sev.i { background: var(--info); } .sev.w { background: var(--warn); } .sev.c { background: var(--crit); } .sev.o { background: var(--ok); }
+.todo li { grid-template-columns: auto minmax(0, 1fr) auto; }
+.todo a { font-size: 12px; }
+
+/* Media */
+.media-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+.mt { display: grid; gap: 6px; padding: 8px; border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface); cursor: pointer; text-align: left; }
+.mt[aria-pressed="true"] { outline: 2px solid var(--marker); }
+.thumb { aspect-ratio: 4 / 3; max-width: 100%; border-radius: var(--r-sm); background: repeating-linear-gradient(135deg, var(--sunken) 0 9px, var(--line) 9px 18px); display: grid; place-items: center; font-size: 11px; color: var(--muted); font-weight: 600; }
+.thumb.pdf { background: var(--sunken); }
+.drop { border: 1.5px dashed var(--line); border-radius: var(--r-lg); padding: 18px; text-align: center; color: var(--muted); background: var(--surface); }
+
+/* Inbox */
+.inbox { display: grid; grid-template-columns: 340px minmax(0, 1fr); gap: 16px; align-items: start; }
+.msg { display: grid; gap: 2px; padding: 12px 14px; border-bottom: 1px solid var(--line); cursor: pointer; background: none; border-left: 0; border-right: 0; border-top: 0; text-align: left; width: 100%; }
+.msg[aria-current="true"] { background: var(--sunken); }
+.msg .from { display: flex; justify-content: space-between; gap: 8px; font-weight: 500; }
+.msg.unread .from::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--marker); align-self: center; margin-right: 6px; }
+
+/* SEO preview */
+.serp { padding: 12px; border: 1px solid var(--line); border-radius: var(--r-md); background: var(--paper); display: grid; gap: 2px; }
+.serp .u { font-size: 12px; color: var(--muted); }
+.serp .ti { font-size: 17px; color: var(--info); }
+.meter { height: 4px; border-radius: 99px; background: var(--sunken); overflow: hidden; }
+.meter i { display: block; height: 100%; background: var(--ok); }
+.meter i.w { background: var(--warn); }
+
+/* Login */
+.login { min-height: calc(100vh - 36px); display: grid; place-items: center; padding-block: 32px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.login .card { width: min(400px, 100%); display: grid; gap: 16px; padding: 28px; border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--surface); box-shadow: var(--shadow); }
+.otp { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; }
+.otp input { text-align: center; font-size: 20px; font-weight: 600; padding: 10px 0; }
+.alert { display: block; padding: 10px 12px; border-radius: var(--r-md); font-size: 12.5px; }
+.alert.crit { background: var(--crit-bg); color: var(--crit); }
+.alert.warn { background: var(--warn-bg); color: var(--warn); }
+.alert.info { background: var(--info-bg); color: var(--info); }
+
+/* Modal + toast + skeleton */
+.overlay { position: fixed; inset: 0; z-index: 60; display: grid; place-items: center; padding: 16px; background: rgba(20,19,17,.45); }
+.modal { width: min(480px, 100%); display: grid; gap: 14px; padding: 22px; border-radius: var(--r-lg); background: var(--surface); box-shadow: var(--shadow); }
+.modal .acts { display: flex; justify-content: flex-end; gap: 8px; flex-wrap: wrap; }
+.toast { position: fixed; z-index: 70; right: max(20px, env(safe-area-inset-right, 0px)); bottom: calc(20px + env(safe-area-inset-bottom, 0px)); display: flex; gap: 10px; align-items: center; padding: 10px 14px; border-radius: var(--r-md); background: var(--ink); color: var(--on-ink); font-size: 13px; box-shadow: var(--shadow); }
+.sk { border-radius: 6px; background: linear-gradient(90deg, var(--sunken), var(--line), var(--sunken)); background-size: 200% 100%; animation: sk 1.4s linear infinite; }
+@keyframes sk { to { background-position: -200% 0; } }
+@media (prefers-reduced-motion: reduce) { .sk { animation: none; } .switch::after { transition: none; } }
+.empty { display: grid; gap: 8px; justify-items: center; text-align: center; padding: 28px; color: var(--muted); }
+
+/* Responsive */
+@media (max-width: 1100px) { .g4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } .split { grid-template-columns: minmax(0, 1fr); } .inbox { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 900px) {
+  .app { grid-template-columns: minmax(0, 1fr); }
+  .sb { position: fixed; z-index: 40; inset: 0 auto 0 0; width: min(290px, 86vw); height: 100%; transform: translateX(-102%); transition: transform .2s; box-shadow: var(--shadow); padding-top: calc(18px + env(safe-area-inset-top, 0px)); }
+  .sb.open { transform: none; }
+  .btn.menu-btn { display: inline-flex; }
+  #txt-grid { grid-template-columns: minmax(0, 1fr) !important; }
+  .search .txt { display: none; }
+  .g3 { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 640px) {
+  .g2, .g4, .pair { grid-template-columns: minmax(0, 1fr); }
+  #view { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  .top { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  .hide-sm { display: none; }
+  .hero-pv .big { font-size: 26px; }
+}
+</style>
+
+<div class="mock" role="note">
+  <span><b>Maquette · étape 07</b> · interface de l'admin. Contenus réels du site ; les éléments marqués <span class="ex">exemple</span> sont fictifs. Aucune action n'est réellement exécutée.</span>
+  <span class="tools">
+    <button type="button" id="theme-btn">Thème : système</button>
+    <button type="button" id="load-btn">Voir un état de chargement</button>
+  </span>
+</div>
+<div id="root"></div>
+
+<script>
+(() => {
+  const PROJECTS = [
+    { id: 'PRJ-01', fr: 'Prince Edja', en: 'Prince Edja', kind: 'projet client', st: 'mod', langs: ['y', 'y'], links: 0, feat: true, upd: 'il y a 2 h', pending: 2 },
+    { id: 'PRJ-02', fr: 'Retrouve Moi', en: 'Retrouve Moi', kind: 'application mobile', st: 'mod', langs: ['y', 'part'], links: 0, feat: true, upd: 'il y a 12 s', pending: 3 },
+    { id: 'PRJ-03', fr: 'Gestion de livraison', en: 'Delivery management', kind: 'stage · Smart Innovation 7', st: 'pub', langs: ['y', 'y'], links: 0, feat: true, upd: 'importé', pending: 0 },
+    { id: 'PRJ-04', fr: 'Data Engineering', en: 'Data Engineering', kind: 'travaux pratiques', st: 'pub', langs: ['y', 'y'], links: 0, feat: true, upd: 'importé', pending: 0 },
+    { id: 'PRJ-05', fr: 'Portfolio & CMS', en: 'Portfolio & CMS', kind: 'ce site · en cours', st: 'mod', langs: ['y', 'y'], links: 0, feat: true, upd: 'importé', pending: 1 },
+  ]
+  const ST = { draft: ['Brouillon', ''], review: ['En révision', 'info'], pub: ['Publié', 'ok'], mod: ['Publié · modifié', 'warn'], arch: ['Archivé', ''] }
+  const chip = (s) => `<span class="chip ${ST[s][1]}">${ST[s][0]}</span>`
+  const lang = (l) => `<span class="lang">${['FR', 'EN'].map((c, i) => `<span class="${l[i] === 'y' ? '' : l[i] === 'part' ? 'part' : 'no'}" title="${l[i] === 'y' ? 'complet' : 'incomplet'}">${c}</span>`).join('')}</span>`
+  const spark = (pts, color) => { const max = Math.max(...pts), min = Math.min(...pts); const d = pts.map((p, i) => `${(i / (pts.length - 1)) * 200},${28 - ((p - min) / (max - min || 1)) * 24}`).join(' '); return `<svg viewBox="0 0 200 32" preserveAspectRatio="none" aria-hidden="true"><polyline points="${d}" fill="none" stroke="${color}" stroke-width="1.5" vector-effect="non-scaling-stroke"/></svg>` }
+
+  const NAV = [
+    ['', [['tableau', 'Tableau de bord']]],
+    ['Contenus', [['projets', 'Projets'], ['textes', 'Textes du site'], ['competences', 'Compétences'], ['parcours', 'Parcours'], ['medias', 'Médiathèque']]],
+    ['Publication', [['traductions', 'Traductions'], ['seo', 'SEO'], ['boite', 'Boîte de réception', 2]]],
+    ['Système', [['securite', 'Sécurité et surveillance', 1], ['journal', "Journal d'activité"], ['sessions', 'Sessions'], ['sauvegardes', 'Sauvegardes'], ['parametres', 'Paramètres']]],
+  ]
+  const TITLES = Object.fromEntries(NAV.flatMap(([, items]) => items.map(([k, l]) => [k, l])))
+  TITLES.projet = 'Retrouve Moi'
+
+  const V = {}
+
+  /* ---------- Tableau de bord ---------- */
+  V.tableau = () => `
+    <div class="head"><div class="t"><h1>Tableau de bord</h1><p class="muted">Ce qui demande ton attention, puis l'activité récente.</p></div>
+      <div class="row"><a class="btn sec" href="#projet">Modifier un projet</a><a class="btn" href="#projets">Nouveau projet</a></div></div>
+    <div class="grid g4">
+      <div class="panel stat"><span class="lab">Projets</span><span class="n">5</span><span class="small muted">5 publiés · 3 avec modifications en cours</span></div>
+      <div class="panel stat"><span class="lab">Textes du site</span><span class="n">12</span><span class="small muted">blocs publiés · 1 brouillon</span></div>
+      <div class="panel stat"><span class="lab">À compléter</span><span class="n">14</span><span class="small muted">dont 5 liens de projet obligatoires</span></div>
+      <div class="panel stat"><span class="lab">Messages</span><span class="n">2</span><span class="small muted">non lus <span class="ex">exemple</span></span></div>
+    </div>
+    <div class="split">
+      <div class="panel"><div class="ph"><h2>À compléter</h2><span class="small muted">calculé depuis les contenus</span></div>
+        <ul class="list todo">
+          <li><span class="sev c"></span><span><b>Nom affiché</b> vide : le site affiche « Software & Data Engineer » à la place</span><a href="#parametres">Paramètres</a></li>
+          <li><span class="sev c"></span><span><b>5 projets sans lien</b> : leur prochaine publication sera bloquée</span><a href="#projets">Projets</a></li>
+          <li><span class="sev w"></span><span><b>Photo de profil</b> et <b>CV FR / EN</b> absents</span><a href="#parametres">Paramètres</a></li>
+          <li><span class="sev w"></span><span><b>6 champs « à valider »</b> importés (Prince Edja, Retrouve Moi, Portfolio)</span><a href="#projet">Revoir</a></li>
+          <li><span class="sev w"></span><span><b>Aucune capture</b> dans les 5 études de cas</span><a href="#medias">Médiathèque</a></li>
+          <li><span class="sev i"></span><span><b>Retrouve Moi</b> : 2 champs anglais manquants</span><a href="#traductions">Traductions</a></li>
+        </ul></div>
+      <div class="grid">
+        <div class="panel"><div class="ph"><h2>Services</h2><span class="ex">exemple</span></div>
+          <div class="grid" style="gap:8px">
+            <div class="row" style="justify-content:space-between"><span>Site public</span><span class="chip ok">142 ms</span></div>
+            <div class="row" style="justify-content:space-between"><span>API</span><span class="chip ok">88 ms</span></div>
+            <div class="row" style="justify-content:space-between"><span>Base de données</span><span class="chip ok">12 ms</span></div>
+            <div class="row" style="justify-content:space-between"><span>Stockage des médias</span><span class="chip ok">61 ms</span></div>
+          </div><a class="small" href="#securite">Sécurité et surveillance</a></div>
+        <div class="panel"><div class="ph"><h2>Sauvegardes</h2></div>
+          <div class="alert warn">Dernière sauvegarde réussie cette nuit à 03:00 <span class="ex">exemple</span>, mais aucun essai de restauration : <b>non vérifiées</b>.</div>
+          <a class="small" href="#sauvegardes">Voir les sauvegardes</a></div>
+      </div>
+    </div>
+    <div class="panel"><div class="ph"><h2>Activité récente</h2><span class="ex">exemple</span></div>
+      <ul class="list">
+        <li><span class="sev i"></span><span>Enregistrement manuel · <b>Retrouve Moi</b> (FR)</span><span class="small muted">il y a 12 s</span></li>
+        <li><span class="sev o"></span><span>Publication · <b>Hero</b> (FR + EN)</span><span class="small muted">il y a 1 h</span></li>
+        <li><span class="sev i"></span><span>Import · <b>retrouve-moi-ecran-accueil.png</b> (1,8 Mo → 212 Ko WebP)</span><span class="small muted">il y a 1 h</span></li>
+        <li><span class="sev o"></span><span>Connexion réussie · Chrome sur Windows · Ville A</span><span class="small muted">il y a 2 h</span></li>
+      </ul></div>`
+
+  /* ---------- Projets ---------- */
+  V.projets = () => `
+    <div class="head"><div class="t"><h1>Projets</h1><p class="muted">Glisse les lignes pour changer l'ordre affiché sur le site.</p></div>
+      <div class="row"><button class="btn" data-toast="Brouillon « Nouveau projet » créé (PRJ-06)">Nouveau projet</button></div></div>
+    <div class="row">
+      <div class="seg" role="group" aria-label="Filtrer par statut"><button aria-pressed="true">Tous 5</button><button>Publiés 5</button><button>Modifiés 3</button><button>Brouillons 0</button><button>Archivés 0</button></div>
+      <span class="sp"></span><input class="inp" style="max-width:260px" placeholder="Rechercher un projet ou une technologie" aria-label="Rechercher">
+    </div>
+    <div class="tw"><table>
+      <thead><tr><th></th><th>Projet</th><th>Statut</th><th>Langues</th><th>Liens</th><th class="hide-sm">Accueil</th><th class="hide-sm">Modifié</th><th></th></tr></thead>
+      <tbody>${PROJECTS.map((p) => `<tr>
+        <td><span class="handle" aria-label="Déplacer">⋮⋮</span></td>
+        <td><div class="row" style="flex-wrap:nowrap"><span class="id">${p.id}</span><span><b style="font-weight:500">${p.fr}</b><br><span class="small muted">${p.kind}${p.pending ? ` · <span class="flag">${p.pending} à valider</span>` : ''}</span></span></div></td>
+        <td>${chip(p.st)}</td><td>${lang(p.langs)}</td>
+        <td>${p.links ? p.links : '<span class="chip crit">aucun</span>'}</td>
+        <td class="hide-sm"><button class="switch" role="switch" aria-checked="${p.feat}" aria-label="Afficher sur l'accueil"></button></td>
+        <td class="hide-sm small muted">${p.upd}</td>
+        <td><a class="btn sec" href="#projet">Modifier</a></td></tr>`).join('')}</tbody></table></div>
+    <p class="small muted">Les projets importés depuis le site actuel restent en ligne. Sans lien, ils ne pourront pas être republiés (règle « au moins un lien »).</p>`
+
+  /* ---------- Formulaire projet ---------- */
+  let projTab = 'general'
+  V.projet = () => {
+    const tabs = [['general', 'Général'], ['cas', 'Étude de cas'], ['medias', 'Médias'], ['liens', 'Liens'], ['seo', 'SEO'], ['historique', 'Historique']]
+    const body = {
+      general: `
+        <div class="pair"><span class="lh">FRANÇAIS</span><span class="lh">ENGLISH</span></div>
+        <div class="pair">
+          <div class="field"><label for="n-fr">Nom <span class="req">*</span></label><input id="n-fr" class="inp" value="Retrouve Moi"></div>
+          <div class="field"><label for="n-en">Name <span class="req">*</span></label><input id="n-en" class="inp" value="Retrouve Moi"></div>
+        </div>
+        <div class="pair">
+          <div class="field"><label for="s-fr">Adresse <span class="req">*</span></label><input id="s-fr" class="inp" value="retrouve-moi"><span class="hint">/fr/projets/retrouve-moi</span></div>
+          <div class="field"><label for="s-en">Slug <span class="req">*</span></label><input id="s-en" class="inp" value="retrouve-moi"><span class="hint">/en/projects/retrouve-moi</span></div>
+        </div>
+        <div class="pair">
+          <div class="field"><label for="t-fr">Accroche <span class="req">*</span></label><input id="t-fr" class="inp" value="Une application mobile pour retrouver ce qu'on a perdu."></div>
+          <div class="field"><label for="t-en">Tagline <span class="req">*</span></label><input id="t-en" class="inp" value="A mobile app to find what you've lost."></div>
+        </div>
+        <div class="pair">
+          <div class="field"><label for="d-fr">Description courte <span class="req">*</span></label><textarea id="d-fr" class="inp">Application mobile de recherche d'objets perdus et retrouvés.</textarea><span class="hint">62 / 160</span></div>
+          <div class="field"><label for="d-en">Short description <span class="req">*</span></label><textarea id="d-en" class="inp">A mobile app for reporting and finding lost items.</textarea><span class="hint">50 / 160</span></div>
+        </div>
+        <div class="pair">
+          <div class="field"><label for="r-fr">Mon rôle</label><input id="r-fr" class="inp" placeholder="ex. conception et développement"><span class="hint warn">À compléter (masqué sur le site tant que vide)</span></div>
+          <div class="field"><label for="r-en">My role</label><input id="r-en" class="inp err" placeholder="e.g. design and development"><span class="hint err">Manquant en anglais alors que le français sera rempli</span></div>
+        </div>
+        <div class="field"><span class="fl">Technologies <span class="hint">choisies dans les compétences</span></span>
+          <div class="row"><span class="tag">Flutter ✕</span><span class="tag">Node.js ✕</span><span class="tag">MongoDB ✕</span><span class="tag">Firebase ✕</span><span class="tag">Cloudflare R2 ✕</span><button class="btn ghost">+ Ajouter</button></div></div>`,
+      cas: `
+        <div class="seg" role="group" aria-label="Langue"><button aria-pressed="true">FR</button><button>EN</button><button>Côte à côte</button></div>
+        <div class="field"><span class="fl">Problématique <span class="flag">à valider</span></span>
+          <div class="editor"><div class="tb">${['Titre', 'Gras', 'Italique', 'Liste', 'Lien', 'Code', 'Image'].map((b) => `<button type="button">${b}</button>`).join('')}</div>
+            <div class="doc"><p>Quand on perd un objet, on ne sait pas s'il a été trouvé, ni par qui. Quand on en trouve un, il est difficile d'en retrouver le propriétaire.</p></div></div>
+          <div class="row"><button class="btn sec">Confirmer ce texte</button><span class="hint">Texte déduit de tes informations : confirme-le ou corrige-le avant publication.</span></div></div>
+        <div class="field"><span class="fl">Objectifs <span class="flag">à valider</span></span>
+          <div class="editor"><div class="doc"><ul style="margin:0;padding-left:18px"><li>Publier une annonce d'objet perdu ou trouvé, avec photo.</li><li>Rechercher parmi les annonces.</li><li>Mettre en relation la personne qui a perdu et celle qui a trouvé.</li></ul></div></div></div>
+        <div class="field"><span class="fl">Résultats</span><div class="editor"><div class="doc muted">Uniquement des faits vérifiables (chiffres, mise en ligne, retours). Section masquée tant que vide.</div></div></div>`,
+      medias: `
+        <div class="field"><span class="fl">Image de couverture <span class="hint">16:10, recommandée</span></span>
+          <div class="drop">Glisse une image ici ou <a href="#medias">choisis dans la médiathèque</a><br><span class="small">JPEG, PNG, WebP, AVIF · 10 Mo max · optimisée automatiquement</span></div></div>
+        <div class="field"><span class="fl">Galerie</span><div class="media-grid"><div class="mt"><div class="thumb">retrouve-moi-<br>ecran-accueil</div><span class="small">Texte alternatif FR ✓ · EN ✕</span></div></div>
+          <span class="hint warn">Texte alternatif anglais requis avant publication.</span></div>`,
+      liens: `
+        <div class="alert crit">Au moins un lien est obligatoire pour publier ce projet.</div>
+        <div class="grid g2">
+          <div class="field"><label for="lk-t">Type</label><select id="lk-t" class="inp"><option>Site en ligne</option><option>Code source</option><option>Store (application)</option><option>Documentation</option></select></div>
+          <div class="field"><label for="lk-u">Adresse <span class="req">*</span></label><input id="lk-u" class="inp" placeholder="https://"><span class="hint">Seules les adresses https sont acceptées.</span></div>
+        </div><div><button class="btn sec">+ Ajouter un lien</button></div>`,
+      seo: `
+        <div class="pair">
+          <div class="field"><label for="seo-fr">Titre (FR)</label><input id="seo-fr" class="inp" placeholder="Retrouve Moi · Étude de cas · Software & Data Engineer"><span class="hint">Vide = calculé automatiquement</span></div>
+          <div class="field"><label for="seo-en">Title (EN)</label><input id="seo-en" class="inp" placeholder="Retrouve Moi · Case study · Software & Data Engineer"></div>
+        </div>
+        <div class="serp"><span class="u">portfolio.vercel.app › fr › projets › retrouve-moi</span><span class="ti">Retrouve Moi · Étude de cas · Software & Data Engineer</span><span class="small muted">Application mobile de recherche d'objets perdus et retrouvés.</span></div>
+        <div class="row"><span>Indexer cette page</span><button class="switch" role="switch" aria-checked="true" aria-label="Indexer"></button></div>`,
+      historique: `
+        <div class="tw"><table><thead><tr><th>Version</th><th>Type</th><th>Auteur</th><th>Date</th><th></th></tr></thead><tbody>
+          <tr><td>Copie de travail</td><td><span class="chip warn">non publiée</span></td><td>Administrateur</td><td class="small">il y a 12 s</td><td><button class="btn sec" data-modal="diff">Comparer</button></td></tr>
+          <tr><td>v4</td><td><span class="chip">point de sauvegarde</span></td><td>Administrateur</td><td class="small">il y a 1 h <span class="ex">exemple</span></td><td><button class="btn ghost" data-modal="restore">Restaurer</button></td></tr>
+          <tr><td>v1</td><td><span class="chip ok">publiée</span></td><td>Import du site actuel</td><td class="small">à l'installation</td><td><button class="btn ghost" data-modal="restore">Restaurer</button></td></tr>
+        </tbody></table></div>`,
+    }
+    return `
+    <div class="head"><div class="t"><span class="crumb"><a href="#projets">Projets</a> / PRJ-02</span><div class="row"><h1>Retrouve Moi</h1>${chip('mod')}</div>
+      <div class="savebar"><span class="pulse"></span>Enregistré il y a 12 s · modifié par Administrateur · FR complet · <span style="color:var(--warn)">EN : 2 champs manquants</span></div></div>
+      <div class="row"><button class="btn ghost" data-modal="discard">Abandonner</button><button class="btn sec" data-modal="diff">Comparer</button><button class="btn sec" data-modal="preview">Prévisualiser</button><button class="btn" data-modal="publish">Publier</button></div></div>
+    <div class="split">
+      <div class="panel"><div class="tabs" role="tablist">${tabs.map(([k, l]) => `<button role="tab" aria-selected="${k === projTab}" data-tab="${k}">${l}${k === 'liens' ? ' <span class="chip crit plain">0</span>' : ''}</button>`).join('')}</div>${body[projTab]}</div>
+      <aside class="grid">
+        <div class="panel"><h2>Avant publication</h2>
+          <ul class="check">
+            <li><span class="i y">✓</span><span>Nom, adresse, accroche, description en FR et EN</span></li>
+            <li><span class="i n">✕</span><span>Au moins un lien <a href="#projet" data-tab="liens">Ajouter</a></span></li>
+            <li><span class="i n">✕</span><span>3 champs « à valider » : problématique, objectifs, technologies</span></li>
+            <li><span class="i n">✕</span><span>Texte alternatif anglais d'une capture</span></li>
+            <li><span class="i w">!</span><span>Image de couverture (recommandée)</span></li>
+            <li><span class="i y">✓</span><span>Adresses uniques dans chaque langue</span></li>
+          </ul></div>
+        <div class="panel"><h2>Classement</h2>
+          <div class="field"><span class="fl">Contexte</span><select class="inp" aria-label="Contexte"><option>Personnel</option><option>Client</option><option>Stage</option><option>Académique</option></select></div>
+          <div class="field"><span class="fl">Domaines</span><div class="row"><span class="tag">Mobile ✕</span><span class="tag">Cloud ✕</span></div></div>
+          <div class="row" style="justify-content:space-between"><span>Affiché sur l'accueil</span><button class="switch" role="switch" aria-checked="true" aria-label="Affiché sur l'accueil"></button></div>
+          <div class="row" style="justify-content:space-between"><span>Réalisé seul</span><button class="switch" role="switch" aria-checked="false" aria-label="Réalisé seul"></button></div></div>
+        <div class="panel"><h2>Zone sensible</h2><div class="row"><button class="btn sec" data-modal="unpublish">Dépublier</button><button class="btn sec" data-modal="archive">Archiver</button></div>
+          <p class="small muted">La suppression n'est possible qu'après archivage.</p></div>
+      </aside></div>`
+  }
+
+  /* ---------- Textes du site ---------- */
+  let txtLang = 'fr'
+  const HERO = {
+    fr: { lead: 'Du produit à la donnée.', value: "Je conçois des applications web et mobiles <span class='acc'>de bout en bout</span>, j'y intègre l'IA et l'automatisation quand elles sont utiles, et je me spécialise dans <span class='acc'>la donnée et le cloud</span>.", pills: ['5 études de cas', 'FR · EN bilingue', 'M2 SIGL · ESATIC'] },
+    en: { lead: 'From product to data.', value: "I design and build web and mobile apps <span class='acc'>end to end</span>, add AI and automation where they make a real difference, and I’m specialising in <span class='acc'>data and cloud</span>.", pills: ['5 case studies', 'FR · EN bilingual', 'Master’s · ESATIC'] },
+  }
+  V.textes = () => {
+    const h = HERO[txtLang]
+    const blocks = [['Hero', 'mod'], ['Profil court', 'pub'], ['Profil complet', 'pub'], ['Introductions de section', 'pub'], ['Bandeau « Vous avez un projet ? »', 'pub'], ['Contact', 'pub'], ['Pied de page', 'pub'], ['Mentions légales', 'draft'], ['Confidentialité', 'draft']]
+    return `
+    <div class="head"><div class="t"><h1>Textes du site</h1><p class="muted">Chaque bloc se publie séparément. Les libellés des boutons restent dans le code.</p></div></div>
+    <div class="grid" style="grid-template-columns:minmax(0,240px) minmax(0,1fr);gap:16px" id="txt-grid">
+      <div class="panel" style="padding:8px"><div class="nav"><div class="grp">${blocks.map(([b, s], i) => `<a href="#textes" ${i === 0 ? 'aria-current="page"' : ''}><span class="dot"></span><span style="min-width:0">${b}</span>${s !== 'pub' ? `<span class="chip ${ST[s][1]} plain" style="margin-left:auto">${s === 'mod' ? 'modifié' : 'brouillon'}</span>` : ''}</a>`).join('')}</div></div></div>
+      <div class="grid">
+        <div class="panel"><div class="ph"><div class="row"><h2>Hero</h2>${chip('mod')}</div>
+          <div class="row"><div class="seg" role="group" aria-label="Langue"><button aria-pressed="${txtLang === 'fr'}" data-lang="fr">FR</button><button aria-pressed="${txtLang === 'en'}" data-lang="en">EN</button></div><button class="btn sec" data-modal="preview">Prévisualiser</button><button class="btn" data-modal="publish-ok">Publier</button></div></div>
+          <div class="field"><label for="h-lead">Accroche <span class="req">*</span></label><input id="h-lead" class="inp" value="${h.lead}"></div>
+          <div class="field"><span class="fl">Phrase de valeur <span class="req">*</span> <span class="hint">sélectionne un mot puis « Mettre en valeur » (2 max.)</span></span>
+            <div class="editor"><div class="tb"><button type="button">Mettre en valeur</button><button type="button">Retirer</button></div><div class="doc"><p>${h.value}</p></div></div></div>
+          <div class="field"><span class="fl">Pastilles</span><div class="row">${h.pills.map((p) => `<span class="tag"><span class="handle">⋮⋮</span>&nbsp;${p} ✕</span>`).join('')}<button class="btn ghost">+ Ajouter</button></div>
+            <span class="hint">« 5 études de cas » est calculé à partir des projets publiés.</span></div></div>
+        <div class="preview"><div class="bar"><span>Aperçu · ${txtLang.toUpperCase()} · copie de travail</span><span>non visible sur le site</span></div>
+          <div class="hero-pv"><div class="big"><span class="o">Software &amp;</span><br>Data Engineer</div><p class="lead">${h.lead}</p><p>${h.value}</p><div class="pills">${h.pills.map((p) => `<span class="pill">${p}</span>`).join('')}</div></div></div>
+      </div></div>`
+  }
+
+  /* ---------- Compétences ---------- */
+  const SK = {
+    'Pratiqué': [['Node.js', 3, true], ['API REST', 2, true], ['Vue.js', 1, true], ['Flutter', 1, true], ['MongoDB', 1, true], ['Firebase', 1, true], ['Cloudflare R2', 1, true], ['RAG / agents', 0, true]],
+    'Étudié': [['Python', 1, true], ['Pandas', 1, true], ['Qualité des données', 0, false], ['Fondamentaux du cloud', 0, false]],
+    'En exploration': [['CI/CD', 0, false], ['Conteneurs', 0, false], ['Pipelines de données à grande échelle', 0, false]],
+  }
+  V.competences = () => `
+    <div class="head"><div class="t"><h1>Compétences</h1><p class="muted">Le nombre de projets est calculé à partir des projets publiés.</p></div><button class="btn">Nouvelle compétence</button></div>
+    ${Object.entries(SK).map(([lvl, items]) => `<div class="panel"><div class="ph"><h2>${lvl}</h2><span class="small muted">${items.length} compétences (aperçu)</span></div>
+      <div class="tw"><table><thead><tr><th></th><th>Nom</th><th>Projets</th><th>Ruban</th><th>Visible</th><th></th></tr></thead><tbody>
+      ${items.map(([n, c, rib]) => `<tr><td><span class="handle">⋮⋮</span></td><td>${n}</td><td>${c ? `<span class="chip plain">${c} projet${c > 1 ? 's' : ''}</span>` : '<span class="small muted">—</span>'}</td><td><button class="switch" role="switch" aria-checked="${rib}" aria-label="Dans le ruban"></button></td><td><button class="switch" role="switch" aria-checked="true" aria-label="Visible"></button></td><td><button class="btn ghost" ${c ? 'aria-disabled="true" title="Utilisée par un projet : suppression impossible"' : ''}>Supprimer</button></td></tr>`).join('')}
+      </tbody></table></div></div>`).join('')}`
+
+  /* ---------- Parcours ---------- */
+  V.parcours = () => `
+    <div class="head"><div class="t"><h1>Parcours</h1><p class="muted">Expériences, formations et certifications, du plus récent au plus ancien.</p></div><div class="row"><button class="btn sec">Ajouter une formation</button><button class="btn">Ajouter une expérience</button></div></div>
+    <div class="grid g2">
+      <div class="panel"><div class="ph"><h2>Expériences</h2></div>
+        <div class="grid" style="gap:10px"><div class="row" style="justify-content:space-between"><span><b style="font-weight:500">Smart Innovation 7</b> · stage<br><span class="small muted">Développement d'une solution de gestion de livraison · période à compléter</span></span>${chip('pub')}</div>
+          <div class="alert warn">À compléter : intitulé du poste, dates, lieu, missions.</div></div></div>
+      <div class="panel"><div class="ph"><h2>Formations</h2></div>
+        <div class="row" style="justify-content:space-between"><span><b style="font-weight:500">ESATIC</b> · Master 2 SIGL<br><span class="small muted">Cloud computing et data engineering · en cours</span></span>${chip('pub')}</div></div>
+      <div class="panel"><div class="ph"><h2>Certifications</h2></div>
+        <div class="empty"><b>Aucune certification</b><span class="small">Le bloc reste masqué sur le site tant qu'aucune n'est publiée.</span><button class="btn sec">Ajouter une certification</button></div></div>
+      <div class="panel"><div class="ph"><h2>Justificatifs</h2></div><p class="small muted">Diplômes et attestations sont <b>privés par défaut</b>. Ils ne sont visibles sur le site que si tu coches « afficher ».</p></div>
+    </div>`
+
+  /* ---------- Médiathèque ---------- */
+  let sel = 0
+  const MEDIA = [
+    ['retrouve-moi-ecran-accueil.png', 'img', 'Projets', 'Utilisé par 1 contenu publié', true],
+    ['portrait.jpg', 'img', 'Profil', 'Non utilisé', false],
+    ['cv-fr.pdf', 'pdf', 'CV', 'Non utilisé', false],
+    ['cv-en.pdf', 'pdf', 'CV', 'Non utilisé', false],
+    ['schema-pipeline.svg', 'img', 'Projets', 'Non utilisé', false],
+  ]
+  V.medias = () => {
+    const m = MEDIA[sel]
+    return `
+    <div class="head"><div class="t"><h1>Médiathèque</h1><p class="muted">Fichiers d'exemple <span class="ex">exemple</span> : aucun média n'existe encore.</p></div><button class="btn">Importer</button></div>
+    <div class="drop">Glisse des images ou des PDF ici · JPEG, PNG, WebP, AVIF, SVG (logos), PDF · 10 Mo par image, 15 Mo par PDF</div>
+    <div class="row"><div class="seg" role="group" aria-label="Dossier"><button aria-pressed="true">Tous</button><button>Projets</button><button>Profil</button><button>CV</button><button>Logos</button></div><span class="sp"></span><input class="inp" style="max-width:240px" placeholder="Rechercher" aria-label="Rechercher un média"></div>
+    <div class="split">
+      <div class="media-grid">${MEDIA.map(([n, t, , u], i) => `<button class="mt" aria-pressed="${i === sel}" data-sel="${i}"><div class="thumb ${t}">${t === 'pdf' ? 'PDF' : 'IMG'}</div><span class="small" style="overflow-wrap:anywhere">${n}</span><span class="small muted">${u}</span></button>`).join('')}</div>
+      <div class="panel"><h2 style="overflow-wrap:anywhere">${m[0]}</h2><div class="thumb ${m[1]}" style="aspect-ratio:16/10">${m[1] === 'pdf' ? 'PDF' : 'Aperçu'}</div>
+        <p class="small muted">${m[1] === 'pdf' ? 'PDF · 184 Ko' : 'Original 2400 × 1500 · 1,8 Mo → 4 tailles WebP/AVIF · EXIF retirés'}</p>
+        ${m[1] === 'img' ? `<div class="field"><label for="alt-fr">Texte alternatif FR</label><input id="alt-fr" class="inp" value="${sel === 0 ? "Écran d'accueil de l'application Retrouve Moi" : ''}"></div>
+        <div class="field"><label for="alt-en">Texte alternatif EN</label><input id="alt-en" class="inp ${sel === 0 ? 'err' : ''}"><span class="hint ${sel === 0 ? 'err' : ''}">${sel === 0 ? 'Obligatoire : image utilisée dans un contenu publié' : ''}</span></div>` : ''}
+        <div class="field"><span class="fl">Utilisé par</span><span class="small">${m[4] ? '<a href="#projet">Retrouve Moi · galerie</a>' : 'Aucun contenu'}</span></div>
+        <div class="row"><button class="btn sec">Remplacer</button><button class="btn ${m[4] ? 'sec' : 'danger'}" ${m[4] ? 'aria-disabled="true"' : 'data-modal="delete-media"'}>Supprimer</button></div>
+        ${m[4] ? '<span class="hint">Suppression impossible : utilisé par un contenu publié.</span>' : ''}</div>
+    </div>`
+  }
+
+  /* ---------- Traductions ---------- */
+  V.traductions = () => `
+    <div class="head"><div class="t"><h1>Traductions</h1><p class="muted">Une langue incomplète bloque la publication des projets et des textes.</p></div></div>
+    <div class="tw"><table><thead><tr><th>Contenu</th><th>Type</th><th>FR</th><th>EN</th><th>Manquant</th><th></th></tr></thead><tbody>
+      <tr><td>Retrouve Moi</td><td>Projet</td><td>✓</td><td><span class="lang"><span class="part">EN</span></span></td><td class="small">Mon rôle · texte alternatif d'une capture</td><td><a class="btn sec" href="#projet">Compléter</a></td></tr>
+      <tr><td>Mentions légales</td><td>Texte</td><td><span class="lang"><span class="no">FR</span></span></td><td><span class="lang"><span class="no">EN</span></span></td><td class="small">Tout le texte</td><td><a class="btn sec" href="#textes">Rédiger</a></td></tr>
+      <tr><td>Confidentialité</td><td>Texte</td><td><span class="lang"><span class="no">FR</span></span></td><td><span class="lang"><span class="no">EN</span></span></td><td class="small">Tout le texte</td><td><a class="btn sec" href="#textes">Rédiger</a></td></tr>
+      ${PROJECTS.filter((p) => p.id !== 'PRJ-02').map((p) => `<tr><td>${p.fr}</td><td>Projet</td><td>✓</td><td>✓</td><td class="small muted">—</td><td></td></tr>`).join('')}
+    </tbody></table></div>`
+
+  /* ---------- SEO ---------- */
+  const PAGES = [['Accueil', 'Software & Data Engineer', 165], ['Projets', 'Projets · Software & Data Engineer', 139], ['Profil', 'Profil · Software & Data Engineer', 113], ['Expertise', 'Expertise et services · Software & Data Engineer', 140], ['Contact', 'Contact · Software & Data Engineer', 153]]
+  V.seo = () => `
+    <div class="head"><div class="t"><h1>SEO</h1><p class="muted">Titres et descriptions des pages (FR). Les projets ont leur onglet SEO.</p></div><div class="seg" role="group" aria-label="Langue"><button aria-pressed="true">FR</button><button>EN</button></div></div>
+    <div class="tw"><table><thead><tr><th>Page</th><th>Titre</th><th>Description</th><th>Indexée</th></tr></thead><tbody>
+    ${PAGES.map(([p, t, d]) => `<tr><td>${p}</td><td class="small">${t}<div class="meter" style="margin-top:4px"><i class="${t.length > 60 ? 'w' : ''}" style="width:${Math.min(100, t.length / 60 * 100)}%"></i></div></td><td class="small">${d} car.<div class="meter" style="margin-top:4px"><i class="${d > 160 ? 'w' : ''}" style="width:${Math.min(100, d / 160 * 100)}%"></i></div></td><td><button class="switch" role="switch" aria-checked="true" aria-label="Indexée"></button></td></tr>`).join('')}
+    <tr><td>Mentions légales</td><td class="small">Mentions légales · Software & Data Engineer</td><td class="small">27 car.</td><td><button class="switch" role="switch" aria-checked="false" aria-label="Indexée"></button></td></tr>
+    </tbody></table></div>
+    <div class="grid g2"><div class="panel"><h2>Aperçu Google · Accueil</h2><div class="serp"><span class="u">portfolio.vercel.app › fr</span><span class="ti">Software & Data Engineer</span><span class="small muted">Software & Data Engineer : je conçois des applications web et mobiles de bout en bout, avec l'IA et l'automatisation, et je me spécialise dans la donnée et le cloud.</span></div></div>
+      <div class="panel"><h2>Image de partage</h2><div class="thumb" style="aspect-ratio:1200/630">og-image.png · 1200 × 630</div><button class="btn sec">Changer l'image</button></div></div>`
+
+  /* ---------- Boîte de réception ---------- */
+  let msgSel = 0
+  const MSGS = [
+    ['Exemple · recruteuse', 'recruteur', 'Poste de Data Engineer junior', true, 'il y a 3 h'],
+    ['Exemple · client', 'client', 'Application mobile + API', true, 'hier'],
+    ['Exemple · autre', 'autre', 'Question sur le projet Retrouve Moi', false, '4 nov.'],
+  ]
+  V.boite = () => `
+    <div class="head"><div class="t"><h1>Boîte de réception</h1><p class="muted">Messages du formulaire de contact. Archivés supprimés après 12 mois.</p></div><span class="ex">exemple</span></div>
+    <div class="row"><div class="seg" role="group" aria-label="Statut"><button aria-pressed="true">Nouveaux 2</button><button>Lus</button><button>Répondus</button><button>Archivés</button></div></div>
+    <div class="inbox">
+      <div class="panel" style="padding:0;gap:0">${MSGS.map(([f, p, s, u, d], i) => `<button class="msg ${u ? 'unread' : ''}" aria-current="${i === msgSel}" data-msg="${i}"><span class="from"><span style="flex:1">${f}</span><span class="small muted">${d}</span></span><span class="small">${s}</span><span class="small muted">${p}</span></button>`).join('')}</div>
+      <div class="panel"><div class="ph"><h2>${MSGS[msgSel][2]}</h2><span class="chip info">${MSGS[msgSel][1]}</span></div>
+        <dl class="grid g2" style="margin:0;gap:8px"><div><dt class="lab">De</dt><dd style="margin:0">${MSGS[msgSel][0]}</dd></div><div><dt class="lab">Email</dt><dd style="margin:0">exemple@exemple.com</dd></div><div><dt class="lab">Types de projet</dt><dd style="margin:0">Mobile · API</dd></div><div><dt class="lab">Délai</dt><dd style="margin:0">3 mois</dd></div></dl>
+        <p style="white-space:pre-line;padding:12px;border-radius:var(--r-md);background:var(--paper)">Message d'exemple affiché comme simple texte : aucun lien ni code n'y est interprété.</p>
+        <div class="row"><span class="btn sec" title="Ouvre ton logiciel de messagerie">Répondre par email</span><button class="btn sec" data-toast="Marqué comme répondu">Marquer répondu</button><button class="btn ghost" data-toast="Message archivé">Archiver</button><button class="btn ghost" data-modal="delete-msg">Supprimer</button></div></div>
+    </div>`
+
+  /* ---------- Sécurité et surveillance ---------- */
+  V.securite = () => `
+    <div class="head"><div class="t"><h1>Sécurité et surveillance</h1><p class="muted">Mesures toutes les 5 min. Valeurs d'exemple <span class="ex">exemple</span>.</p></div></div>
+    <div class="grid g4">
+      ${[['Site public', '142 ms', [150, 140, 162, 138, 145, 141, 170, 142]], ['API', '88 ms', [90, 85, 92, 87, 84, 95, 89, 88]], ['Base de données', '12 ms', [11, 13, 12, 14, 12, 11, 12, 12]], ['Stockage médias', '61 ms', [55, 60, 70, 58, 62, 59, 61, 61]]].map(([n, v, pts]) => `<div class="svc"><b style="font-weight:500">${n}</b><span class="chip ok">${v}</span>${spark(pts, 'var(--ok)')}<span class="small muted">disponible 100 % · 24 h</span></div>`).join('')}
+    </div>
+    <div class="grid g2">
+      <div class="panel"><div class="ph"><h2>Alertes ouvertes</h2><span class="chip warn">1</span></div>
+        <div class="alert warn"><b>5 échecs de connexion</b> sur ton compte en 12 min depuis 196.x.x.x (Ville B, pays inhabituel). Compte bloqué 15 min. Aucune connexion réussie.</div>
+        <div class="row"><button class="btn sec" data-toast="Incident ouvert : INC-003">Ouvrir un incident</button><button class="btn ghost" data-toast="Alerte marquée comme traitée">Marquer traitée</button></div></div>
+      <div class="panel"><div class="ph"><h2>Intégrité</h2></div>
+        <ul class="check"><li><span class="i y">✓</span><span>Chaîne du journal intègre · contrôlée cette nuit</span></li><li><span class="i y">✓</span><span>Double authentification active sur tous les administrateurs</span></li><li><span class="i w">!</span><span>Sauvegardes non vérifiées (aucun essai de restauration)</span></li></ul></div>
+    </div>
+    <div class="panel"><div class="ph"><h2>Incidents</h2></div>
+      <div class="tw"><table><thead><tr><th>N°</th><th>Titre</th><th>Gravité</th><th>État</th><th>Ouvert</th></tr></thead><tbody>
+        <tr><td>INC-002</td><td>API indisponible 10 min (Neon en maintenance)</td><td><span class="chip crit">critique</span></td><td><span class="chip ok">résolu</span></td><td class="small">2 nov.</td></tr>
+        <tr><td>INC-001</td><td>Sauvegarde échouée : délai dépassé</td><td><span class="chip crit">critique</span></td><td><span class="chip ok">résolu</span></td><td class="small">28 oct.</td></tr>
+      </tbody></table></div></div>`
+
+  /* ---------- Journal ---------- */
+  const LOG = [
+    ['14:32:05', 'c', 'Administrateur', 'auth.sign_in.failed', '—', 'refusé'],
+    ['14:20:11', 'i', 'Administrateur', 'project.save', 'PRJ-02 Retrouve Moi', 'succès'],
+    ['13:02:40', 'o', 'Administrateur', 'page.publish', 'Hero', 'succès'],
+    ['13:01:02', 'i', 'Administrateur', 'media.upload', 'retrouve-moi-ecran-accueil.png', 'succès'],
+    ['12:58:47', 'w', 'Administrateur', 'media.upload.rejected', 'scan.heic (type refusé)', 'refusé'],
+    ['12:40:00', 'o', 'Administrateur', 'auth.sign_in', 'Chrome · Windows · Ville A', 'succès'],
+  ]
+  V.journal = () => `
+    <div class="head"><div class="t"><h1>Journal d'activité</h1><p class="muted">Ajout seulement, conservé 12 mois. Aucun mot de passe, code ou cookie n'y figure.</p></div><span class="chip ok">chaîne intègre</span></div>
+    <div class="row"><select class="inp" style="max-width:180px" aria-label="Gravité"><option>Toutes gravités</option><option>Critique</option><option>Attention</option><option>Info</option></select><select class="inp" style="max-width:200px" aria-label="Action"><option>Toutes actions</option><option>Connexions</option><option>Publications</option><option>Médias</option></select><input class="inp" type="date" style="max-width:170px" aria-label="Date"></div>
+    <div class="tw"><table><thead><tr><th>Heure</th><th></th><th>Utilisateur</th><th>Action</th><th>Ressource</th><th>Résultat</th></tr></thead><tbody>
+      ${LOG.map(([h, s, u, a, r, res]) => `<tr><td class="small">${h}</td><td><span class="sev ${s}" style="display:inline-block"></span></td><td>${u}</td><td><code class="small">${a}</code></td><td class="small">${r}</td><td><span class="chip ${res === 'succès' ? 'ok' : 'crit'} plain">${res}</span></td></tr>`).join('')}
+    </tbody></table></div><p class="small muted"><span class="ex">exemple</span> Adresse IP tronquée et appareil visibles en ouvrant une ligne.</p>`
+
+  /* ---------- Sessions ---------- */
+  V.sessions = () => `
+    <div class="head"><div class="t"><h1>Sessions</h1><p class="muted">Expiration après 2 h d'inactivité, 7 jours au maximum.</p></div><button class="btn sec" data-modal="revoke-all">Déconnecter les autres sessions</button></div>
+    <div class="tw"><table><thead><tr><th>Appareil</th><th>Lieu approximatif</th><th>Ouverte</th><th>Dernière activité</th><th></th></tr></thead><tbody>
+      <tr><td>Chrome · Windows <span class="chip ok plain">cette session</span></td><td>Ville A</td><td class="small">aujourd'hui 12:40</td><td class="small">à l'instant</td><td></td></tr>
+      <tr><td>Safari · iPhone</td><td>Ville A</td><td class="small">5 nov. 09:12</td><td class="small">hier 22:03</td><td><button class="btn sec" data-toast="Session révoquée">Révoquer</button></td></tr>
+    </tbody></table></div>
+    <div class="panel"><div class="ph"><h2>Historique des connexions</h2><span class="ex">exemple</span></div>
+      <ul class="list"><li><span class="sev o"></span><span>Connexion réussie · Chrome · Windows · Ville A · double authentification</span><span class="small muted">aujourd'hui 12:40</span></li>
+      <li><span class="sev c"></span><span>5 échecs · inconnu · Ville B · compte bloqué 15 min</span><span class="small muted">aujourd'hui 14:20</span></li>
+      <li><span class="sev o"></span><span>Connexion réussie · Safari · iPhone · Ville A</span><span class="small muted">5 nov.</span></li></ul></div>`
+
+  /* ---------- Sauvegardes ---------- */
+  V.sauvegardes = () => `
+    <div class="head"><div class="t"><h1>Sauvegardes</h1><p class="muted">Export chiffré chaque jour à 03:00 UTC · 30 quotidiennes et 12 mensuelles conservées.</p></div><div class="row"><button class="btn sec" data-toast="Sauvegarde lancée : environ 20 s">Lancer une sauvegarde</button></div></div>
+    <div class="alert warn">Aucun essai de restauration n'a encore été fait : les sauvegardes sont considérées comme <b>non vérifiées</b>.</div>
+    <div class="tw"><table><thead><tr><th>Date</th><th>Déclencheur</th><th>Taille</th><th>Résultat</th><th>Intégrité</th><th></th></tr></thead><tbody>
+      <tr><td>7 nov. 03:00</td><td>planifiée</td><td>1,4 Mo</td><td><span class="chip ok">réussie</span></td><td><span class="chip ok plain">empreinte vérifiée</span></td><td><button class="btn ghost" data-modal="restore-backup">Restaurer</button></td></tr>
+      <tr><td>6 nov. 03:00</td><td>planifiée</td><td>1,4 Mo</td><td><span class="chip ok">réussie</span></td><td><span class="chip ok plain">empreinte vérifiée</span></td><td><button class="btn ghost" data-modal="restore-backup">Restaurer</button></td></tr>
+      <tr><td>28 oct. 03:00</td><td>planifiée</td><td>—</td><td><span class="chip crit">échouée</span></td><td>—</td><td class="small muted">INC-001</td></tr>
+    </tbody></table></div><p class="small muted"><span class="ex">exemple</span> Le téléchargement n'est pas possible depuis l'admin : seulement vérifier ou restaurer.</p>`
+
+  /* ---------- Paramètres ---------- */
+  V.parametres = () => `
+    <div class="head"><div class="t"><div class="row"><h1>Paramètres</h1>${chip('draft')}</div><p class="muted">Réservé à l'administrateur. Les changements passent par l'aperçu puis la publication.</p></div>
+      <div class="row"><button class="btn sec" data-modal="preview">Prévisualiser</button><button class="btn" data-modal="reauth">Publier</button></div></div>
+    <div class="grid g2">
+      <div class="panel"><h2>Identité</h2>
+        <div class="field"><label for="p-name">Nom affiché <span class="req">*</span></label><input id="p-name" class="inp" placeholder="Prénom Nom"><span class="hint warn">Vide : le site affiche « Software & Data Engineer » à la place.</span></div>
+        <div class="field"><label for="p-ini">Initiales</label><input id="p-ini" class="inp" placeholder="2 ou 3 lettres" maxlength="3"><span class="hint">Vide : le logo affiche « / ».</span></div>
+        <div class="field"><span class="fl">Photo de profil</span><div class="row"><div class="avatar" style="width:56px;height:56px">?</div><button class="btn sec">Choisir dans la médiathèque</button></div></div></div>
+      <div class="panel"><h2>Contact</h2>
+        <div class="field"><label for="p-mail">Email professionnel <span class="req">*</span></label><input id="p-mail" class="inp" type="email" placeholder="nom@domaine.com"><span class="hint">Affiché sur le site et utilisé pour les notifications.</span></div>
+        <div class="field"><span class="fl">Réseaux</span><div class="grid" style="gap:8px"><div class="row" style="flex-wrap:nowrap"><select class="inp" style="max-width:130px" aria-label="Réseau"><option>LinkedIn</option><option>GitHub</option><option>Autre</option></select><input class="inp" placeholder="https://" aria-label="Adresse du réseau"></div><div><button class="btn ghost">+ Ajouter un réseau</button></div></div></div>
+        <div class="row" style="justify-content:space-between"><span>Formulaire de contact ouvert</span><button class="switch" role="switch" aria-checked="true" aria-label="Formulaire ouvert"></button></div></div>
+      <div class="panel"><h2>CV</h2>
+        <div class="grid g2"><div class="field"><span class="fl">CV français</span><div class="drop small">Aucun · choisir un PDF</div></div><div class="field"><span class="fl">CV anglais</span><div class="drop small">Aucun · choisir un PDF</div></div></div>
+        <span class="hint">Servi à /fr/cv et /en/cv.</span></div>
+      <div class="panel"><h2>Disponibilité</h2>
+        <div class="row" style="justify-content:space-between"><span>Disponible pour de nouveaux projets</span><button class="switch" role="switch" aria-checked="true" aria-label="Disponible"></button></div>
+        <div class="pair"><div class="field"><label for="av-fr">Texte FR</label><input id="av-fr" class="inp" value="Disponible"></div><div class="field"><label for="av-en">Text EN</label><input id="av-en" class="inp" value="Available"></div></div>
+        <div class="pair"><div class="field"><label for="tz">Fuseau horaire</label><select id="tz" class="inp"><option>— non renseigné —</option><option>UTC+0 (Abidjan)</option></select></div><div class="field"><label for="lg">Langue par défaut</label><select id="lg" class="inp"><option>Anglais</option><option>Français</option></select></div></div></div>
+    </div>`
+
+  /* ---------- Connexion ---------- */
+  let loginStep = 1
+  V.connexion = () => `
+    <div class="login"><form class="card" id="login-form" novalidate>
+      <div class="brand"><span class="mk">/</span><span>Administration<small>Portfolio · accès réservé</small></span></div>
+      ${loginStep === 1 ? `
+        <h1>Connexion</h1>
+        <div class="alert crit" role="alert">Email ou mot de passe incorrect. Après 5 échecs, la connexion est bloquée 15 min.</div>
+        <div class="field"><label for="l-mail">Email</label><input id="l-mail" class="inp" type="email" autocomplete="username" placeholder="nom@domaine.com"></div>
+        <div class="field"><label for="l-pass">Mot de passe</label><input id="l-pass" class="inp" type="password" autocomplete="current-password"></div>
+        <button class="btn" style="justify-content:center">Continuer</button>
+        <a class="small muted" href="#connexion">Mot de passe oublié ?</a>`
+      : `
+        <h1>Double authentification</h1>
+        <p class="muted small">Saisis le code à 6 chiffres de ton application d'authentification.</p>
+        <div class="otp">${[1, 2, 3, 4, 5, 6].map((i) => `<input class="inp" inputmode="numeric" maxlength="1" aria-label="Chiffre ${i}">`).join('')}</div>
+        <button class="btn" style="justify-content:center">Se connecter</button>
+        <a class="small muted" href="#connexion">Utiliser un code de secours</a>`}
+      <p class="small muted">Pas d'inscription publique : les comptes sont créés sur invitation.</p>
+    </form></div>`
+
+  /* ---------- Modals ---------- */
+  const MODALS = {
+    publish: ['Publication impossible', `<p>Corrige ces points avant de publier <b>Retrouve Moi</b> :</p><ul class="check"><li><span class="i n">✕</span><span>Ajouter au moins un lien</span></li><li><span class="i n">✕</span><span>Confirmer les 3 champs « à valider »</span></li><li><span class="i n">✕</span><span>Texte alternatif anglais d'une capture</span></li></ul><p class="small muted">La version en ligne n'a pas changé.</p>`, [['Fermer', 'sec']]],
+    'publish-ok': ['Publier le Hero ?', `<p>La copie de travail remplace la version en ligne, en FR et en EN. Pages mises à jour : accueil FR et EN.</p><p class="small muted">L'ancienne version reste dans l'historique.</p>`, [['Annuler', 'sec'], ['Publier', '', 'Hero publié · site mis à jour']]],
+    unpublish: ['Dépublier Retrouve Moi ?', `<p>Le projet disparaît du site, de l'accueil, de la page Projets, de la page Expertise et du sitemap. Son adresse renverra une erreur 404.</p>`, [['Annuler', 'sec'], ['Dépublier', 'danger', 'Retrouve Moi dépublié']]],
+    archive: ['Archiver Retrouve Moi ?', `<p>Le projet est retiré du site et passe en lecture seule. Tu pourras le restaurer en brouillon.</p>`, [['Annuler', 'sec'], ['Archiver', 'danger', 'Retrouve Moi archivé']]],
+    discard: ['Abandonner les modifications ?', `<p>La copie de travail redevient identique à la version publiée. Les points de sauvegarde restent dans l'historique.</p>`, [['Annuler', 'sec'], ['Abandonner', 'danger', 'Modifications abandonnées']]],
+    restore: ['Restaurer cette version ?', `<p>Elle devient la nouvelle copie de travail. <b>Rien n'est publié</b> : tu la relis, puis tu publies.</p>`, [['Annuler', 'sec'], ['Restaurer', '', 'Version restaurée en copie de travail']]],
+    diff: ['Comparer · copie de travail ↔ publiée', `<div class="grid" style="gap:8px"><span class="lab">Accroche · FR</span><p><del style="color:var(--crit)">Une application pour retrouver ce qu'on a perdu.</del></p><p><ins style="color:var(--ok);text-decoration:none">Une application mobile pour retrouver ce qu'on a perdu.</ins></p><span class="lab">Mon rôle · EN</span><p class="small muted">Inchangé</p></div>`, [['Fermer', 'sec']]],
+    preview: ['Aperçu privé', `<p>L'aperçu ouvre la vraie page du site avec la copie de travail, dans un nouvel onglet, marqué « Aperçu ».</p><p class="small muted">Lien valable 30 min, réservé aux comptes connectés, non indexé.</p>`, [['Fermer', 'sec'], ['Ouvrir l’aperçu FR', '', 'Aperçu ouvert (maquette)']]],
+    reauth: ['Confirme ton identité', `<p class="small">Modifier les paramètres demande une connexion de moins de 10 min.</p><div class="field"><label for="ra-p">Mot de passe</label><input id="ra-p" class="inp" type="password"></div><div class="field"><label for="ra-c">Code à 6 chiffres</label><input id="ra-c" class="inp" inputmode="numeric" maxlength="6"></div>`, [['Annuler', 'sec'], ['Confirmer et publier', '', 'Paramètres publiés']]],
+    'delete-media': ['Supprimer ce fichier ?', `<p>Il n'est utilisé par aucun contenu. Il part dans la corbeille 30 jours, puis il est supprimé définitivement.</p>`, [['Annuler', 'sec'], ['Supprimer', 'danger', 'Fichier mis à la corbeille']]],
+    'delete-msg': ['Supprimer ce message ?', `<p>Suppression définitive, sans corbeille.</p>`, [['Annuler', 'sec'], ['Supprimer', 'danger', 'Message supprimé']]],
+    'revoke-all': ['Déconnecter les autres sessions ?', `<p>Toutes tes sessions sauf celle-ci sont fermées immédiatement.</p>`, [['Annuler', 'sec'], ['Déconnecter', 'danger', '1 session révoquée']]],
+    'restore-backup': ['Restaurer la sauvegarde du 7 nov. ?', `<ol class="small" style="margin:0;padding-left:18px;display:grid;gap:4px"><li>Vérification : 5 projets, 12 textes, 214 versions, 31 médias</li><li>Sauvegarde de l'état actuel</li><li>Restauration en une transaction</li><li>Toutes les sessions sont fermées</li></ol><div class="field"><label for="rb">Tape <b>RESTAURER</b> pour confirmer</label><input id="rb" class="inp"></div>`, [['Annuler', 'sec'], ['Restaurer', 'danger', 'Restauration terminée (maquette)']]],
+  }
+
+  /* ---------- Render ---------- */
+  const root = document.getElementById('root')
+  let loading = false
+  function current() { const h = location.hash.slice(1); return V[h] ? h : 'tableau' }
+  function skeleton() { return `<div class="sk" style="height:28px;width:240px"></div><div class="grid g4">${'<div class="panel"><div class="sk" style="height:12px;width:50%"></div><div class="sk" style="height:28px;width:40%"></div></div>'.repeat(4)}</div><div class="panel">${'<div class="sk" style="height:14px"></div>'.repeat(6)}</div>` }
+  function render() {
+    const r = current()
+    if (r === 'connexion') { root.innerHTML = V.connexion(); return }
+    root.innerHTML = `<div class="app">
+      <aside class="sb" id="sb" aria-label="Navigation de l'admin">
+        <div class="brand"><span class="mk">/</span><span>Administration<small>Portfolio · FR / EN</small></span></div>
+        <nav class="nav">${NAV.map(([g, items]) => `<div class="grp">${g ? `<span class="lab">${g}</span>` : ''}${items.map(([k, l, c]) => `<a href="#${k}" ${k === r || (r === 'projet' && k === 'projets') ? 'aria-current="page"' : ''}><span class="dot"></span>${l}${c ? `<span class="cnt">${c}</span>` : ''}</a>`).join('')}</div>`).join('')}</nav>
+        <a class="small muted" href="#connexion" style="padding:0 10px">Écran de connexion</a>
+        <div class="me"><span class="avatar">A</span><span style="min-width:0">Administrateur<br><span class="muted">2FA active</span></span></div>
+      </aside>
+      <div class="main">
+        <header class="top"><button class="btn sec menu-btn" id="menu" aria-controls="sb" aria-expanded="false">Menu</button>
+          <span class="crumb">Admin / <b>${TITLES[r]}</b></span><span class="sp"></span>
+          <span class="search"><span class="txt">Rechercher</span><kbd>Ctrl K</kbd></span>
+          <span class="btn sec hide-sm">Voir le site ↗</span></header>
+        <main id="view">${loading ? skeleton() : V[r]()}</main>
+      </div></div>`
+    document.title = 'Admin Index Studio'
+  }
+  function toast(msg) { document.querySelector('.toast')?.remove(); const t = document.createElement('div'); t.className = 'toast'; t.setAttribute('role', 'status'); t.innerHTML = `<span>✓</span>${msg}`; document.body.appendChild(t); setTimeout(() => t.remove(), 2600) }
+  function modal(key) {
+    const [title, body, acts] = MODALS[key]
+    const o = document.createElement('div'); o.className = 'overlay'
+    o.innerHTML = `<div class="modal" role="dialog" aria-modal="true" aria-labelledby="m-t"><h2 id="m-t" style="font-size:17px">${title}</h2>${body}<div class="acts">${acts.map(([l, c, t]) => `<button class="btn ${c}" data-close="${t || ''}">${l}</button>`).join('')}</div></div>`
+    document.body.appendChild(o)
+    const first = o.querySelector('input, .acts .btn:last-child'); first?.focus()
+    o.addEventListener('click', (e) => { const b = e.target.closest('[data-close]'); if (e.target === o || b) { o.remove(); if (b?.dataset.close) toast(b.dataset.close) } })
+    o.addEventListener('keydown', (e) => { if (e.key === 'Escape') o.remove() })
+  }
+
+  document.addEventListener('click', (e) => {
+    const t = e.target.closest('[data-modal], [data-toast], [data-tab], [data-lang], [data-sel], [data-msg], .switch, .seg button, #menu')
+    if (!t) return
+    if (t.id === 'menu') { const sb = document.getElementById('sb'); sb.classList.toggle('open'); t.setAttribute('aria-expanded', sb.classList.contains('open')); return }
+    if (t.dataset.modal) return modal(t.dataset.modal)
+    if (t.dataset.toast) return toast(t.dataset.toast)
+    if (t.dataset.tab) { e.preventDefault(); projTab = t.dataset.tab; if (location.hash !== '#projet') location.hash = 'projet'; else render(); return }
+    if (t.dataset.lang) { txtLang = t.dataset.lang; return render() }
+    if (t.dataset.sel) { sel = +t.dataset.sel; return render() }
+    if (t.dataset.msg) { msgSel = +t.dataset.msg; return render() }
+    if (t.classList.contains('switch')) return t.setAttribute('aria-checked', t.getAttribute('aria-checked') !== 'true')
+    if (t.closest('.seg')) { t.parentElement.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', b === t)) }
+  })
+  document.addEventListener('submit', (e) => { if (e.target.id === 'login-form') { e.preventDefault(); loginStep = loginStep === 1 ? 2 : 1; if (loginStep === 1) location.hash = 'tableau'; else render() } })
+  document.addEventListener('keydown', (e) => { if ((e.ctrlKey || e.metaKey) && e.key === 's' && current() === 'projet') { e.preventDefault(); toast('Point de sauvegarde créé (v5)') } })
+  window.addEventListener('hashchange', () => { render(); window.scrollTo(0, 0) })
+
+  const themes = ['system', 'light', 'dark']; let ti = 0
+  document.getElementById('theme-btn').addEventListener('click', (e) => { ti = (ti + 1) % 3; const th = themes[ti]; if (th === 'system') delete document.documentElement.dataset.theme; else document.documentElement.dataset.theme = th; e.target.textContent = 'Thème : ' + { system: 'système', light: 'clair', dark: 'sombre' }[th] })
+  document.getElementById('load-btn').addEventListener('click', () => { loading = true; render(); setTimeout(() => { loading = false; render() }, 1600) })
+  render()
+})()
+</script>
