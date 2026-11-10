@@ -22,3 +22,6 @@ dist/
 .vscode/*
 !.vscode/extensions.json
 .idea/
+
+# Local media storage (development)
+.storage/

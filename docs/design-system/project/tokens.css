@@ -15,6 +15,9 @@
   --marker: #ff7a1a;
   --on-marker: #141311;
   --success: #1f8a4c;
+  --warning: #8a5a00;
+  --danger: #b3261e;
+  --info: #2f5d8a;
   --focus-ring: #2340e8;
   --focus-ring-inverse: #8fa0ff;
   --focus-ring-on-marker: #141311;
@@ -39,6 +42,9 @@
   --marker: #ff7a1a;
   --on-marker: #141311;
   --success: #4cc27a;
+  --warning: #e5b45a;
+  --danger: #f08a80;
+  --info: #8db6df;
   --focus-ring: #8fa0ff;
   --focus-ring-inverse: #8fa0ff;
   --focus-ring-on-marker: #141311;

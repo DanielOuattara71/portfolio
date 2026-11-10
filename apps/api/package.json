@@ -7,15 +7,23 @@
     "dev": "tsx watch --env-file-if-exists=../../.env src/dev.ts",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "drizzle-kit migrate"
+    "db:migrate": "drizzle-kit migrate",
+    "db:seed": "tsx --env-file-if-exists=../../.env src/scripts/import-seed.ts",
+    "db:seed:blocks": "tsx --env-file-if-exists=../../.env src/scripts/import-blocks.ts",
+    "internal": "tsx --env-file-if-exists=../../.env src/scripts/internal.ts",
+    "admin:create": "tsx --env-file-if-exists=../../.env src/scripts/create-admin.ts"
   },
   "dependencies": {
     "@hono/node-server": "2.1.6",
     "@hono/zod-openapi": "1.6.3",
     "@portfolio/shared": "workspace:*",
+    "@sentry/node": "11.9.0",
+    "@upstash/qstash": "2.12.1",
+    "better-auth": "1.7.12",
     "drizzle-orm": "0.45.4",
     "hono": "4.13.16",
     "postgres": "4.1.0",
+    "sharp": "0.35.5",
     "zod": "4.6.7"
   },
   "devDependencies": {

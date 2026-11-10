@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "turbo run dev --filter=@portfolio/web",
     "dev:api": "turbo run dev --filter=@portfolio/api",
+    "dev:admin": "turbo run dev --filter=@portfolio/admin",
     "build": "turbo run build",
     "typecheck": "turbo run typecheck",
     "tokens": "pnpm --filter @portfolio/design-tokens build",
