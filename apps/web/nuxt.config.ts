@@ -5,7 +5,7 @@ export default defineNuxtConfig({
 
   modules: ['@nuxtjs/i18n', '@nuxt/fonts', '@sentry/nuxt'],
 
-  css: ['@portfolio/design-tokens/tokens.css', '~/assets/styles/base.css'],
+  css: ['@portfolio/design-tokens/tokens.css', 'lenis/dist/lenis.css', '~/assets/styles/base.css'],
 
   runtimeConfig: {
     // Shared secret with the API for on-demand refresh after a publication (NUXT_REVALIDATE_TOKEN).

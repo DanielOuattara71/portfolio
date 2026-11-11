@@ -39,6 +39,6 @@
   font: 800 clamp(46px, 11vw, 148px)/1 var(--font-display);
   letter-spacing: 0.35em;
   padding-left: 0.35em;
-  color: var(--marker);
+  color: #ffffff;
 }
 </style>

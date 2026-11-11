@@ -25,7 +25,7 @@ export function useNav(): { group: string; items: NavItem[] }[] {
       group: 'Publication',
       items: [
         { to: '/traductions', label: 'Traductions', ready: true },
-        { to: '/seo', label: 'SEO', ready: false },
+        { to: '/seo', label: 'SEO', ready: true },
         { to: '/messages', label: 'Boîte de réception', ready: true },
       ],
     },

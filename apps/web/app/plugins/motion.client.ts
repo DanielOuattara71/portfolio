@@ -30,15 +30,20 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   function sync() {
     state.value = { ...state.value, reduced: reduceMq.matches, fine: fineMq.matches }
-    const wantSmooth = !reduceMq.matches && fineMq.matches
+    const wantSmooth = !reduceMq.matches // reduced-motion still wins: OS setting keeps scroll native
     if (wantSmooth && !lenis && !lenisLoading) {
       // Loaded on demand: touch devices never download it.
       lenisLoading = true
       import('lenis').then(({ default: LenisCtor }) => {
         lenisLoading = false
-        if (lenis || reduceMq.matches || !fineMq.matches) return
-        lenis = new LenisCtor({ lerp: 0.1, smoothWheel: true })
+        if (lenis || reduceMq.matches) return
+        lenis = new LenisCtor({ lerp: 0.1, smoothWheel: true, smoothTouch: true, touchMultiplier: 1.5 })
         lenis.on('scroll', ScrollTrigger.update)
+        ScrollTrigger.refresh()
+      }).catch((err) => {
+        // Dynamic import failed (offline, blocked chunk…): Lenis stays unloaded, the page keeps native scroll.
+        lenisLoading = false
+        console.warn('lenis unavailable:', err?.message ?? err)
       })
     } else if (!wantSmooth && lenis) {
       lenis.destroy()
@@ -73,6 +78,7 @@ export default defineNuxtPlugin((nuxtApp) => {
     requestAnimationFrame(() => {
       lenis?.scrollTo(window.scrollY, { immediate: true, force: true })
       ScrollTrigger.refresh()
+      ScrollTrigger.sort()
       document.getElementById('main')?.focus({ preventScroll: true })
       kind.value = 'curtain'
     })

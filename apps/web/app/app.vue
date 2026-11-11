@@ -12,7 +12,7 @@ async function scrollToHash(hash: string | undefined) {
   await new Promise<void>((r) => requestAnimationFrame(() => requestAnimationFrame(() => r())))
   const el = document.getElementById(id)
   if (!el) return
-  el.scrollIntoView({ behavior: prefersReducedMotion() ? 'auto' : 'smooth', block: 'start' })
+  el.scrollIntoView({ behavior: prefersReducedMotion() ? 'instant' : 'auto', block: 'start' })
 }
 
 onMounted(() => scrollToHash(route.hash))

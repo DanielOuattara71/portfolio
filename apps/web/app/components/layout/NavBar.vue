@@ -127,7 +127,7 @@ async function onAnchorClick(anchor: string, e: MouseEvent) {
   e.preventDefault()
   const el = document.getElementById(anchor)
   if (!el) return
-  el.scrollIntoView({ behavior: prefersReducedMotion() ? 'auto' : 'smooth', block: 'start' })
+  el.scrollIntoView({ behavior: prefersReducedMotion() ? 'instant' : 'auto', block: 'start' })
   history.replaceState(history.state, '', `#${anchor}`)
 }
 

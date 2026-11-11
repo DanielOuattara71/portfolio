@@ -32,7 +32,7 @@ const homeTitle = computed(() => blocks.value.introProfile?.homeTitle ?? t('home
 .cols {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 32px;
+  gap: 48px;
   align-items: start;
 }
 

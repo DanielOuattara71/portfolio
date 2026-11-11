@@ -54,7 +54,7 @@ const homeLead = computed(() => blocks.value.introProjects?.homeLead ?? null)
   position: relative;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
+  gap: 32px;
 }
 
 .empty {
